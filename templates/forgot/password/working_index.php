@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - Shopnoltd Toolbox</title>
+  <link rel="stylesheet" href="/accounts/register/css/styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <div class="registration--logo">
+      <a href="/"><img src="/static/kobologo.svg" alt="Shopnoltd Toolbox Logo" /></a>
+    </div>
+
+    <!-- MAIN REGISTRATION FORM -->
+    <form action="forgot_login_process.php" method="post" class="registration-form" novalidate>
+      <input type="hidden" name="csrfmiddlewaretoken" value="825aa8eb8f6aefb612bf7415a612d4f4ecbec53ac972631a146cf0667ff4a4c2">
+
+      <div class="space"></div>
+
+ 
+      <div class="field email">
+        <label for="email">Email <span class="required">*</span></label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="space"></div>
+
+      <div class="actions">
+        <button type="submit" class="btn-otp">Get OTP Number by Browser</button>
+      </div>
+
+      <div class="space"></div>
+
+      <p class="small-link"><a href="/accounts/login/forgot/username/">If you forgot Username then please click here</p>
+      <p class="small-link"><a href="/accounts/login/forgot/email/">If you forgot Email then please click here</p>
+      <p class="small-link"><a href="/accounts/login/forgot/phone_code/">If you forgot Country Code then please click here</p>
+      <p class="small-link"><a href="/accounts/login/forgot/phone/">If you forgot Phone Numver then please click here</p>
+      <p class="small-link"><a href="/accounts/login/forgot/password/">If you forgot Password then please click here</p>
+    </div>
+  </div>
+
+  <!-- FOOTER SECTION -->
+  <footer class="registration__footer">
+    <p>
+      <a href="https://shopnoltd.kesug.com/terms/" target="_blank">Terms of Service</a> ·
+      <a href="https://shopnoltd.kesug.com/privacy/" target="_blank">Privacy Policy</a>
+    </p>
+  </footer>
+
+  <script src="/accounts/register/js/script.js"></script>
+ <script>
+const regForm = document.querySelector('.registration-form');
+const otpForm = document.querySelector('.otp-form');
+
+// When browser OTP is clicked
+regForm.querySelector('.btn-otp').addEventListener('click', function() {
+    otpForm.querySelector('input').disabled = true;
+    otpForm.querySelector('button').disabled = true;
+});
+
+// When email OTP is clicked
+otpForm.querySelector('button').addEventListener('click', function() {
+    regForm.querySelector('.btn-otp').disabled = true;
+    regForm.querySelectorAll('input').forEach(input => input.disabled = true);
+});
+
+</script>
+
+</body>
+</html>

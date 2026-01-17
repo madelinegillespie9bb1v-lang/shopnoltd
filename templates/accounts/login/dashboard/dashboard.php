@@ -1,0 +1,55 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../config.php';
+// config.php must define $pdo and BASE_URL
+?>
+
+<?php
+// User dashboard home
+if (!isset($_SESSION['user'])) {
+    header('Location: ../../accounts/login/index.php');
+    exit;
+}
+$user = $_SESSION['user'];
+// Fetch latest balances
+try {
+    $stmt = $pdo->prepare("SELECT balance, balance_frozen, balance_fine FROM users WHERE id = :id");
+    $stmt->execute([':id' => $user['id']]);
+    $bal = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($bal) {
+        $user['balance'] = $bal['balance'];
+        $user['balance_frozen'] = $bal['balance_frozen'];
+        $user['balance_fine'] = $bal['balance_fine'];
+    }
+} catch (Exception $e) {
+    // ignore for display
+}
+?>
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Dashboard</title></head><body>
+<h1>Welcome, <?php echo htmlspecialchars($user['username']); ?></h1>
+<h3>Balances</h3>
+<ul>
+<li>Total Balance: $<?php echo number_format($user['balance'] ?? 0, 5); ?></li>
+<li>Frozen: $<?php echo number_format($user['balance_frozen'] ?? 0, 5); ?></li>
+<li>Fine (deducted): $<?php echo number_format($user['balance_fine'] ?? 0, 5); ?></li>
+</ul>
+<p>
+<a href="add_task.php">Post Job</a> |
+<a href="tasks.php">Job Post List</a> |
+<a href="job_work.php">Do Job (Start Work)</a> |
+<a href="job_work_list.php">My Work List</a> |
+<a href="referrals.php">Referrals</a>
+</p>
+
+<h3>News</h3>
+<ul>
+<?php
+$stmt = $pdo->query("SELECT title, message, created_at FROM news ORDER BY created_at DESC LIMIT 5");
+foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $n) {
+    echo '<li><strong>'.htmlspecialchars($n['title']).'</strong> - '.htmlspecialchars($n['message']).' <em>('.$n['created_at'].')</em></li>';
+}
+?>
+</ul>
+
+</body></html>

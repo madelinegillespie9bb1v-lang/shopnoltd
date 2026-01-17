@@ -1,0 +1,86 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../config.php';
+
+// ✅ Check pending session
+if (!isset($_SESSION['pending_user'])) {
+    echo "<script>alert('No pending request found. Please start again.');window.location.href='" . BASE_URL . "/accounts/login/index.php';</script>";
+    exit;
+}
+
+$user = $_SESSION['pending_user'];
+$otp_generated = $user['otp'];
+$otp_time = $user['otp_time'];
+$expiry_limit = 10 * 60; // 10 minutes
+
+$time_elapsed = time() - $otp_time;
+
+// ✅ Check expiry
+if ($time_elapsed > $expiry_limit) {
+    unset($_SESSION['pending_user']);
+    echo "<script>alert('❌ OTP expired! Please try again.');window.location.href='" . BASE_URL . "/accounts/login/forgot/username/';</script>";
+    exit;
+}
+
+$username_found = null;
+
+// ✅ On OTP submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $entered_otp = trim($_POST['otp'] ?? '');
+
+    if (empty($entered_otp)) {
+        $error_msg = "Please enter the OTP!";
+    } elseif ($entered_otp != $otp_generated) {
+        $error_msg = "❌ Invalid OTP! Please try again.";
+    } else {
+        // ✅ OTP verified, fetch username from DB
+        $stmt = $pdo->prepare("SELECT username FROM users WHERE email = :email LIMIT 1");
+        $stmt->execute([':email' => $user['email']]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $username_found = $row['username'];
+            unset($_SESSION['pending_user']); // clear session after success
+        } else {
+            $error_msg = "No account found with this email!";
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify OTP - Shopnoltd Toolbox</title>
+<style>
+body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+.container { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+input { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+button { padding: 10px 15px; background: #25D366; border: none; color: white; cursor: pointer; margin-top: 10px; border-radius: 5px; }
+.back-btn { background: #007bff; margin-top: 15px; display: inline-block; color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 5px; }
+.error { color: red; margin-top: 10px; }
+.success { color: green; margin-top: 10px; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Verify OTP</h2>
+    <p>Enter the 6-digit OTP sent to your email.</p>
+
+    <?php if (!$username_found): ?>
+        <form method="POST">
+            <input type="text" name="otp" placeholder="Enter OTP" required maxlength="6">
+            <button type="submit">Verify OTP</button>
+        </form>
+        <?php if (!empty($error_msg)) echo "<p class='error'>{$error_msg}</p>"; ?>
+    <?php else: ?>
+        <p class="success">✅ OTP Verified Successfully!</p>
+        <p>Your username is: <strong><?php echo htmlspecialchars($username_found); ?></strong></p>
+    <?php endif; ?>
+
+    <a class="back-btn" href="<?php echo BASE_URL; ?>/accounts/login/index.php">⬅ Back to Login</a>
+</div>
+</body>
+</html>

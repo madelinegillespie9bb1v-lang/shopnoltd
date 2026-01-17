@@ -11,6 +11,14 @@ PS D:\Project> git config --global user.name "Shopno"
 PS D:\Project> git config --global user.email "shopno@example.com"
 PS D:\Project>
 
+cd D:\Project
+python app.py
+http://127.0.0.1:5000/
+ → ✅ index page
+
+http://127.0.0.1:5000/dashboard
+ → ✅ dashboard
+
 git status
 git add .
 git commit -m "Update app and templates"

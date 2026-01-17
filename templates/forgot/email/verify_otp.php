@@ -1,0 +1,145 @@
+<?php
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+
+
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions.php';
+
+
+
+// ✅ Step 1: Check pending session
+if (empty($_SESSION['pending_user']['id'])) {
+    echo "<script>alert('⚠️ No pending OTP session found. Please try again.'); window.location.href='login.php';</script>";
+    exit;
+}
+
+$userId = $_SESSION['pending_user']['id'];
+
+// ✅ Step 2: Fetch latest data from DB
+$stmt = $pdo->prepare("SELECT id, username, email, phone, generated_otp_number, generated_otp_end_time 
+                       FROM users WHERE id = :id LIMIT 1");
+$stmt->execute([':id' => $userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    unset($_SESSION['pending_user']);
+    echo "<script>alert('❌ User not found. Please login again.'); window.location.href='login.php';</script>";
+    exit;
+}
+
+$otp_generated = $user['generated_otp_number'] ?? null;
+$otp_end_time  = strtotime($user['generated_otp_end_time'] ?? '0');
+$current_time  = time();
+
+// ✅ Step 3: Handle expiration
+if ($current_time > $otp_end_time) {
+    $pdo->prepare("UPDATE users 
+                   SET generated_otp_number=NULL, generated_otp_time=NULL, generated_otp_end_time=NULL 
+                   WHERE id=?")->execute([$userId]);
+    unset($_SESSION['pending_user']);
+    echo "<script>alert('⏰ OTP expired! Please request a new one.'); window.location.href='forgot_login.php';</script>";
+    exit;
+}
+
+// ✅ Step 4: Handle submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $entered_otp = sanitize($_POST['otp'] ?? '');
+    if ($entered_otp === (string)$otp_generated) {
+        // ✅ Clear OTP immediately
+        $pdo->prepare("UPDATE users 
+                       SET generated_otp_number=NULL, generated_otp_time=NULL, generated_otp_end_time=NULL 
+                       WHERE id=?")->execute([$userId]);
+
+        // ✅ Promote session to verified
+        unset($_SESSION['pending_user']);
+        $_SESSION['verified_user'] = [
+            'id'       => $user['id'],
+            'username' => $user['username'],
+            'email'    => $user['email'],
+            'phone'    => $user['phone']
+        ];
+
+        // ✅ Redirect to your next step
+        echo "<script>
+            alert('✅ OTP verified successfully! Redirecting to next step...');
+            window.location.href='https://shopnoltd.kesug.com/forgot/email/email.php';
+        </script>";
+        exit;
+    } else {
+        echo "<script>alert('❌ Invalid OTP! Please try again.');</script>";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify OTP - Shopnoltd Toolbox</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+.container { max-width: 400px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; text-align:center; letter-spacing:3px; }
+button { padding: 12px 15px; background: #25D366; border: none; color: white; cursor: pointer; margin-top: 15px; border-radius: 6px; font-size: 17px; width:100%; transition: 0.2s; }
+button:hover { background: #1da851; }
+.timer { color: #d63031; margin-top: 10px; font-weight: bold; }
+.copy-btn { margin-left: 8px; padding: 4px 10px; font-size: 13px; border:none; background:#007bff; color:#fff; border-radius:5px; cursor:pointer; }
+.copy-btn:hover { background:#0056b3; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>🔐 Verify OTP</h2>
+    <p>Enter the 6-digit OTP here.</p>
+
+    <form method="POST">
+        <input type="text" name="otp" id="otpInput" placeholder="Enter OTP" required maxlength="6" pattern="\d{6}">
+        <button type="submit">Verify & Continue</button>
+    </form>
+
+    <p class="timer" id="timer"></p>
+
+    <p style="margin-top:12px; color:gray;">
+        <small>Your OTP (for testing): 
+        <strong id="otpValue"><?= htmlspecialchars($otp_generated) ?></strong>
+        <button type="button" class="copy-btn" id="copyOtpBtn">Copy</button></small>
+    </p>
+</div>
+
+<script>
+// Countdown Timer
+const endTime = <?= (int)$otp_end_time ?>;
+const timerElem = document.getElementById('timer');
+const otpInput = document.getElementById('otpInput');
+
+function updateTimer() {
+    const now = Math.floor(Date.now() / 1000);
+    const remaining = endTime - now;
+    if (remaining <= 0) {
+        timerElem.textContent = "⏰ OTP expired. Please request again.";
+        otpInput.disabled = true;
+        return;
+    }
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    timerElem.textContent = `OTP expires in ${m}m ${s < 10 ? '0' : ''}${s}s`;
+    setTimeout(updateTimer, 1000);
+}
+updateTimer();
+
+// Copy OTP to clipboard (for testing)
+document.getElementById('copyOtpBtn').addEventListener('click', () => {
+    const otpText = document.getElementById('otpValue').innerText.trim();
+    navigator.clipboard.writeText(otpText)
+        .then(() => alert('✅ OTP copied!'))
+        .catch(() => alert('❌ Failed to copy OTP.'));
+});
+</script>
+</body>
+</html>

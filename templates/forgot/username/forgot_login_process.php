@@ -1,0 +1,102 @@
+<?php
+session_start();
+
+// ✅ Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// ✅ Include configuration
+
+
+
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+
+
+// ✅ Collect email safely
+$email = trim($_POST['email'] ?? '');
+$language = 'English';
+
+// ✅ Check if email is provided
+if (empty($email)) {
+    echo "<script>alert('Please provide your email address!'); window.history.back();</script>";
+    exit;
+}
+
+// ✅ Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "<script>alert('Invalid email address format!'); window.history.back();</script>";
+    exit;
+}
+
+// Optional MX record check
+$domain = substr(strrchr($email, "@"), 1);
+if ($domain !== false && function_exists('checkdnsrr')) {
+    if (!checkdnsrr($domain, "MX")) {
+        echo "<script>alert('Invalid or unreachable email domain!'); window.history.back();</script>";
+        exit;
+    }
+}
+
+try {
+    // ✅ Check if user exists
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+    $stmt->execute([':email' => $email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        echo "<script>alert('No account found with this email!'); window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ Generate OTP
+    $generated_otp_number = random_int(100000, 999999);
+    $generated_otp_count_time = 10; // OTP valid for 10 minutes
+    $generated_otp_time = time();
+    $generated_otp_end_time = $generated_otp_time + ($generated_otp_count_time * 60);
+
+    // ✅ Update OTP in DB
+    $update = $pdo->prepare("UPDATE users 
+        SET generated_otp_number = :otp, 
+            generated_otp_time = :otp_time, 
+            generated_otp_end_time = :otp_end 
+        WHERE id = :id");
+    $update->execute([
+        ':otp'      => $generated_otp_number,
+        ':otp_time' => date('Y-m-d H:i:s', $generated_otp_time),
+        ':otp_end'  => $generated_otp_end_time,
+        ':id'       => $user['id']
+    ]);
+
+    // ✅ Store pending session
+    $_SESSION['pending_user'] = [
+        'id'         => $user['id'],
+        'username'   => $user['username'],
+        'email'      => $user['email'],
+        'user_role'  => $user['user_role'] ?? 'user',
+        'otp'        => $generated_otp_number,
+        'otp_time'   => $generated_otp_time,
+        'otp_end'    => $generated_otp_end_time
+    ];
+
+    // --- Build OTP message with proper line breaks ---
+    $expiry_time_formatted = date('h:i:s A', $generated_otp_end_time);
+    $otp_msg = "✅ OTP sent! Please verify within {$generated_otp_count_time} minutes.\nYour OTP: $generated_otp_number\n⏰ Expires at: $expiry_time_formatted";
+
+    // --- Show OTP message and redirect ---
+    $otp_msg_js = str_replace("\n", "\\n", $otp_msg); // ensures JS line breaks
+    echo "<script>
+        alert('{$otp_msg_js}');
+        window.location.href='verify_otp.php';
+    </script>";
+    exit;
+
+} catch (PDOException $e) {
+    echo "<script>alert('Database error: " . htmlspecialchars($e->getMessage()) . "'); window.history.back();</script>";
+    exit;
+} catch (Exception $e) {
+    echo "<script>alert('Unexpected error: " . htmlspecialchars($e->getMessage()) . "'); window.history.back();</script>";
+    exit;
+}
+?>

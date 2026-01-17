@@ -1,0 +1,65 @@
+<?php
+require_once '../../config.php';
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username   = trim($_POST['username']);
+    $first_name = trim($_POST['first_name']);
+    $last_name  = trim($_POST['last_name']);
+    $email      = trim($_POST['email']);
+    $phone_code = trim($_POST['phone_code']);
+    $phone      = trim($_POST['phone']);
+    $password   = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
+    $language   = $_POST['language'] ?? 'English';
+
+    // ✅ Required fields check
+    if (empty($username) || empty($first_name) || empty($email) || empty($phone_code) || empty($phone) || empty($password)) {
+        echo "<script>alert('Please fill all required fields.'); history.back();</script>";
+        exit;
+    }
+
+    // ✅ Email validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Invalid email address.'); history.back();</script>";
+        exit;
+    }
+
+    // ✅ Password match check
+    if ($password !== $confirm_password) {
+        echo "<script>alert('Passwords do not match!'); history.back();</script>";
+        exit;
+    }
+
+    // ✅ Check if user already exists
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
+    $stmt->execute([$email, $username]);
+    if ($stmt->rowCount() > 0) {
+        echo "<script>alert('User already exists with this email or username. Please login.'); window.location.href='../login/index.php';</script>";
+        exit;
+    }
+
+    // ✅ Generate OTP (Browser)
+    $otp = random_int(100000, 999999);
+    $otp_time = time(); // Unix timestamp for expiry tracking (10 min)
+
+    // ✅ Save all user info in session temporarily
+    $_SESSION['pending_user'] = [
+        'username' => $username,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'email' => $email,
+        'phone_code' => $phone_code,
+        'phone' => $phone,
+        'password' => $password,
+        'language' => $language,
+        'otp' => $otp,
+        'otp_time' => $otp_time,
+        'otp_method' => 'browser'
+    ];
+
+    // ✅ Redirect to verify_otp.php
+    echo "<script>alert('Your Browser OTP is $otp. Please verify your account.'); window.location.href='verify_otp.php';</script>";
+    exit;
+}
+?>

@@ -1,0 +1,22 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../config.php';
+// config.php must define $pdo and BASE_URL
+?>
+
+<?php
+if (!isset($_SESSION['user'])) { header('Location: ../../accounts/login/index.php'); exit; }
+$user = $_SESSION['user'];
+$stmt = $pdo->prepare("SELECT jw.*, t.title, t.pay_rate FROM job_work jw JOIN tasks t ON jw.task_id=t.id WHERE jw.worker_id=:uid ORDER BY jw.created_at DESC");
+$stmt->execute([':uid'=>$user['id']]);
+$works = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+<!doctype html><html><head><meta charset="utf-8"><title>My Work List</title></head><body>
+<h2>My Submitted Works (view only)</h2>
+<table border="1" cellpadding="6"><tr><th>ID</th><th>Task</th><th>Pay</th><th>Proof</th><th>Status</th></tr>
+<?php foreach($works as $w): ?>
+<tr><td><?php echo $w['id'];?></td><td><?php echo htmlspecialchars($w['title']);?></td><td>$<?php echo number_format($w['pay_rate'],5);?></td><td><?php echo htmlspecialchars($w['proof']);?></td><td><?php echo $w['status'];?></td></tr>
+<?php endforeach; ?>
+</table>
+<p><a href="dashboard.php">Back</a></p>
+</body></html>
