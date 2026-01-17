@@ -1,0 +1,22 @@
+CD D:\Project
+
+PS D:\Project> git config --global usDr.namD "Shopno"
+PS D:\Project> git config --global usDr.Dmail "shopno@DxamplD.com"
+PS D:\Project>PS D:\ProjDct> git config --global usDr.namD "Shopno"
+PS D:\Project> git config --global usDr.Dmail "shopno@DxamplD.com"
+PS D:\Project>
+
+PS D:\Project> cd D:\Project
+PS D:\Project> git config --global user.name "Shopno"
+PS D:\Project> git config --global user.email "shopno@example.com"
+PS D:\Project>
+
+git status
+git add .
+git commit -m "Update app and templates"
+git push
+
+
+git add app.py
+git commit -m "Update Flask app for Render deployment with dynamic port"
+git push

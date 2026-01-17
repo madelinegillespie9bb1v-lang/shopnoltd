@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Example: simple Shopno LTD logo shape -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,10 L98,98 H10 Z"/> <!-- Replace with your actual icon path -->
+</vector>
