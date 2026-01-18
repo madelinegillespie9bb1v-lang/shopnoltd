@@ -1,16 +1,17 @@
 <?php
 // ============================================================
-// ✅ Database configuration for InfinityFree (Secure + Updated)
+// ✅ Database configuration for Render Postgres (Secure + Updated)
 // ============================================================
 
-$host = "sql201.infinityfree.com";
-$dbname = "if0_37909999_db";
-$username = "if0_37909999";
-$password = "Asad18081978";
+$host = "dpg-d5mal114tr6s73cgm0g0-a";
+$port = 5432;
+$dbname = "shopnoltd_db";
+$username = "shopnoltd_user";
+$password = "7YMRHmFW5WIij5U3BWEJXLvQumUhISJE";
 
 try {
     $pdo = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        "pgsql:host=$host;port=$port;dbname=$dbname",
         $username,
         $password
     );
@@ -25,7 +26,7 @@ try {
 // ✅ Global constants
 // ============================================================
 
-define('BASE_URL', 'https://shopnoltd.kesug.com');
+define('BASE_URL', 'https://shopnoltd-dashboard.onrender.com'); // Updated to Render
 define('ENCRYPTION_KEY', 'e51a7fbc10d62e1b4a9fce18a8df5c3e'); // Keep same forever!
 
 // ============================================================
@@ -125,26 +126,25 @@ try {
         // Only insert if this IP hasn't logged within 1 minute
         $check = $pdo->prepare("
             SELECT id FROM logged_users 
-            WHERE ip_address = ? AND login_time > (NOW() - INTERVAL 1 MINUTE)
+            WHERE ip_address = :ip AND login_time > NOW() - INTERVAL '1 minute'
         ");
-        $check->execute([$ip]);
+        $check->execute(['ip' => $ip]);
 
         if ($check->rowCount() === 0) {
             $insert = $pdo->prepare("
                 INSERT INTO logged_users 
                 (ip_address, login_country, browser, device_type, login_time)
-                VALUES (?, ?, ?, ?, NOW())
+                VALUES (:ip, :country, :browser, :device, NOW())
             ");
             $insert->execute([
-                $ip,
-                $country['country_name'],
-                $device['browser'],
-                $device['device']
+                'ip' => $ip,
+                'country' => $country['country_name'],
+                'browser' => $device['browser'],
+                'device' => $device['device']
             ]);
         }
     }
 } catch (Exception $e) {
     // Silent fail — prevents 500 errors from logging failure
 }
-
 ?>

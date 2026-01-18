@@ -28,3 +28,49 @@ git push
 git add app.py
 git commit -m "Update Flask app for Render deployment with dynamic port"
 git push
+
+
+
+$host = "dpg-d5mal114tr6s73cgm0g0-a";
+$dbname = "shopnoltd_db";
+$username = "shopnoltd_user";
+$password = "7YMRHmFW5WIij5U3BWEJXLvQumUhISJE";
+postgresql://shopnoltd_user:7YMRHmFW5WIij5U3BWEJXLvQumUhISJE@dpg-d5mal114tr6s73cgm0g0-a/shopnoltd_db
+postgresql://shopnoltd_user:7YMRHmFW5WIij5U3BWEJXLvQumUhISJE@dpg-d5mal114tr6s73cgm0g0-a.virginia-postgres.render.com/shopnoltd_db
+PGPASSWORD=7YMRHmFW5WIij5U3BWEJXLvQumUhISJE psql -h dpg-d5mal114tr6s73cgm0g0-a.virginia-postgres.render.com -U shopnoltd_user shopnoltd_db
+
+
+Hostname = dpg-d5mal114tr6s73cgm0g0-a
+Port = 5432
+Internal Database URL = 
+
+
+Connections
+Hostname
+An internal hostname used by your Render services.
+dpg-d5mal114tr6s73cgm0g0-a
+
+Port
+5432
+
+Database
+shopnoltd_db
+
+Username
+shopnoltd_user
+
+Password
+7YMRHmFW5WIij5U3BWEJXLvQumUhISJE
+
+
+Internal Database URL
+postgresql://shopnoltd_user:7YMRHmFW5WIij5U3BWEJXLvQumUhISJE@dpg-d5mal114tr6s73cgm0g0-a/shopnoltd_db
+
+
+External Database URL
+postgresql://shopnoltd_user:7YMRHmFW5WIij5U3BWEJXLvQumUhISJE@dpg-d5mal114tr6s73cgm0g0-a.virginia-postgres.render.com/shopnoltd_db
+
+PSQL Command
+PGPASSWORD=7YMRHmFW5WIij5U3BWEJXLvQumUhISJE psql -h dpg-d5mal114tr6s73cgm0g0-a.virginia-postgres.render.com -U shopnoltd_user shopnoltd_db
+
+
