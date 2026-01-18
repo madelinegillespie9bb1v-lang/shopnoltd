@@ -1,0 +1,50 @@
+$primary: #3f3e3e !default; $secondary: #ffffff !default; $tertiary: #2095f3 !default; $quaternary: #2095f3 !default; $header_background: #414453 !default; $header_primary: #ffffff !default; $highlight: #2196f3 !default; $danger: #bf3c3c !default; $success: #97de86 !default; $love: #fc94cb !default; $hover: #f4f3f3 !default; $selected: #ececec !default;  $public_image_path: "https://community.kobotoolbox.org/images";  @import "common/foundation/variables"; @import "common/foundation/mixins"; $Roboto-Regular: unquote("//forum-kobotoolbox-org.s3.dualstack.us-east-1.amazonaws.com/original/1X/1d1d41fcadc571decb6444211b7993b99ce926e2.ttf");// Theme: kobo theme
+// Target: common scss
+// Last Edited: 2019-02-21 16:58:30 UTC
+.latest-topic-list .topic-poster {display: none}
+
+.featured-topic a {
+    color: grey;
+}
+
+.list-vote-count {
+    color: #2095f3;
+}
+
+.footer_links a {
+    color: grey;
+}
+
+.d-icon-home {
+    color: #c6c7cb;
+    size: '2x';
+}
+
+.footer_links {
+    bottom: 0px;
+    width: 100%;
+    position: fixed;
+    background: #ffffff;
+    padding: 6px;
+    text-align: center;
+    z-index:100;
+}
+
+.footer_links .support_image {
+    height: 32px;
+    margin: 0 0 0 20px;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans|Raleway);
+
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+strong, b {
+    font-weight: 700;
+}

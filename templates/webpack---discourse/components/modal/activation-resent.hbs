@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal @title={{i18n \"log_in\"}} @closeModal={{@closeModal}}>\n  <:body>\n    {{html-safe\n      (i18n\n        \"login.sent_activation_email_again\" currentEmail=@model.currentEmail\n      )\n    }}\n  </:body>\n</DModal>",{ moduleName: "discourse/components/modal/activation-resent.hbs" })

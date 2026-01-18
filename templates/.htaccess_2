@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/sign-up/?$
+RewriteRule ^(.*)$ https://kf.shopnoltd.kesug.com/accounts/signup [R=301,L]

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"fps-result-entries\" role=\"list\">\n  {{#each this.posts as |post|}}\n    <SearchResultEntry\n      @post={{post}}\n      @bulkSelectEnabled={{this.bulkSelectEnabled}}\n      @selected={{this.selected}}\n      @highlightQuery={{this.highlightQuery}}\n      @searchLogId={{this.searchLogId}}\n    />\n  {{/each}}\n</div>",{ moduleName: "discourse/components/search-result-entries.hbs" })

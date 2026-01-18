@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if @count}}\n  <LinkTo @route=\"full-page-search\" @query={{hash q=this.searchParams}}>\n    {{@count}}\n  </LinkTo>\n{{else}}\n  &ndash;\n{{/if}}",{ moduleName: "discourse/components/user-summary-category-search.hbs" })

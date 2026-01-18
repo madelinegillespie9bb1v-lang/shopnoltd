@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"container\">\n  <h2>{{i18n \"login.to_continue\"}}</h2>\n\n  <p style=\"margin-top: 1em\">{{i18n \"login.preferences\"}}</p>\n\n  <DButton\n    @action={{route-action \"showLogin\"}}\n    @label=\"log_in\"\n    class=\"btn-primary\"\n  />\n</div>",{ moduleName: "discourse/templates/login-preferences.hbs" })

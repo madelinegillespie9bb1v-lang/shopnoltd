@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DButton\n  @action={{this.action}}\n  @disabled={{this.buttonDisabled}}\n  @label={{this.savingText}}\n  class=\"btn-primary save-changes\"\n/>\n{{#if this.saved}}\n  <span class=\"saved\">{{i18n \"saved\"}}</span>\n{{/if}}\n\n{{yield}}",{ moduleName: "discourse/components/save-controls.hbs" })

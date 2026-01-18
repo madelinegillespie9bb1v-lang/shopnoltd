@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"empty-state\">\n  <span class=\"empty-state-title\">\n    {{i18n \"user.no_other_notifications_title\"}}\n  </span>\n  <div class=\"empty-state-body\">\n    <p>\n      {{html-safe (i18n \"user.no_other_notifications_body\")}}\n    </p>\n  </div>\n</div>",{ moduleName: "discourse/components/user-menu/other-notifications-list-empty-state.hbs" })

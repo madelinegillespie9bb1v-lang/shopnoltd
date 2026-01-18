@@ -1,0 +1,21 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+session_start();
+
+if (empty($_SESSION['user'])) {
+    echo json_encode(['status' => 'error', 'message' => 'Login required']);
+    exit;
+}
+
+$userId = $_SESSION['user']['id'];
+$content = trim($_POST['content'] ?? '');
+
+if (!$content) {
+    echo json_encode(['status' => 'error', 'message' => 'Content required']);
+    exit;
+}
+
+$stmt = $pdo->prepare("INSERT INTO user_feeds (user_id, content, created_at) VALUES (?, ?, NOW())");
+$stmt->execute([$userId, $content]);
+
+echo json_encode(['status' => 'success', 'message' => 'Post created successfully']);

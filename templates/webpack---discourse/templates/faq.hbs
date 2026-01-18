@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{body-class (concat \"static-\" this.model.path)}}\n\n<section class=\"container\">\n  <WatchRead>\n    <div class=\"contents clearfix body-page\">\n      <PluginOutlet @name=\"above-static\" />\n      {{html-safe this.model.html}}\n      <PluginOutlet @name=\"below-static\" />\n    </div>\n  </WatchRead>\n</section>",{ moduleName: "discourse/templates/faq.hbs" })

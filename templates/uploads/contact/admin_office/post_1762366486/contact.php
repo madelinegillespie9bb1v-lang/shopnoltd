@@ -1,0 +1,585 @@
+<?php
+// contact.php
+// Enable PHP error reporting (temporary for debugging)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
+require_once __DIR__ . '/config.php';
+
+// PHPMailer
+require_once __DIR__ . '/phpmailer/src/PHPMailer.php';
+require_once __DIR__ . '/phpmailer/src/SMTP.php';
+require_once __DIR__ . '/phpmailer/src/Exception.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+
+// ---------------------------
+// ✅ Simple CSRF token helper
+// ---------------------------
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
+}
+function check_csrf($token) {
+    return hash_equals($_SESSION['csrf_token'] ?? '', $token ?? '');
+}
+
+// ---------------------------
+// ✅ Current user (viewer) must be logged in for actions
+// ---------------------------
+$viewer = $_SESSION['user'] ?? null; // may be null if public viewer
+$viewer_id = $viewer['id'] ?? null;
+
+// ---------------------------
+// ✅ Get profile user (by ?user_id or logged in viewer)
+// ---------------------------
+$profile_id = intval($_GET['user_id'] ?? $viewer_id ?? 0);
+if ($profile_id <= 0) {
+    header('Location: /');
+    exit;
+}
+
+// Fetch profile user
+$getUser = $pdo->prepare("SELECT id, username, email, profile_photo FROM users WHERE id = ?");
+$getUser->execute([$profile_id]);
+$profile = $getUser->fetch(PDO::FETCH_ASSOC);
+
+if (!$profile) {
+    echo "User not found.";
+    exit;
+}
+
+
+// ---------------------------
+// ✅ Handle AJAX actions (POST) in same file
+// ---------------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    header('Content-Type: application/json; charset=utf-8');
+    $action = $_POST['action'];
+
+    // Must include csrf_token for write actions
+    if (!in_array($action, ['fetch_posts'])) {
+        if (!check_csrf($_POST['csrf_token'] ?? '')) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid CSRF token']);
+            exit;
+        }
+    }
+
+    // Require logged in for actions changing state
+    $requires_login = ['add_friend','remove_friend','create_post','like_post','add_comment','send_message'];
+    if (in_array($action, $requires_login) && !$viewer) {
+        echo json_encode(['status' => 'error', 'message' => 'You must be logged in.']);
+        exit;
+    }
+
+    try {
+        // ---------- Add Friend ----------
+        if ($action === 'add_friend') {
+            $to_user = intval($_POST['to_user']);
+            if ($to_user === $viewer_id) {
+                echo json_encode(['status'=>'error','message'=>'Cannot add yourself']);
+                exit;
+            }
+            // prevent double requests
+            $q = $pdo->prepare("SELECT id, status FROM friends WHERE (user_id=? AND friend_id=?) OR (user_id=? AND friend_id=?)");
+            $q->execute([$viewer_id, $to_user, $to_user, $viewer_id]);
+            $existing = $q->fetch(PDO::FETCH_ASSOC);
+            if ($existing) {
+                // if friend exists, toggle or inform
+                echo json_encode(['status'=>'ok','message'=>'Request already exists or you are already friends.']);
+                exit;
+            }
+            $ins = $pdo->prepare("INSERT INTO friends (user_id, friend_id, status, created_at) VALUES (?, ?, 'pending', NOW())");
+            $ins->execute([$viewer_id, $to_user]);
+
+            // optional notification could be inserted here
+            echo json_encode(['status'=>'success','message'=>'Friend request sent.']);
+            exit;
+        }
+
+        // ---------- Remove Friend / Cancel Request ----------
+        if ($action === 'remove_friend') {
+            $to_user = intval($_POST['to_user']);
+            $del = $pdo->prepare("DELETE FROM friends WHERE (user_id=? AND friend_id=?) OR (user_id=? AND friend_id=?)");
+            $del->execute([$viewer_id, $to_user, $to_user, $viewer_id]);
+            echo json_encode(['status'=>'success','message'=>'Friend removed or request canceled.']);
+            exit;
+        }
+
+        // ---------- Create Post ----------
+        if ($action === 'create_post') {
+            $content = trim($_POST['content'] ?? '');
+            $visibility = ($_POST['visibility'] ?? 'public'); // public / friends
+            if ($content === '') {
+                echo json_encode(['status'=>'error','message'=>'Post cannot be empty.']);
+                exit;
+            }
+            // rate limit: 1 post / 10 sec
+            $ip = get_user_ip();
+            $r = $pdo->prepare("SELECT id FROM posts WHERE author_id=? AND created_at > (NOW() - INTERVAL 10 SECOND)");
+            $r->execute([$viewer_id]);
+            if ($r->rowCount() > 0) {
+                echo json_encode(['status'=>'error','message'=>'You are posting too fast.']);
+                exit;
+            }
+            $ins = $pdo->prepare("INSERT INTO posts (author_id, content, visibility, created_at) VALUES (?, ?, ?, NOW())");
+            $ins->execute([$viewer_id, $content, $visibility]);
+            $post_id = $pdo->lastInsertId();
+            // return the rendered post HTML snippet
+            ob_start();
+            render_post($pdo, $post_id, $viewer_id);
+            $html = ob_get_clean();
+            echo json_encode(['status'=>'success','message'=>'Posted','html'=>$html]);
+            exit;
+        }
+
+        // ---------- Like / Unlike Post ----------
+        if ($action === 'like_post') {
+            $post_id = intval($_POST['post_id']);
+            // check if already liked
+            $q = $pdo->prepare("SELECT id FROM post_likes WHERE post_id=? AND user_id=?");
+            $q->execute([$post_id, $viewer_id]);
+            if ($q->rowCount() > 0) {
+                // unlike
+                $d = $pdo->prepare("DELETE FROM post_likes WHERE post_id=? AND user_id=?");
+                $d->execute([$post_id, $viewer_id]);
+                $liked = false;
+            } else {
+                $i = $pdo->prepare("INSERT INTO post_likes (post_id, user_id, created_at) VALUES (?, ?, NOW())");
+                $i->execute([$post_id, $viewer_id]);
+                $liked = true;
+            }
+            // return new count
+            $c = $pdo->prepare("SELECT COUNT(*) as cnt FROM post_likes WHERE post_id=?");
+            $c->execute([$post_id]);
+            $count = (int)$c->fetchColumn();
+            echo json_encode(['status'=>'success','liked'=>$liked,'count'=>$count]);
+            exit;
+        }
+
+        // ---------- Add Comment ----------
+        if ($action === 'add_comment') {
+            $post_id = intval($_POST['post_id']);
+            $text = trim($_POST['text'] ?? '');
+            if ($text === '') {
+                echo json_encode(['status'=>'error','message'=>'Comment cannot be empty.']);
+                exit;
+            }
+            $ins = $pdo->prepare("INSERT INTO comments (post_id, user_id, text, created_at) VALUES (?, ?, ?, NOW())");
+            $ins->execute([$post_id, $viewer_id, $text]);
+            $comment_id = $pdo->lastInsertId();
+            // return comment HTML snippet
+            $user = $pdo->prepare("SELECT id, username, avatar FROM users WHERE id=?");
+            $user->execute([$viewer_id]);
+            $u = $user->fetch(PDO::FETCH_ASSOC);
+            ob_start();
+            ?>
+            <div class="comment" id="comment-<?php echo $comment_id ?>">
+                <div class="small"><strong><?php echo htmlspecialchars($u['username']) ?></strong> · <span class="text-muted"><?php echo date('Y-m-d H:i') ?></span></div>
+                <div><?php echo nl2br(htmlspecialchars($text)) ?></div>
+            </div>
+            <?php
+            $html = ob_get_clean();
+            echo json_encode(['status'=>'success','html'=>$html]);
+            exit;
+        }
+
+        // ---------- Send Message (PHPMailer + store) ----------
+        if ($action === 'send_message') {
+            $to_user = intval($_POST['to_user']);
+            $message = trim($_POST['message'] ?? '');
+            if ($message === '') {
+                echo json_encode(['status'=>'error','message'=>'Message cannot be empty.']);
+                exit;
+            }
+            // Save message
+            $ins = $pdo->prepare("INSERT INTO messages (sender_id, receiver_id, message, created_at) VALUES (?, ?, ?, NOW())");
+            $ins->execute([$viewer_id, $to_user, $message]);
+
+            // Notify by email if receiver has email
+            $get = $pdo->prepare("SELECT id, username, email FROM users WHERE id=?");
+            $get->execute([$to_user]);
+            $receiver = $get->fetch(PDO::FETCH_ASSOC);
+
+            $getS = $pdo->prepare("SELECT username, email FROM users WHERE id=?");
+            $getS->execute([$viewer_id]);
+            $sender = $getS->fetch(PDO::FETCH_ASSOC);
+
+            if ($receiver && !empty($receiver['email'])) {
+                try {
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.gmail.com';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = 'asaduzzaman.bheramara@gmail.com';
+                    $mail->Password   = 'qcty jiqw yjul akcz'; // app password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port       = 587;
+
+                    $mail->setFrom('no-reply@shopnoltd.kesug.com', 'Shopnoltd');
+                    $mail->addAddress($receiver['email'], $receiver['username'] ?? '');
+                    $mail->addReplyTo($sender['email'] ?? 'no-reply@shopnoltd.kesug.com', $sender['username'] ?? '');
+
+                    $mail->isHTML(true);
+                    $mail->Subject = "New message from {$sender['username']}";
+                    $mail->Body = "<p><strong>{$sender['username']}</strong> sent you a message:</p><blockquote>" . nl2br(htmlspecialchars($message)) . "</blockquote><p>Login to reply.</p>";
+                    $mail->send();
+                } catch (Exception $e) {
+                    // log but don't fail
+                    error_log("Mailer send failed: " . $e->getMessage());
+                }
+            }
+
+            echo json_encode(['status'=>'success','message'=>'Message sent.']);
+            exit;
+        }
+
+        // ---------- Fetch posts (simple pagination) ----------
+        if ($action === 'fetch_posts') {
+            $offset = max(0, intval($_POST['offset'] ?? 0));
+            $limit = 10;
+            $stmt = $pdo->prepare("
+                SELECT p.*, u.username, u.avatar 
+                FROM posts p
+                JOIN users u ON u.id = p.author_id
+                WHERE p.author_id = ?
+                ORDER BY p.created_at DESC
+                LIMIT ? OFFSET ?
+            ");
+            $stmt->bindValue(1, $profile_id, PDO::PARAM_INT);
+            $stmt->bindValue(2, $limit, PDO::PARAM_INT);
+            $stmt->bindValue(3, $offset, PDO::PARAM_INT);
+            $stmt->execute();
+            $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // render posts
+            ob_start();
+            foreach ($posts as $p) {
+                render_post_row($pdo, $p, $viewer_id);
+            }
+            $html = ob_get_clean();
+            echo json_encode(['status'=>'success','html'=>$html,'next_offset'=>$offset+$limit]);
+            exit;
+        }
+
+    } catch (Exception $e) {
+        error_log("Action {$action} error: " . $e->getMessage());
+        echo json_encode(['status'=>'error','message'=>'Server error.']);
+        exit;
+    }
+}
+
+// ---------------------------
+// ✅ Rendering helpers (server-side)
+// ---------------------------
+function avatar_tag($user) {
+    $a = $user['avatar'] ?? '';
+    $name = $user['username'] ?? 'User';
+    if ($a) {
+        return '<img src="'.htmlspecialchars($a).'" class="rounded-circle" style="width:56px;height:56px;object-fit:cover">';
+    }
+    // fallback: initials circle
+    $initial = strtoupper(substr($name,0,1));
+    return '<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width:56px;height:56px;font-weight:600;">'.htmlspecialchars($initial).'</div>';
+}
+
+function render_post($pdo, $post_id, $viewer_id=null) {
+    $stmt = $pdo->prepare("SELECT p.*, u.username, u.avatar FROM posts p JOIN users u ON u.id = p.author_id WHERE p.id = ?");
+    $stmt->execute([$post_id]);
+    $p = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($p) render_post_row($pdo, $p, $viewer_id);
+}
+
+function render_post_row($pdo, $p, $viewer_id=null) {
+    $post_id = (int)$p['id'];
+    ?>
+    <div class="card mb-3" id="post-<?php echo $post_id ?>">
+        <div class="card-body">
+            <div class="d-flex mb-2">
+                <div class="me-2"><?php echo avatar_tag($p) ?></div>
+                <div>
+                    <strong><?php echo htmlspecialchars($p['username']) ?></strong><br>
+                    <small class="text-muted"><?php echo htmlspecialchars($p['created_at']) ?></small>
+                </div>
+            </div>
+            <div class="mb-2"><?php echo nl2br(htmlspecialchars($p['content'])) ?></div>
+            <div class="d-flex gap-3 align-items-center">
+                <?php
+                // likes count
+                $c = $pdo->prepare("SELECT COUNT(*) FROM post_likes WHERE post_id=?");
+                $c->execute([$post_id]);
+                $likes = (int)$c->fetchColumn();
+                // viewer liked?
+                $liked = false;
+                if ($viewer_id) {
+                    $lq = $pdo->prepare("SELECT id FROM post_likes WHERE post_id=? AND user_id=?");
+                    $lq->execute([$post_id, $viewer_id]);
+                    $liked = $lq->rowCount() > 0;
+                }
+                ?>
+                <button class="btn btn-sm btn-light like-btn" data-post="<?php echo $post_id ?>">
+                    <span class="like-text"><?php echo $liked ? 'Unlike' : 'Like' ?></span> · <span class="like-count"><?php echo $likes ?></span>
+                </button>
+                <button class="btn btn-sm btn-light comment-toggle" data-post="<?php echo $post_id ?>">Comment</button>
+                <button class="btn btn-sm btn-light share-btn" data-post="<?php echo $post_id ?>">Share</button>
+            </div>
+
+            <!-- comments -->
+            <div class="mt-3 comments" id="comments-<?php echo $post_id ?>">
+                <?php
+                $cm = $pdo->prepare("SELECT c.*, u.username FROM comments c JOIN users u ON u.id=c.user_id WHERE c.post_id=? ORDER BY c.created_at ASC LIMIT 5");
+                $cm->execute([$post_id]);
+                $comments = $cm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($comments as $com) {
+                    echo '<div class="mb-2"><small><strong>'.htmlspecialchars($com['username']).'</strong> · <span class="text-muted">'.htmlspecialchars($com['created_at']).'</span></small><div>'.nl2br(htmlspecialchars($com['text'])).'</div></div>';
+                }
+                ?>
+                <?php if ($viewer_id): ?>
+                <div class="input-group mt-2">
+                    <input type="text" class="form-control comment-input" placeholder="Write a comment..." data-post="<?php echo $post_id ?>">
+                    <button class="btn btn-primary btn-sm add-comment-btn" data-post="<?php echo $post_id ?>">Post</button>
+                </div>
+                <?php else: ?>
+                <small class="text-muted">Log in to comment</small>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+// ---------------------------
+// ✅ Page HTML begins here
+// ---------------------------
+?>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title><?php echo htmlspecialchars($profile['username']) ?> • Shopnoltd</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* small UI tweaks */
+body { background:#f3f4f6; }
+.profile-header { background: linear-gradient(90deg,#4267B2,#2D88FF); color:#fff; padding:24px; border-radius:8px; }
+.profile-avatar { transform: translateY(-28px); }
+.card { border-radius:12px; }
+.comment { font-size: .9rem; padding:6px 0; border-top:1px solid #f1f1f1; }
+</style>
+</head>
+<body>
+<div class="container py-4">
+    <div class="row">
+        <!-- Profile column -->
+        <div class="col-md-4">
+            <div class="profile-header text-center">
+                <div class="profile-avatar mb-2"><?php echo avatar_tag($profile) ?></div>
+                <h4><?php echo htmlspecialchars($profile['full_name'] ?? $profile['username']) ?></h4>
+                <div class="small mb-2">@<?php echo htmlspecialchars($profile['username']) ?></div>
+                <p class="small"><?php echo htmlspecialchars($profile['bio'] ?? '') ?></p>
+
+                <div class="d-grid gap-2 mt-3">
+                    <?php if ($viewer_id && $viewer_id !== (int)$profile['id']): 
+                        // check friendship status
+                        $fr = $pdo->prepare("SELECT status, user_id FROM friends WHERE (user_id=? AND friend_id=?) OR (user_id=? AND friend_id=?)");
+                        $fr->execute([$viewer_id, $profile['id'], $profile['id'], $viewer_id]);
+                        $friend = $fr->fetch(PDO::FETCH_ASSOC);
+                        if (!$friend): ?>
+                            <button class="btn btn-outline-light btn-sm" id="friend-btn" data-to="<?php echo $profile['id'] ?>">Add Friend</button>
+                        <?php else: ?>
+                            <button class="btn btn-light btn-sm" id="friend-btn" data-to="<?php echo $profile['id'] ?>">Friends / Pending</button>
+                        <?php endif; ?>
+                    <?php endif; ?>
+
+                    <?php if ($viewer_id && $viewer_id !== (int)$profile['id']): ?>
+                        <button class="btn btn-light btn-sm" id="message-btn" data-to="<?php echo $profile['id'] ?>">Message</button>
+                    <?php endif; ?>
+
+                    <?php if ($viewer_id && $viewer_id === (int)$profile['id']): ?>
+                        <a href="/settings.php" class="btn btn-light btn-sm">Edit Profile</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Reels / Quick actions -->
+            <div class="card mt-3 p-3">
+                <h6>Reels & Quick Actions</h6>
+                <div class="mb-2">
+                    <!-- placeholder for reels -->
+                    <div class="ratio ratio-16x9 bg-dark text-white d-flex align-items-center justify-content-center">Reel / Video Placeholder</div>
+                </div>
+                <div class="d-grid gap-2">
+                    <a class="btn btn-outline-primary btn-sm" href="#">Create Reel</a>
+                    <a class="btn btn-outline-secondary btn-sm" href="#">Saved</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main feed -->
+        <div class="col-md-8">
+            <?php if ($viewer_id && $viewer_id === (int)$profile['id']): ?>
+                <!-- Create post -->
+                <div class="card mb-3 p-3">
+                    <div class="d-flex mb-2">
+                        <div class="me-2"><?php echo avatar_tag($viewer) ?></div>
+                        <div class="flex-fill">
+                            <textarea id="post-content" class="form-control" rows="3" placeholder="What's on your mind?"></textarea>
+                            <div class="mt-2 d-flex justify-content-between">
+                                <select id="post-visibility" class="form-select form-select-sm w-auto">
+                                    <option value="public">Public</option>
+                                    <option value="friends">Friends</option>
+                                </select>
+                                <button id="post-submit" class="btn btn-primary btn-sm">Post</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <!-- Posts list -->
+            <div id="posts-container">
+                <?php
+                // initial posts load (first 10)
+                $stmt = $pdo->prepare("SELECT p.*, u.username, u.avatar FROM posts p JOIN users u ON u.id = p.author_id WHERE p.author_id = ? ORDER BY p.created_at DESC LIMIT 10");
+                $stmt->execute([$profile_id]);
+                $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($posts as $p) {
+                    render_post_row($pdo, $p, $viewer_id);
+                }
+                ?>
+            </div>
+
+            <div class="text-center">
+                <button id="load-more" class="btn btn-sm btn-outline-secondary" data-offset="10">Load more</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="messageForm">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+          <input type="hidden" name="to_user" id="msg-to">
+          <div class="mb-3">
+              <label class="form-label">Message</label>
+              <textarea name="message" id="msg-text" class="form-control" rows="4" required></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Send</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- boot & jquery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const CSRF = '<?php echo $_SESSION['csrf_token'] ?>';
+$(function(){
+
+    // Add Friend
+    $('#friend-btn').on('click', function(){
+        const to = $(this).data('to');
+        const action = $(this).text().trim().toLowerCase().includes('add') ? 'add_friend' : 'remove_friend';
+        $.post('contact.php', { action: action, to_user: to, csrf_token: CSRF }, function(res){
+            alert(res.message);
+            location.reload();
+        }, 'json');
+    });
+
+    // Message modal
+    $('#message-btn').on('click', function(){
+        const to = $(this).data('to');
+        $('#msg-to').val(to);
+        $('#msg-text').val('');
+        var modal = new bootstrap.Modal(document.getElementById('messageModal'));
+        modal.show();
+    });
+
+    $('#messageForm').on('submit', function(e){
+        e.preventDefault();
+        const to = $('#msg-to').val();
+        const txt = $('#msg-text').val();
+        $.post('contact.php', { action: 'send_message', to_user: to, message: txt, csrf_token: CSRF }, function(res){
+            if (res.status === 'success') {
+                alert(res.message);
+                bootstrap.Modal.getInstance(document.getElementById('messageModal')).hide();
+            } else alert(res.message);
+        }, 'json');
+    });
+
+    // Create post
+    $('#post-submit').on('click', function(){
+        const content = $('#post-content').val();
+        const vis = $('#post-visibility').val();
+        if (!content.trim()) return alert('Write something to post.');
+        $.post('contact.php', { action: 'create_post', content: content, visibility: vis, csrf_token: CSRF }, function(res){
+            if (res.status === 'success') {
+                $('#posts-container').prepend(res.html);
+                $('#post-content').val('');
+            } else alert(res.message);
+        }, 'json');
+    });
+
+    // like / comment / share delegated handlers
+    $('#posts-container').on('click', '.like-btn', function(){
+        const post = $(this).data('post');
+        const btn = $(this);
+        $.post('contact.php', { action: 'like_post', post_id: post, csrf_token: CSRF }, function(res){
+            if (res.status === 'success') {
+                btn.find('.like-count').text(res.count);
+                btn.find('.like-text').text(res.liked ? 'Unlike' : 'Like');
+            }
+        }, 'json');
+    });
+
+    // add comment
+    $('#posts-container').on('click', '.add-comment-btn', function(){
+        const post = $(this).data('post');
+        const input = $(this).closest('.input-group').find('.comment-input');
+        const text = input.val();
+        if (!text.trim()) return;
+        $.post('contact.php', { action: 'add_comment', post_id: post, text: text, csrf_token: CSRF }, function(res){
+            if (res.status === 'success') {
+                $('#comments-'+post).append(res.html);
+                input.val('');
+            } else alert(res.message);
+        }, 'json');
+    });
+
+    // load more
+    $('#load-more').on('click', function(){
+        const btn = $(this);
+        let offset = parseInt(btn.data('offset')) || 0;
+        btn.text('Loading...');
+        $.post('contact.php', { action: 'fetch_posts', offset: offset, csrf_token: CSRF }, function(res){
+            if (res.status === 'success') {
+                $('#posts-container').append(res.html);
+                btn.data('offset', res.next_offset);
+                btn.text('Load more');
+                if (!res.html.trim()) btn.hide();
+            } else { btn.text('Load more'); alert('Failed to load posts'); }
+        }, 'json');
+    });
+
+    // share btn placeholder
+    $('#posts-container').on('click', '.share-btn', function(){
+        alert('Share functionality placeholder — implement as you like.');
+    });
+
+});
+</script>
+</body>
+</html>

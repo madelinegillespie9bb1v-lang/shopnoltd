@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<a\n  href={{this.hrefLink}}\n  class={{this.activeClass}}\n  aria-current={{if this.activeClass \"page\"}}\n>\n  {{#if this.hasIcon}}\n    <span class={{this.content.name}}></span>\n  {{/if}}\n  {{this.content.displayName}}\n</a>",{ moduleName: "discourse/components/navigation-item.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.showInput}}\n  {{yield}}\n{{else}}\n  <a href>\n    {{#if this.key}}\n      {{i18n this.key}}\n    {{/if}}\n    {{#if this.icon}}\n      {{d-icon this.icon}}\n    {{/if}}\n  </a>\n{{/if}}",{ moduleName: "discourse/components/link-to-input.hbs" })

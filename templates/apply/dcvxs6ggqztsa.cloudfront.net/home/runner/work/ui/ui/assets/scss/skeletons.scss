@@ -1,0 +1,124 @@
+@import './border-radius.scss';
+@import './colors.scss';
+
+@keyframes placeholderSkeleton {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+%base-skeleton-body {
+  height: 16px;
+  width: 100%;
+  border-radius: $border-radius-normal;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+%base-skeleton-heading {
+  height: 24px;
+  width: 100%;
+  border-radius: $border-radius-normal;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+%base-skeleton-pill {
+  height: 25px;
+  width: 100%;
+  border-radius: 16px;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+%base-skeleton-image-circle {
+  border-radius: 50%;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+%base-skeleton-image-box {
+  border-radius: 4px;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+%skeleton-body {
+  @extend %base-skeleton-body;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}
+
+%skeleton-heading {
+  @extend %base-skeleton-heading;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}
+
+%skeleton-body-link {
+  @extend %base-skeleton-body;
+  background-color: $grey300;
+  background-image: linear-gradient(90deg, $grey300 0%, $grey200 50%, $grey300 100%);
+}
+
+%skeleton-heading-link {
+  @extend %base-skeleton-heading;
+  background-color: $grey300;
+  background-image: linear-gradient(90deg, $grey300 0%, $grey200 50%, $grey300 100%);
+}
+
+%skeleton-pill {
+  @extend %base-skeleton-pill;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}
+
+%skeleton-pill-link {
+  @extend %base-skeleton-pill;
+  background-color: $grey300;
+  background-image: linear-gradient(90deg, $grey300 0%, $grey200 50%, $grey300 100%);
+}
+
+%skeleton-image-circle-small {
+  @extend %base-skeleton-image-circle;
+  width: 30px;
+  height: 30px;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}
+
+%skeleton-image-circle-medium {
+  @extend %base-skeleton-image-circle;
+  width: 50px;
+  height: 50px;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}
+
+%skeleton-image-circle-large {
+  @extend %base-skeleton-image-circle;
+  width: 80px;
+  height: 80px;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}
+
+%skeleton-image-circle-xlarge {
+  @extend %base-skeleton-image-circle;
+  width: 120px;
+  height: 120px;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}
+
+
+%skeleton-image-box-medium {
+  @extend %base-skeleton-image-box;
+  width: 32px;
+  height: 32px;
+  background-color: $grey200;
+  background-image: linear-gradient(90deg, $grey200 0%, $grey300 50%, $grey200 100%);
+}

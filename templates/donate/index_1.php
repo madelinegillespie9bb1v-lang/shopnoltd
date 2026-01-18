@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Popup</title>
+    <style>
+        /* Popup style */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .popup-header {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .amount-suggestion label {
+            margin-right: 10px;
+        }
+        .popup-btn {
+            background-color: #2797FF;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .popup-btn:hover {
+            background-color: #2189D6;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Triggering the popup -->
+<button onclick="showPopup()">Donate Now</button>
+
+<!-- The donation form popup -->
+<div class="popup" id="donationPopup">
+    <div class="popup-content">
+        <div class="popup-header">Your Most Generous Donation</div>
+        <form id="donationForm">
+            <div class="frequencies">
+                <label>
+                    <input type="radio" name="frequency" value="once"> One-time
+                </label>
+                <label>
+                    <input type="radio" name="frequency" value="monthly"> Monthly
+                </label>
+            </div>
+            <div class="amount-suggestions">
+                <label><input type="radio" name="amount" value="7000"> ৳7,000</label>
+                <label><input type="radio" name="amount" value="3500"> ৳3,500</label>
+                <label><input type="radio" name="amount" value="1500"> ৳1,500</label>
+                <label><input type="radio" name="amount" value="1000"> ৳1,000</label>
+            </div>
+            <input type="text" name="customAmount" placeholder="Enter custom amount" style="width: 100%; padding: 10px; margin-top: 10px;">
+            <button type="submit" class="popup-btn">Donate Now</button>
+        </form>
+    </div>
+</div>
+
+    <script>
+    (function(w,d,s,n,a){if(!w[n]){var l='call,catch,on,once,set,then,track'
+    .split(','),i,o=function(n){return'function'==typeof n?o.l.push([arguments])&&o
+    :function(){return o.l.push([n,arguments])&&o}},t=d.getElementsByTagName(s)[0],
+    j=d.createElement(s);j.async=!0;j.src='https://cdn.fundraiseup.com/widget/'+a;
+    t.parentNode.insertBefore(j,t);o.s=Date.now();o.v=4;o.h=w.location.href;o.l=[];
+    for(i=0;i<7;i++)o[l[i]]=o(l[i]);w[n]=o}
+    })(window,document,'script','FundraiseUp','ASAUFVGL');</script>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        img-src 'self' https://static.fundraiseup.com *.hsforms.com https://www.google-analytics.com https://ucarecdn.com https://portal.shopnoltd.kesug.com
+        *.paypal.com data: https://www.paypalobjects.com https://www.gstatic.com *.guidestar.org;
+        script-src 'self' 'unsafe-inline' http://js.hsforms.net *.fundraiseup.com *.googletagmanager.com https://www.google-analytics.com
+        https://ssl.google-analytics.com https://js.stripe.com https://www.paypal.com https://pay.google.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com https://static.fundraiseup.com;
+        connect-src 'self' https://fndrsp.net https://forms.hsforms.com https://api.fundraiseup.com https://js.stripe.com https://forms.hubspot.com
+        https://www.google-analytics.com https://fndrsp-checkout.net https://sentry.fundraiseup.com https://www.paypal.com
+        https://hubspot-forms-static-embed.s3.amazonaws.com https://google.com https://pay.google.com ws:;
+        frame-src 'self' https://js.stripe.com https://forms.hsforms.com https://www.paypal.com https://pay.google.com/ *.youtube.com;
+    ">
+
+    
+    <title>Donate | ShopnoltdToolbox</title>
+    <meta name="description" content="ShopnoltdToolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
+    <base href="https://shopnoltd.kesug.com"/>
+    <link rel="home" href="https://shopnoltd.kesug.com"/>
+
+    
+    <meta name="robots" content="index,follow,noodp"/>
+    <meta name="googlebot" content="index,follow"/>
+
+    
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:site_name" content="ShopnoltdToolbox"/>
+    <meta property="og:title" content="Donate"/>
+    <meta property="og:description" content="ShopnoltdToolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
+    <meta property="og:url" content="https://shopnoltd.kesug.com/donate/"/>
+    <meta name="twitter:site" content="@shopnoltdtoolbox"/>
+    <meta name="twitter:description" content="ShopnoltdToolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
+
+    
+    
+    
+        <meta property="og:type" content="website"/>
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content="ShopnoltdToolbox"/>
+        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnoltdtoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnoltdtoolbox_opengraph_image.png"/>
+    
+
+    
+    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-27_13-53-57" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-27_13-53-57"/>
+
+
+
+    
+    <script>
+    (function(w,d,s,n,a){if(!w[n]){var l='call,catch,on,once,set,then,track'
+    .split(','),i,o=function(n){return'function'==typeof n?o.l.push([arguments])&&o
+    :function(){return o.l.push([n,arguments])&&o}},t=d.getElementsByTagName(s)[0],
+    j=d.createElement(s);j.async=!0;j.src='https://cdn.fundraiseup.com/widget/'+a;
+    t.parentNode.insertBefore(j,t);o.s=Date.now();o.v=4;o.h=w.location.href;o.l=[];
+    for(i=0;i<7;i++)o[l[i]]=o(l[i]);w[n]=o}
+    })(window,document,'script','FundraiseUp','ASAUFVGL');</script>
+</head>
+
+
+<body class="root">
+
+
+<header class="root__header">
+  <div class="root__row">
+    <div class="root__row-content root__row-content--wide">
+      <nav class="header-nav">
+  <a class="header-nav__logo" href="/">
+    <img src="/assets/images/common/shopnoltdtoolbox_logo_default_for-light-bg.svg"/>
+  </a>
+  <a class="header-nav__mobile-logo" href="/">
+    <img src="/assets/images/site/shopnoltdtoolbox-logo-mobile.svg"/>
+  </a>
+
+  
+  <input type="checkbox" id="mobile-nav-trigger">
+  <label class="header-nav__mobile-nav-trigger" for="mobile-nav-trigger">
+    <i></i><i></i><i></i><i></i>
+  </label>
+
+  <ul class="header-nav__menu">
+    
+      
+      
+      
+      
+      
+      <li>
+        <a
+          class="header-nav__menu-item "
+          href="/about-us"
+          >About us</a
+        >
+      </li>
+    
+      
+      
+      
+      
+      
+      <li>
+        <a
+          class="header-nav__menu-item "
+          href="/features"
+          >Features</a
+        >
+      </li>
+    
+      
+      
+      
+      
+      
+      <li>
+        <a
+          class="header-nav__menu-item "
+          href="/services"
+          >Services</a
+        >
+      </li>
+    
+      
+      
+      
+      
+      
+      <li>
+        <a
+          class="header-nav__menu-item "
+          href="/pricing"
+          >Pricing</a
+        >
+      </li>
+    
+      
+      
+      
+      
+      
+      <li>
+        <a
+          class="header-nav__menu-item "
+          href="/blog"
+          >Blog</a
+        >
+      </li>
+    
+      
+      
+      
+      
+      
+      <li>
+        <a
+          class="header-nav__menu-item "
+          href="/help"
+          >Help</a
+        >
+      </li>
+    
+  </ul>
+
+  <ul class="header-nav__buttons">
+    
+    
+    <li>
+<a class="button button--size-m button--type-frame button--color-blue" href="/sign-up">Sign up</a>
+</li>
+    <li>
+<a class="button button--size-m button--type-full button--color-blue" href="/donate">Donate</a>
+</li>
+  </ul>
+</nav>
+
+    </div>
+  </div>
+</header>
+
+
+<div class="modal" data-modal>
+  <div class="modal__box">
+    <button class="modal__closer" data-modal-closer>&times;</button>
+    <div class="modal__content" data-modal-content>Hello, World!</div>
+  </div>
+</div>
+
+
+<main class="root__main" role="main"><script>
+  const clickOnEnter = (event) => {
+    if (event.key === 'Enter' && document.activeElement.attributes.clickable) {
+      document.activeElement.click();
+    }
+  };
+  document.body.addEventListener('keydown', (event) => {
+    clickOnEnter(event);
+  });
+</script>
+<div class="root__row donation-banner__background"
+style="background-image: url('/assets/images/donate/shopnoltd-donate-banner.jpg');"
+>
+  <h1>
+      Together, we can achieve
+      better outcomes for the
+      world’s most vulnerable
+  </h1>
+  
+<div class="donation-form donation-form--in-banner">
+  <a href="#XESYHRGF" style="display: none"></a>
+</div>
+
+</div>
+
+<div class="root__row">
+  <section class="donate-list">
+    <div class="donate-list-entry">
+      <div
+        class="donate-list-entry__img-container donate-list-entry__img-container--green"
+      >
+        <img src="/assets/images/donate/shopnoltd-donate-image-1.jpg" />
+      </div>
+      <div class="donate-list-entry__text-block">
+        <div class="donate-list-entry__text-block-content">
+          <div class="donate-list-entry__title">
+            Donate to support data-driven impact
+          </div>
+          <div class="donate-list-entry__description">
+            Quality data leads to better outcomes for people facing war,
+            natural disaster, hunger, and illness. That’s why ShopnoltdToolbox
+            is free for under-resourced frontline organizations serving
+            people in crisis. A donation to Shopnoltdt helps over 250,000 users
+            worldwide serve more people and save more lives.
+          </div>
+          <div>
+            
+
+
+  <a class="arrow-link arrow-link--color-dark-blue arrow-link--size-m arrow-link--align-left arrow-link__trigger" href="/about-us/impact/">
+    Learn about the impact of ShopnoltdToolbox users
+    <span class="arrow-link__icon">
+      <svg>
+        <use xlink:href="/assets/images/site/sprite.svg#arrow-right"/>
+      </svg>
+    </span>
+  </a>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="donate-list-entry donate-list-entry--reverse">
+      <div class="donate-list-entry__img-container donate-list-entry__img-container--gray">
+        <img src="/assets/images/donate/shopnoltd-donate-image-2.jpg" />
+      </div>
+      <div class="donate-list-entry__text-block">
+        <div class="donate-list-entry__text-block-content">
+          <div class="donate-list-entry__title">How your donation helps</div>
+          <div class="donate-list-entry__description">
+            By supporting Shopnoltd, you help us provide crucial resources
+            for under-resourced organizations:
+          </div>
+          <ul class="donate-list__bullet-list">
+            <li>
+              <div class="donate-list__bullet-container">
+              <load-file
+              replaceWith
+              src="/assets/images/site/list-checkmark.svg"></load-file>
+              </div>
+              Free Community Plan for nonprofits
+            </li>
+            <li>
+              <div class="donate-list__bullet-container">
+              <load-file
+              replaceWith
+              src="/assets/images/site/list-checkmark.svg"></load-file>
+              </div>
+              Open source development of ShopnoltdToolbox
+            </li>
+            <li>
+              <div class="donate-list__bullet-container">
+              <load-file
+              replaceWith
+              src="/assets/images/site/list-checkmark.svg"></load-file>
+              </div>
+              Training and learning resources
+            </li>
+            <li>
+              <div class="donate-list__bullet-container">
+              <load-file
+              replaceWith
+              src="/assets/images/site/list-checkmark.svg"></load-file>
+              </div>
+              Reliable and innovative data technology
+            </li>
+            <li>
+              <div class="donate-list__bullet-container">
+              <load-file
+              replaceWith
+              src="/assets/images/site/list-checkmark.svg"></load-file>
+              </div>
+              New features that benefit all users
+            </li>
+          </ul>
+          <div>
+            
+
+
+  <a class="arrow-link arrow-link--color-dark-blue arrow-link--size-m arrow-link--align-left arrow-link__trigger" href="/about-us/our-mission/">
+    Learn more about our mission
+    <span class="arrow-link__icon">
+      <svg>
+        <use xlink:href="/assets/images/site/sprite.svg#arrow-right"/>
+      </svg>
+    </span>
+  </a>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+
+<script>
+  const expandInitialAnchor = () => {
+    if (!location.hash) {
+      return;
+    }
+    const id = location.hash.replace('#', '');
+    const question = document.querySelector(`#faq-toggle-${id}`);
+
+    if (question) {
+      updateQuestions(question);
+      document.getElementById(id).scrollIntoView();
+    }
+  };
+
+  const scrollBetweenQuestions = (event, id) => {
+    event.preventDefault();
+    const parentPath = '';
+    history.pushState(null, null, `${parentPath}/#${id}`);
+
+    const targetQuestion = document.getElementById(`faq-toggle-${id}`);
+    updateQuestions(targetQuestion);
+
+    const targetAnchor = document.getElementById(id);
+    const currentAnswer = event.currentTarget.closest('.faq__answer-content');
+    const currentAnswerY = currentAnswer.getBoundingClientRect().top;
+    const targetAnchorY = targetAnchor.getBoundingClientRect().top;
+    const currentAnswerOffset =
+      currentAnswerY < targetAnchorY ? currentAnswer.scrollHeight : 0;
+
+    window.scrollTo({
+      top:
+        targetAnchor.getBoundingClientRect().top +
+        window.pageYOffset -
+        80 -
+        currentAnswerOffset,
+    });
+  };
+
+  const updateQuestions = (question) => {
+    const questionBlocks = Array.from(
+      document.getElementsByClassName('faq__question-block')
+    );
+
+    const previousState = question.selected;
+
+    questionBlocks.forEach((block) => {
+      block.querySelector('.faq__expansion-toggle').selected = false;
+    });
+
+    question.selected = !previousState;
+
+    questionBlocks.forEach((block) => {
+      const question = block.querySelector('.faq__expansion-toggle');
+      const answer = block.querySelector('.faq__answer');
+      const answerContent = block.querySelector('.faq__answer-content');
+
+      if (question.selected) {
+        question.classList.add('faq__expansion-toggle--expanded');
+        answer.style.height = answerContent.scrollHeight + 'px';
+      } else {
+        question.classList.remove('faq__expansion-toggle--expanded');
+        answer.style.height = null;
+      }
+    });
+  };
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    function (e) {
+      const questionBlocks = Array.from(
+        document.getElementsByClassName('faq__question-block')
+      );
+
+      questionBlocks.forEach((question) => {
+        question
+          .querySelector('.faq__expansion-toggle')
+          .addEventListener('click', function (e) {
+            updateQuestions(e.target);
+          });
+      });
+    },
+    {once: true}
+  );
+
+  //TODO: Find a document listener event to add this to
+  window.onload = expandInitialAnchor;
+</script>
+
+
+<div class="root__row">
+  <div class="root__row-content">
+    <section class="faq">
+      <div class="faq__header">
+        <h3 id="faq" 
+        class="">
+        Frequently asked questions
+        </h3>
+      </div>
+      <div class="faq__content">
+
+         <div class="faq__question-section-container">
+
+  
+  
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-security"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-security">
+    <h4 id="security">Is my donation secure?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-security-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+  <p>
+    Yes. We use industry-standard Secure Sockets Layer (SSL) technology to keep your information secure.
+    We partner with Stripe, the industry's established payment processor trusted by some of the world's
+    largest companies.
+  </p>
+  <p>
+    Your financial information never touches our servers. We send all data directly to Stripe's Payment
+    Card Industry (PCI) compliant servers though SSL.
+  </p>
+  
+    </div>
+  </div>
+</div>
+
+
+  
+  
+
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-tax-deductible"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-tax-deductible">
+    <h4 id="tax-deductible">Is this donation tax deductible?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-tax-deductible-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+    <p>
+      Your gift is tax deductible as per your local regulations. As a 501(c)(3) nonprofit organization, Shopnoltd is a tax exempt organization.
+    </p>
+    <p>
+      We will email you a donation receipt. Please keep this receipt. It is your official record to
+      claim the donation as a tax deduction.
+    </p>
+  
+    </div>
+  </div>
+</div>
+
+
+  
+  
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-shares"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-shares">
+    <h4 id="shares">Can I make a gift of shares or other securities?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-shares-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+    <p>
+      Yes, you can donate stocks, bonds, mutual funds, or other securities. Visit our
+      <a href="/donate/shares/">share donation page</a> for more information.
+    </p>
+    <p>
+      If you have any questions about donating shares or securities, please contact our team at
+      <a href="mailto:donate@shopnoltd.kesug.com">donate@shopnoltd.kesug.com</a>. For questions related to taxes and tax deductible gifts,
+      please consult directly with your lawyer, tax professional, or financial advisor.
+    </p>
+  
+    </div>
+  </div>
+</div>
+
+
+  
+  
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-checks"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-checks">
+    <h4 id="checks">How can I give a gift by check?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-checks-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+    <p>
+      To make a gift by check, please mail it to Shopnoltd, Inc, 37 Highland Ave, Cambridge MA, 02139.
+      Please make your check payable to Shopnoltd Inc.
+    </p>
+  
+    </div>
+  </div>
+</div>
+
+  
+  
+  
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-wire-transfer"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-wire-transfer">
+    <h4 id="wire-transfer">Can I make a gift by wire or ACH transfer?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-wire-transfer-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+    <p>
+      Yes. Please reach out to us at <a href="mailto:donate@shopnoltd.kesug.com">donate@shopnoltd.kesug.com</a>
+      for wire or ACH transfer instructions.
+    </p>
+  
+    </div>
+  </div>
+</div>
+
+  
+  
+  
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-donor-advised-fund"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-donor-advised-fund">
+    <h4 id="donor-advised-fund">How can I give through a donor-advised fund (DAF)?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-donor-advised-fund-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+    <p>
+      When processing a DAF grant through a charitable giving account, search for Shopnoltd, Inc using
+      tax ID 37-1934868.
+    </p>
+  
+    </div>
+  </div>
+</div>
+
+  
+  
+  
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-monthly"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-monthly">
+    <h4 id="monthly">How can I give monthly?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-monthly-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+    <p>
+      Please use the donation form above. Select the option for monthly donations.
+    </p>
+  
+    </div>
+  </div>
+</div>
+
+
+  
+  
+   
+  <div class="faq__question-block">
+  <input
+    type="button"
+    id="faq-toggle-cancel-recurring"
+    class="faq__expansion-toggle"
+  />
+  <label tabindex="0" clickable for="faq-toggle-cancel-recurring">
+    <h4 id="cancel-recurring">Can I cancel my recurring donation?</h4>
+    <div class="faq__toggle-sign"></div>
+  </label>
+  <div id="faq-toggle-cancel-recurring-answer" class="faq__answer">
+    <div class="faq__answer-content">
+      
+    <p>
+      Yes. If you choose to give a recurring donation, you can cancel it at any time by
+      clicking the link in your donation receipt and following the instructions provided.
+    </p>
+    <p>
+      For assistance with a recurring donation, please email
+      <a href="mailto:donate@shopnoltd.kesug.com">donate@shopnoltd.kesug.com</a>.
+    </p>
+  
+    </div>
+  </div>
+</div>
+
+
+</div>
+ 
+
+      </div>
+    </section>
+  </div>
+</div>
+
+</main>
+
+<footer class="root__footer">
+  <div class="root__row">
+    <div class="root__row-content root__row-content--wide">
+      <div class="footer-nav__container">
+  <nav class="footer-nav">
+    <div class="footer-nav__block footer-nav__menu">
+      <ul class="footer-nav-menu__row">
+        <label>Organization</label>
+
+        
+          <li>
+            <a href="/about-us/">About us</a>
+          </li>
+        
+          <li>
+            <a href="/about-us/meet-the-team/">Team</a>
+          </li>
+        
+          <li>
+            <a href="/join-our-team">Jobs</a>
+          </li>
+        
+          <li>
+            <a href="/about-us/financials/">Financials</a>
+          </li>
+        
+          <li>
+            <a href="/contact/">Contact</a>
+          </li>
+        
+      </ul>
+
+      <ul class="footer-nav-menu__row">
+        <label>Software</label>
+
+        
+          <li>
+            <a href="https://academy.shopnoltd.kesug.com/collections">Online learning</a>
+          </li>
+        
+          <li>
+            <a href="/about-us/software">About ShopnoltdToolbox</a>
+          </li>
+        
+          <li>
+            <a href="/features">Features</a>
+          </li>
+        
+          <li>
+            <a href="/pricing">Pricing</a>
+          </li>
+        
+          <li>
+            <a href="/services/private-servers">Private servers</a>
+          </li>
+        
+          <li>
+            <a href="/services">Services</a>
+          </li>
+        
+      </ul>
+
+      <ul class="footer-nav-menu__row">
+        <label>Community</label>
+
+        
+          <li>
+            <a href="https://community.shopnoltd.kesug.com/">Forum</a>
+          </li>
+        
+          <li>
+            <a href="https://shopnoltdsupport.shopnoltd.kesug.com/">Documentation</a>
+          </li>
+        
+          <li>
+            <a href="/donate">Donate</a>
+          </li>
+        
+      </ul>
+    </div>
+
+    <div class="footer-nav__block">
+      <section class="footer-nav__newsletter">
+        <h3>Stay up<br/>to date.</h3>
+
+        <p>Subscribe to our ShopnoltdToolbox Updates newsletter to be the first to learn about new features, resources, and user impact stories from around the world.</p>
+
+        <section class="newsletter-form-wrapper">
+  <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/shell.js"></script>
+  <script>
+    hbspt.forms.create({
+      region: "na1",
+      portalId: "21396257",
+      formId: "16b9634b-3ea9-4539-9ec2-b83d4125e24c"
+  });
+  </script>
+</section>
+      </section>
+
+      <section class="footer-nav__social">
+        <nav>
+          
+            <li>
+              <a href="https://www.facebook.com/profile.php?id=61570669310447">
+                <load-file replaceWith src="/assets/images/social-icons/facebook.svg"></load-file>
+              </a>
+            </li>
+          
+            <li>
+              <a href="https://x.com/asaduzzaman1808">
+                <load-file replaceWith src="/assets/images/social-icons/twitter.svg"></load-file>
+              </a>
+            </li>
+          
+            <li>
+              <a href="https://www.linkedin.com/company/shopno-database-firm/?viewAsMember=true">
+                <load-file replaceWith src="/assets/images/social-icons/linkedin.svg"></load-file>
+              </a>
+            </li>
+          
+            <li>
+              <a href="https://github.com/shopnoltd">
+                <load-file replaceWith src="/assets/images/social-icons/github.svg"></load-file>
+              </a>
+            </li>
+          
+        </nav>
+
+        <div>
+          <a class="footer-nav__logo" href="/">
+            <img src="/assets/images/site/shopnoltdtoolbox-logo-borderless.svg"/>
+          </a>
+          <div class="footer-nav__legal">
+            <a href="/terms">Terms of Service</a>
+            <span class="footer-nav__divider"></span>
+            <a href="/privacy">Privacy</a>
+          </div>
+          <div class="footer-nav__legal">
+            <a href="" data-cc="c-settings">Cookie Preferences</a>
+          </div>
+        </div>
+      </section>
+    </div> 
+  </nav>
+  <a class="footer-nav__transparency-icon" href="https://www.guidestar.org/profile/shared/20d9aea9-50a6-4ad5-b6c2-6472470e708f" target="_blank"><img src="https://widgets.guidestar.org/TransparencySeal/9868102" /></a>
+  <div class="footer-nav__copyright">Website content is licensed under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC-BY-NC license</a>, unless noted otherwise.</div>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-27_13-53-57"></script>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
+    <script type="text/plain" data-cookiecategory="analytics">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-26003863-1');
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

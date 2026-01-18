@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.isLoading}}\n  <span class=\"title\">{{this.title}}</span>\n  <div class=\"spinner {{this.size}}\"></div>\n{{else}}\n  {{yield}}\n{{/if}}",{ moduleName: "discourse/components/conditional-loading-section.hbs" })

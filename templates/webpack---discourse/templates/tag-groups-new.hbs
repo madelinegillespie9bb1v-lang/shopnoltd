@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"tag-group-content\">\n  <h3>{{i18n \"tagging.groups.new_title\"}}</h3>\n  <TagGroupsForm @model={{this.model}} @onSave={{action \"onSave\"}} />\n</div>",{ moduleName: "discourse/templates/tag-groups-new.hbs" })

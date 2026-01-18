@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#each this.periods as |p|}}\n  <DButton\n    @action={{fn this.changePeriod p}}\n    @translatedLabel={{period-title p}}\n    class=\"btn-default\"\n  />\n{{/each}}",{ moduleName: "discourse/components/top-period-buttons.hbs" })

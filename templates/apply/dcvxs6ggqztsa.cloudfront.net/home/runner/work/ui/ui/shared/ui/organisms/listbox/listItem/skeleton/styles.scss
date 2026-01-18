@@ -1,0 +1,465 @@
+:export {
+  white: #ffffff;
+  grey100: #fbfbfb;
+  grey200: #f3f5f8;
+  grey300: #e7ecf3;
+  grey400: #d0d8e4;
+  grey500: #919bab;
+  grey600: #6a7381;
+  grey700: #313b46;
+  grey800: #0f161e;
+  green50: #e9fcf4;
+  green100: #ccf4dd;
+  green200: #7edcaf;
+  green300: #06cb8a;
+  green400: #05b279;
+  green500: #00756a;
+  green600: #00665b;
+  green700: #00554b;
+  blue50: #eef8ff;
+  blue100: #c7e2ff;
+  blue200: #75acff;
+  blue300: #5d9aee;
+  blue400: #4385e0;
+  blue500: #226ace;
+  blue600: #1859b5;
+  blue700: #0f4897;
+  petrol50: #e3fbfb;
+  petrol100: #c5f5f5;
+  petrol200: #65e2ea;
+  petrol300: #00bcc9;
+  petrol400: #00a5ae;
+  petrol500: #107191;
+  petrol600: #005e7f;
+  petrol700: #004561;
+  purple50: #fbf4ff;
+  purple100: #edd5ff;
+  purple200: #d8adff;
+  purple300: #b46efe;
+  purple400: #9e4ff0;
+  purple500: #8736dc;
+  purple600: #6509bf;
+  purple700: #430080;
+  red50: #fff1f1;
+  red100: #ffd2cf;
+  red200: #fa8373;
+  red300: #f1674f;
+  red400: #e54d33;
+  red500: #cc2c11;
+  red600: #af0200;
+  red700: #990000;
+  orange50: #fffadf;
+  orange100: #fff0b8;
+  orange200: #ffdb73;
+  orange300: #ffb420;
+  orange400: #ffa740;
+  orange500: #ff8f0d;
+  orange600: #ad4800;
+  orange700: #943e00;
+}
+
+:export {
+  heading1-large: 64px;
+  heading1-large-tablet: 48px;
+  heading1-large-mobile: 40px;
+  heading1: 40px;
+  heading1-mobile: 32px;
+  heading2: 32px;
+  heading2-tablet-mobile: 28px;
+  heading3: 24px;
+  subheading: normal;
+  text-main-body: 24px;
+  text-body: 20px;
+  text-secondary: 16px;
+  caption1: 20px;
+  caption2: 20px;
+  caption3: 16px;
+}
+
+:export {
+  heading1-large: 48px;
+  heading1-large-tablet: 36px;
+  heading1-large-mobile: 32px;
+  heading1: 32px;
+  heading1-tablet: 28px;
+  heading1-mobile: 24px;
+  heading2: 24px;
+  heading2-tablet-mobile: 20px;
+  heading3: 18px;
+  subheading: 16px;
+  text-main-body: 16px;
+  text-body: 14px;
+  text-secondary: 13px;
+  caption1: 14px;
+  caption2: 13px;
+  caption3: 11px;
+}
+
+:export {
+  xsmall: 4px;
+  small: 8px;
+  seminormal: 12px;
+  normal: 16px;
+  semilarge: 24px;
+  large: 32px;
+  xlarge: 48px;
+}
+
+:export {
+  white: #ffffff;
+  grey100: #fbfbfb;
+  grey200: #f3f5f8;
+  grey300: #e7ecf3;
+  grey400: #d0d8e4;
+  grey500: #919bab;
+  grey600: #6a7381;
+  grey700: #313b46;
+  grey800: #0f161e;
+  green50: #e9fcf4;
+  green100: #ccf4dd;
+  green200: #7edcaf;
+  green300: #06cb8a;
+  green400: #05b279;
+  green500: #00756a;
+  green600: #00665b;
+  green700: #00554b;
+  blue50: #eef8ff;
+  blue100: #c7e2ff;
+  blue200: #75acff;
+  blue300: #5d9aee;
+  blue400: #4385e0;
+  blue500: #226ace;
+  blue600: #1859b5;
+  blue700: #0f4897;
+  petrol50: #e3fbfb;
+  petrol100: #c5f5f5;
+  petrol200: #65e2ea;
+  petrol300: #00bcc9;
+  petrol400: #00a5ae;
+  petrol500: #107191;
+  petrol600: #005e7f;
+  petrol700: #004561;
+  purple50: #fbf4ff;
+  purple100: #edd5ff;
+  purple200: #d8adff;
+  purple300: #b46efe;
+  purple400: #9e4ff0;
+  purple500: #8736dc;
+  purple600: #6509bf;
+  purple700: #430080;
+  red50: #fff1f1;
+  red100: #ffd2cf;
+  red200: #fa8373;
+  red300: #f1674f;
+  red400: #e54d33;
+  red500: #cc2c11;
+  red600: #af0200;
+  red700: #990000;
+  orange50: #fffadf;
+  orange100: #fff0b8;
+  orange200: #ffdb73;
+  orange300: #ffb420;
+  orange400: #ffa740;
+  orange500: #ff8f0d;
+  orange600: #ad4800;
+  orange700: #943e00;
+}
+
+:export {
+  color-default: #00756a;
+  color-white: #ffffff;
+  color-font-primary: #313b46;
+  color-font-secondary: #6a7381;
+  color-font-primary-light: #ffffff;
+  color-font-primary-dark: #313b46;
+  color-border-default: #d0d8e4;
+  color-success: #05b279;
+  color-success-button: #7edcaf;
+  color-success-background: #e9fcf4;
+  color-success-outline: #ccf4dd;
+  color-danger: #cc2c11;
+  color-danger-background: #fff1f1;
+  color-danger-outline: #ffd2cf;
+  color-caution: #ad4800;
+  color-caution-button: #ffdb73;
+  color-caution-background: #fffadf;
+  color-caution-outline: #fff0b8;
+  color-informational: #226ace;
+  color-informational-background: #eef8ff;
+  color-informational-outline: #c7e2ff;
+  color-warning: #ffb420;
+  color-ai: #8736dc;
+  color-ai-background: #fbf4ff;
+  color-ai-outline: #edd5ff;
+  color-beta-primary: #107191;
+  color-beta-secondary: #c5f5f5;
+  color-neutral: #6a7381;
+  color-muted: #f3f5f8;
+  background-color: #ffffff;
+  background-color-secondary: #f3f5f8;
+  background-color-dark: #313b46;
+  color-outline: #226ace;
+  color-outline-focus: #6a7381;
+  color-input-default: #d0d8e4;
+  color-input-muted: #919bab;
+  color-input-placeholder: #6a7381;
+  color-input-label-optional: #919bab;
+  color-input-helper-default: #6a7381;
+  color-dismiss-default: #919bab;
+}
+
+:export {
+  white: #ffffff;
+  grey100: #fbfbfb;
+  grey200: #f3f5f8;
+  grey300: #e7ecf3;
+  grey400: #d0d8e4;
+  grey500: #919bab;
+  grey600: #6a7381;
+  grey700: #313b46;
+  grey800: #0f161e;
+  green50: #e9fcf4;
+  green100: #ccf4dd;
+  green200: #7edcaf;
+  green300: #06cb8a;
+  green400: #05b279;
+  green500: #00756a;
+  green600: #00665b;
+  green700: #00554b;
+  blue50: #eef8ff;
+  blue100: #c7e2ff;
+  blue200: #75acff;
+  blue300: #5d9aee;
+  blue400: #4385e0;
+  blue500: #226ace;
+  blue600: #1859b5;
+  blue700: #0f4897;
+  petrol50: #e3fbfb;
+  petrol100: #c5f5f5;
+  petrol200: #65e2ea;
+  petrol300: #00bcc9;
+  petrol400: #00a5ae;
+  petrol500: #107191;
+  petrol600: #005e7f;
+  petrol700: #004561;
+  purple50: #fbf4ff;
+  purple100: #edd5ff;
+  purple200: #d8adff;
+  purple300: #b46efe;
+  purple400: #9e4ff0;
+  purple500: #8736dc;
+  purple600: #6509bf;
+  purple700: #430080;
+  red50: #fff1f1;
+  red100: #ffd2cf;
+  red200: #fa8373;
+  red300: #f1674f;
+  red400: #e54d33;
+  red500: #cc2c11;
+  red600: #af0200;
+  red700: #990000;
+  orange50: #fffadf;
+  orange100: #fff0b8;
+  orange200: #ffdb73;
+  orange300: #ffb420;
+  orange400: #ffa740;
+  orange500: #ff8f0d;
+  orange600: #ad4800;
+  orange700: #943e00;
+}
+
+:export {
+  color-default: #00756a;
+  color-white: #ffffff;
+  color-font-primary: #313b46;
+  color-font-secondary: #6a7381;
+  color-font-primary-light: #ffffff;
+  color-font-primary-dark: #313b46;
+  color-border-default: #d0d8e4;
+  color-success: #05b279;
+  color-success-button: #7edcaf;
+  color-success-background: #e9fcf4;
+  color-success-outline: #ccf4dd;
+  color-danger: #cc2c11;
+  color-danger-background: #fff1f1;
+  color-danger-outline: #ffd2cf;
+  color-caution: #ad4800;
+  color-caution-button: #ffdb73;
+  color-caution-background: #fffadf;
+  color-caution-outline: #fff0b8;
+  color-informational: #226ace;
+  color-informational-background: #eef8ff;
+  color-informational-outline: #c7e2ff;
+  color-warning: #ffb420;
+  color-ai: #8736dc;
+  color-ai-background: #fbf4ff;
+  color-ai-outline: #edd5ff;
+  color-beta-primary: #107191;
+  color-beta-secondary: #c5f5f5;
+  color-neutral: #6a7381;
+  color-muted: #f3f5f8;
+  background-color: #ffffff;
+  background-color-secondary: #f3f5f8;
+  background-color-dark: #313b46;
+  color-outline: #226ace;
+  color-outline-focus: #6a7381;
+  color-input-default: #d0d8e4;
+  color-input-muted: #919bab;
+  color-input-placeholder: #6a7381;
+  color-input-label-optional: #919bab;
+  color-input-helper-default: #6a7381;
+  color-dismiss-default: #919bab;
+}
+
+:export {
+  -2: 0 -2px 5px rgba(51, 62, 73, 0.1);
+  2: 0 2px 5px rgba(51, 62, 73, 0.1);
+  6: 0 1px 5px rgba(51, 62, 73, 0.14), 0 4px 10px rgba(51, 62, 73, 0.08);
+  8: 0px 6px 17px rgba(51, 62, 73, 0.18), 0px 3px 10px rgba(51, 62, 73, 0.18);
+  12: 0 3px 10px rgba(51, 62, 73, 0.18), 0 6px 17px rgba(51, 62, 73, 0.18);
+  24: 0 10px 24px rgba(51, 62, 73, 0.1), 0 7px 11px rgba(51, 62, 73, 0.2);
+}
+
+:export {
+  heading1-large: 64px;
+  heading1-large-tablet: 48px;
+  heading1-large-mobile: 40px;
+  heading1: 40px;
+  heading1-mobile: 32px;
+  heading2: 32px;
+  heading2-tablet-mobile: 28px;
+  heading3: 24px;
+  subheading: normal;
+  text-main-body: 24px;
+  text-body: 20px;
+  text-secondary: 16px;
+  caption1: 20px;
+  caption2: 20px;
+  caption3: 16px;
+}
+
+:export {
+  color-default: #00756a;
+  color-white: #ffffff;
+  color-font-primary: #313b46;
+  color-font-secondary: #6a7381;
+  color-font-primary-light: #ffffff;
+  color-font-primary-dark: #313b46;
+  color-border-default: #d0d8e4;
+  color-success: #05b279;
+  color-success-button: #7edcaf;
+  color-success-background: #e9fcf4;
+  color-success-outline: #ccf4dd;
+  color-danger: #cc2c11;
+  color-danger-background: #fff1f1;
+  color-danger-outline: #ffd2cf;
+  color-caution: #ad4800;
+  color-caution-button: #ffdb73;
+  color-caution-background: #fffadf;
+  color-caution-outline: #fff0b8;
+  color-informational: #226ace;
+  color-informational-background: #eef8ff;
+  color-informational-outline: #c7e2ff;
+  color-warning: #ffb420;
+  color-ai: #8736dc;
+  color-ai-background: #fbf4ff;
+  color-ai-outline: #edd5ff;
+  color-beta-primary: #107191;
+  color-beta-secondary: #c5f5f5;
+  color-neutral: #6a7381;
+  color-muted: #f3f5f8;
+  background-color: #ffffff;
+  background-color-secondary: #f3f5f8;
+  background-color-dark: #313b46;
+  color-outline: #226ace;
+  color-outline-focus: #6a7381;
+  color-input-default: #d0d8e4;
+  color-input-muted: #919bab;
+  color-input-placeholder: #6a7381;
+  color-input-label-optional: #919bab;
+  color-input-helper-default: #6a7381;
+  color-dismiss-default: #919bab;
+}
+
+@keyframes placeholderSkeleton {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.helper, .display {
+  height: 16px;
+  width: 100%;
+  border-radius: 4px;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+.avatar {
+  border-radius: 50%;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+.icon {
+  border-radius: 4px;
+  animation: placeholderSkeleton 2s linear infinite forwards;
+  background-repeat: no-repeat;
+}
+
+.helper {
+  background-color: #f3f5f8;
+  background-image: linear-gradient(90deg, #f3f5f8 0%, #e7ecf3 50%, #f3f5f8 100%);
+}
+
+.display {
+  background-color: #e7ecf3;
+  background-image: linear-gradient(90deg, #e7ecf3 0%, #f3f5f8 50%, #e7ecf3 100%);
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  background-color: #f3f5f8;
+  background-image: linear-gradient(90deg, #f3f5f8 0%, #e7ecf3 50%, #f3f5f8 100%);
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  background-color: #f3f5f8;
+  background-image: linear-gradient(90deg, #f3f5f8 0%, #e7ecf3 50%, #f3f5f8 100%);
+}
+
+/* Fonts */
+/* Borders */
+/* Border-radius */
+/* Dropdowns */
+/* Inputs */
+/* Transitions */
+/* Dropdown sizes */
+/* Modal */
+.container {
+  padding: 8px 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.container.selectable {
+  padding-left: 40px;
+}
+
+.display-container > * + * {
+  margin-top: 4px;
+}
+
+.display {
+  width: 169px;
+}
+
+.helper {
+  width: 224px;
+}

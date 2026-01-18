@@ -1,0 +1,15 @@
+# Enable mod_rewrite
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Allow access only from specific domain (if needed)
+<Limit GET POST>
+    Order Allow,Deny
+    Allow from sql201.infinityfree.com
+    Deny from all
+</Limit>
+
+# Ensure .htaccess file is working
+DirectoryIndex index.php

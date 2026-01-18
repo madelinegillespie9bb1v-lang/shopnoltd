@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.post}}\n  <div class=\"reviewable-conversation-post\">\n    {{#if this.showUsername}}\n      <LinkTo\n        @route=\"user\"\n        @model={{this.post.user}}\n        class=\"username\"\n      >@{{this.post.user.username}}</LinkTo>\n    {{/if}}\n    {{html-safe this.post.excerpt}}\n  </div>\n{{/if}}",{ moduleName: "discourse/components/reviewable-conversation-post.hbs" })

@@ -1,0 +1,176 @@
+<?php
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/functions.php';
+
+// CSRF TOKEN
+$csrf_token = bin2hex(random_bytes(16));
+$_SESSION['csrf_token'] = $csrf_token;
+
+// Detect IP
+function detect_ip() {
+    if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) return $_SERVER['HTTP_CF_CONNECTING_IP'];
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) return trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
+    return $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
+}
+$ip = detect_ip();
+
+// Country Detection
+$userCountry = function_exists('get_user_country') ? get_user_country() : [];
+$countryName = $userCountry['country_name'] ?? 'Unknown';
+$countryCode = $userCountry['country_code'] ?? 'Unknown';
+
+// Device Info
+$device = function_exists('get_device_info') ? get_device_info() : [];
+$browser     = $device['browser']     ?? 'Unknown';
+$deviceType  = $device['device']      ?? 'Unknown';
+$deviceModel = $device['model']       ?? ($device['device'] ?? 'Unknown');
+$os          = $device['os']          ?? 'Unknown';
+$userAgent   = $device['user_agent']  ?? ($_SERVER['HTTP_USER_AGENT'] ?? 'Unknown');
+
+// Extra Info
+$ip_port    = $_SERVER['REMOTE_PORT'] ?? null;
+$login_time = date('Y-m-d H:i:s');
+
+// Base URL
+$baseUrl = defined('BASE_URL') && BASE_URL !== '' ? BASE_URL : '/';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Shopnoltd Toolbox</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0; }
+.container{ max-width:420px; margin:60px auto; padding:25px; border:1px solid #ddd; border-radius:10px; background:#fff; }
+.registration--logo{text-align:center;margin-bottom:25px;}
+.registration--logo img{max-height:60px;}
+.registration-form label{display:block;margin-bottom:6px;font-weight:bold;}
+.registration-form input{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
+.pw-wrap{position:relative;}
+.pw-wrap button{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;}
+.actions button{width:100%;padding:12px;background:#0066ff;color:#fff;border:none;border-radius:5px;font-size:15px;cursor:pointer;}
+.actions button:hover{background:#0052cc;}
+.small-link{text-align:center;margin-top:8px;font-size:14px;}
+.small-link a{color:#0073e6;text-decoration:none;}
+.small-link a:hover{text-decoration:underline;}
+.register-link a { font-size:16px; font-weight:bold; color:#d9534f; text-decoration:underline; }
+.register-link a:hover { color:#ff6600; text-decoration:none; }
+
+/* Carousel tweaks */
+.carousel-inner .carousel-item { padding: 20px; }
+.carousel-inner .carousel-item h5 { margin-bottom: 10px; }
+.carousel-inner .carousel-item p { margin-bottom: 15px; }
+</style>
+</head>
+<body>
+
+<!-- Offers / Ads Carousel -->
+<div class="container mb-4">
+  <h4 class="text-center fw-bold mb-3">🔥 Our Latest Services, Jobs & Offers 🔥</h4>
+  <div id="adsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+    <div class="carousel-inner">
+      <div class="carousel-item active text-center bg-light rounded">
+        <h5>💼 Post Jobs & Hire Workers</h5>
+        <p>Find skilled freelancers for any task instantly.</p>
+        <a href="/post_job_form.php" class="btn btn-primary btn-sm">Post Jobs</a>
+      </div>
+      <div class="carousel-item text-center bg-light rounded">
+        <h5>🛠 Freelance Work Marketplace</h5>
+        <p>Earn money by completing daily tasks.</p>
+        <a href="/job_work.php" class="btn btn-success btn-sm">Start Working</a>
+      </div>
+      <div class="carousel-item text-center bg-light rounded">
+        <h5>🌐 ShopnoLTD Services</h5>
+        <p>Website development, SEO, graphics design & more.</p>
+        <a href="/service_platform.php" class="btn btn-info btn-sm">View Services</a>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#adsCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#adsCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</div>
+
+<!-- Login Form -->
+<div class="container">
+<div class="registration--logo">
+    <a href="<?= htmlspecialchars($baseUrl) ?>">
+        <img src="/static/kobologo.svg" alt="Shopnoltd Toolbox Logo">
+    </a>
+</div>
+
+<form action="/login_process.php" method="post" class="registration-form" autocomplete="off">
+    <!-- CSRF TOKEN -->
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
+
+    <!-- Hidden Device Info -->
+    <input type="hidden" name="device_name" value="<?= htmlspecialchars($deviceType) ?>">
+    <input type="hidden" name="device_model" value="<?= htmlspecialchars($deviceModel) ?>">
+    <input type="hidden" name="device_os" value="<?= htmlspecialchars($os) ?>">
+    <input type="hidden" name="browser_name" value="<?= htmlspecialchars($browser) ?>">
+    <input type="hidden" name="user_agent" value="<?= htmlspecialchars($userAgent) ?>">
+    <input type="hidden" name="ip_address" value="<?= htmlspecialchars($ip) ?>">
+    <input type="hidden" name="ip_port" value="<?= htmlspecialchars($ip_port) ?>">
+    <input type="hidden" name="login_country" value="<?= htmlspecialchars($countryName) ?>">
+    <input type="hidden" name="country_code" value="<?= htmlspecialchars($countryCode) ?>">
+    <input type="hidden" name="login_time" value="<?= htmlspecialchars($login_time) ?>">
+
+    <!-- Username / Email / Phone -->
+    <label>Username / Email / Phone *</label>
+    <input type="text" name="login_id" id="login_id" placeholder="Enter username, email, or phone" required autofocus>
+
+    <!-- Password -->
+    <label>Password *</label>
+    <div class="pw-wrap">
+        <input type="password" name="password" required>
+        <button type="button" id="togglePassword">👁</button>
+    </div>
+
+    <!-- Submit -->
+    <div class="actions">
+        <button type="submit">Login</button>
+    </div>
+
+    <!-- Forgot links -->
+    <div class="small-link"><a href="/forgot/username/index.php">Forgot Username?</a></div>
+    <div class="small-link"><a href="/forgot/email/index.php">Forgot Email?</a></div>
+    <div class="small-link"><a href="/forgot/phone_code/index.php">Forgot Country Code?</a></div>
+    <div class="small-link"><a href="/forgot/phone/index.php">Forgot Phone Number?</a></div>
+    <div class="small-link"><a href="/forgot/password/index.php">Forgot Password?</a></div>
+
+    <div class="small-link register-link">
+        <a href="/accounts/register/index.php">If You Are New Please Register Your Account First?</a>
+    </div>
+</form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Toggle password visibility
+document.getElementById('togglePassword').addEventListener('click', function(e) {
+    e.preventDefault();
+    const pass = this.previousElementSibling;
+    if (pass.type === "password") {
+        pass.type = "text";
+        this.textContent = "🙈";
+    } else {
+        pass.type = "password";
+        this.textContent = "👁";
+    }
+});
+</script>
+
+</body>
+</html>

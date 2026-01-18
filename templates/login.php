@@ -4,40 +4,99 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/functions.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
 
-// CSRF TOKEN
-$csrf_token = bin2hex(random_bytes(16));
-$_SESSION['csrf_token'] = $csrf_token;
+// ---------------------------
+// CSRF token
+// ---------------------------
+$csrf_token = function_exists('random_bytes') ? bin2hex(random_bytes(16)) : md5(uniqid(mt_rand(), true));
 
-// Detect IP
-function detect_ip() {
-    if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) return $_SERVER['HTTP_CF_CONNECTING_IP'];
-    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) return trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
-    return $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
-}
-$ip = detect_ip();
-
-// Country Detection
+// ---------------------------
+// Detect user IP & Country
+// ---------------------------
 $userCountry = function_exists('get_user_country') ? get_user_country() : [];
+$ip = function_exists('get_user_ip') ? get_user_ip() : $_SERVER['REMOTE_ADDR'];
+$device = function_exists('get_device_info') ? get_device_info() : ['browser'=>'Unknown','device'=>'Unknown'];
 $countryName = $userCountry['country_name'] ?? 'Unknown';
-$countryCode = $userCountry['country_code'] ?? 'Unknown';
+$countryCode = $userCountry['country_code'] ?? 'US';
 
-// Device Info
-$device = function_exists('get_device_info') ? get_device_info() : [];
-$browser     = $device['browser']     ?? 'Unknown';
-$deviceType  = $device['device']      ?? 'Unknown';
-$deviceModel = $device['model']       ?? ($device['device'] ?? 'Unknown');
-$os          = $device['os']          ?? 'Unknown';
-$userAgent   = $device['user_agent']  ?? ($_SERVER['HTTP_USER_AGENT'] ?? 'Unknown');
+// ---------------------------
+// Country dialing codes
+// ---------------------------
+$countryCodeMapping = [
+    'AF'=>'+93 Afghanistan','AL'=>'+355 Albania','DZ'=>'+213 Algeria','AS'=>'+1 American Samoa',
+    'AD'=>'+376 Andorra','AO'=>'+244 Angola','AI'=>'+1 Anguilla','AG'=>'+1 Antigua & Barbuda',
+    'AR'=>'+54 Argentina','AM'=>'+374 Armenia','AW'=>'+297 Aruba','AU'=>'+61 Australia',
+    'AT'=>'+43 Austria','AZ'=>'+994 Azerbaijan','BS'=>'+1 Bahamas','BH'=>'+973 Bahrain',
+    'BD'=>'+880 Bangladesh','BB'=>'+1 Barbados','BY'=>'+375 Belarus','BE'=>'+32 Belgium',
+    'BZ'=>'+501 Belize','BJ'=>'+229 Benin','BM'=>'+1 Bermuda','BT'=>'+975 Bhutan',
+    'BO'=>'+591 Bolivia','BA'=>'+387 Bosnia & Herzegovina','BW'=>'+267 Botswana','BR'=>'+55 Brazil',
+    'BN'=>'+673 Brunei','BG'=>'+359 Bulgaria','BF'=>'+226 Burkina Faso','BI'=>'+257 Burundi',
+    'KH'=>'+855 Cambodia','CM'=>'+237 Cameroon','CA'=>'+1 Canada','CV'=>'+238 Cape Verde',
+    'CF'=>'+236 Central African Republic','TD'=>'+235 Chad','CL'=>'+56 Chile','CN'=>'+86 China',
+    'CO'=>'+57 Colombia','KM'=>'+269 Comoros','CG'=>'+242 Congo','CR'=>'+506 Costa Rica',
+    'HR'=>'+385 Croatia','CU'=>'+53 Cuba','CY'=>'+357 Cyprus','CZ'=>'+420 Czech Republic',
+    'DK'=>'+45 Denmark','DJ'=>'+253 Djibouti','DM'=>'+1 Dominica','DO'=>'+1 Dominican Republic',
+    'EC'=>'+593 Ecuador','EG'=>'+20 Egypt','SV'=>'+503 El Salvador','GQ'=>'+240 Equatorial Guinea',
+    'ER'=>'+291 Eritrea','EE'=>'+372 Estonia','ET'=>'+251 Ethiopia','FJ'=>'+679 Fiji',
+    'FI'=>'+358 Finland','FR'=>'+33 France','GA'=>'+241 Gabon','GM'=>'+220 Gambia',
+    'GE'=>'+995 Georgia','DE'=>'+49 Germany','GH'=>'+233 Ghana','GR'=>'+30 Greece',
+    'GL'=>'+299 Greenland','GD'=>'+1 Grenada','GT'=>'+502 Guatemala','GN'=>'+224 Guinea',
+    'GW'=>'+245 Guinea-Bissau','GY'=>'+592 Guyana','HT'=>'+509 Haiti','HN'=>'+504 Honduras',
+    'HK'=>'+852 Hong Kong','HU'=>'+36 Hungary','IS'=>'+354 Iceland','IN'=>'+91 India',
+    'ID'=>'+62 Indonesia','IR'=>'+98 Iran','IQ'=>'+964 Iraq','IE'=>'+353 Ireland',
+    'IL'=>'+972 Israel','IT'=>'+39 Italy','JM'=>'+1 Jamaica','JP'=>'+81 Japan',
+    'JO'=>'+962 Jordan','KZ'=>'+7 Kazakhstan','KE'=>'+254 Kenya','KP'=>'+850 North Korea',
+    'KR'=>'+82 South Korea','KW'=>'+965 Kuwait','KG'=>'+996 Kyrgyzstan','LA'=>'+856 Laos',
+    'LV'=>'+371 Latvia','LB'=>'+961 Lebanon','LS'=>'+266 Lesotho','LR'=>'+231 Liberia',
+    'LY'=>'+218 Libya','LI'=>'+423 Liechtenstein','LT'=>'+370 Lithuania','LU'=>'+352 Luxembourg',
+    'MO'=>'+853 Macau','MK'=>'+389 North Macedonia','MG'=>'+261 Madagascar','MW'=>'+265 Malawi',
+    'MY'=>'+60 Malaysia','MV'=>'+960 Maldives','ML'=>'+223 Mali','MT'=>'+356 Malta',
+    'MR'=>'+222 Mauritania','MU'=>'+230 Mauritius','MX'=>'+52 Mexico','MD'=>'+373 Moldova',
+    'MC'=>'+377 Monaco','MN'=>'+976 Mongolia','ME'=>'+382 Montenegro','MA'=>'+212 Morocco',
+    'MZ'=>'+258 Mozambique','MM'=>'+95 Myanmar','NA'=>'+264 Namibia','NP'=>'+977 Nepal',
+    'NL'=>'+31 Netherlands','NZ'=>'+64 New Zealand','NI'=>'+505 Nicaragua','NE'=>'+227 Niger',
+    'NG'=>'+234 Nigeria','NO'=>'+47 Norway','OM'=>'+968 Oman','PK'=>'+92 Pakistan',
+    'PS'=>'+970 Palestine','PA'=>'+507 Panama','PG'=>'+675 Papua New Guinea','PY'=>'+595 Paraguay',
+    'PE'=>'+51 Peru','PH'=>'+63 Philippines','PL'=>'+48 Poland','PT'=>'+351 Portugal',
+    'QA'=>'+974 Qatar','RO'=>'+40 Romania','RU'=>'+7 Russia','RW'=>'+250 Rwanda',
+    'SA'=>'+966 Saudi Arabia','SN'=>'+221 Senegal','RS'=>'+381 Serbia','SC'=>'+248 Seychelles',
+    'SL'=>'+232 Sierra Leone','SG'=>'+65 Singapore','SK'=>'+421 Slovakia','SI'=>'+386 Slovenia',
+    'ZA'=>'+27 South Africa','ES'=>'+34 Spain','LK'=>'+94 Sri Lanka','SD'=>'+249 Sudan',
+    'SR'=>'+597 Suriname','SZ'=>'+268 Eswatini','SE'=>'+46 Sweden','CH'=>'+41 Switzerland',
+    'SY'=>'+963 Syria','TW'=>'+886 Taiwan','TJ'=>'+992 Tajikistan','TZ'=>'+255 Tanzania',
+    'TH'=>'+66 Thailand','TG'=>'+228 Togo','TO'=>'+676 Tonga','TN'=>'+216 Tunisia',
+    'TR'=>'+90 Turkey','TM'=>'+993 Turkmenistan','UG'=>'+256 Uganda','UA'=>'+380 Ukraine',
+    'AE'=>'+971 United Arab Emirates','GB'=>'+44 United Kingdom','US'=>'+1 United States',
+    'UY'=>'+598 Uruguay','UZ'=>'+998 Uzbekistan','VU'=>'+678 Vanuatu','VE'=>'+58 Venezuela',
+    'VN'=>'+84 Vietnam','YE'=>'+967 Yemen','ZM'=>'+260 Zambia','ZW'=>'+263 Zimbabwe'
+];
 
-// Extra Info
-$ip_port    = $_SERVER['REMOTE_PORT'] ?? null;
-$login_time = date('Y-m-d H:i:s');
+// ---------------------------
+// Preselect numeric country code
+// ---------------------------
+$selectedCode = '+1';
+if(isset($countryCodeMapping[$countryCode])){
+    $selectedCode = explode(' ', $countryCodeMapping[$countryCode])[0];
+}
 
-// Base URL
-$baseUrl = defined('BASE_URL') && BASE_URL !== '' ? BASE_URL : '/';
+// ---------------------------
+// Log visitor
+// ---------------------------
+try {
+    if(isset($pdo)){
+        $check = $pdo->prepare("SELECT id FROM logged_users WHERE ip_address=? AND login_time > (NOW() - INTERVAL 1 MINUTE)");
+        $check->execute([$ip]);
+        if($check->rowCount() === 0){
+            $insert = $pdo->prepare("INSERT INTO logged_users (ip_address, login_country, browser, device_type, login_time) VALUES (?, ?, ?, ?, NOW())");
+            $insert->execute([$ip, $countryName, $device['browser'], $device['device']]);
+        }
+    }
+} catch(Exception $e){}
+
+// ---------------------------
+// HTML
+// ---------------------------
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,132 +104,119 @@ $baseUrl = defined('BASE_URL') && BASE_URL !== '' ? BASE_URL : '/';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - Shopnoltd Toolbox</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
 <style>
 body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0; }
 .container{ max-width:420px; margin:60px auto; padding:25px; border:1px solid #ddd; border-radius:10px; background:#fff; }
 .registration--logo{text-align:center;margin-bottom:25px;}
 .registration--logo img{max-height:60px;}
 .registration-form label{display:block;margin-bottom:6px;font-weight:bold;}
-.registration-form input{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
+.registration-form input, .registration-form select{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
 .pw-wrap{position:relative;}
-.pw-wrap button{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;}
+.pw-wrap button{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;}
 .actions button{width:100%;padding:12px;background:#0066ff;color:#fff;border:none;border-radius:5px;font-size:15px;cursor:pointer;}
 .actions button:hover{background:#0052cc;}
 .small-link{text-align:center;margin-top:8px;font-size:14px;}
 .small-link a{color:#0073e6;text-decoration:none;}
 .small-link a:hover{text-decoration:underline;}
-.register-link a { font-size:16px; font-weight:bold; color:#d9534f; text-decoration:underline; }
-.register-link a:hover { color:#ff6600; text-decoration:none; }
-
-/* Carousel tweaks */
-.carousel-inner .carousel-item { padding: 20px; }
-.carousel-inner .carousel-item h5 { margin-bottom: 10px; }
-.carousel-inner .carousel-item p { margin-bottom: 15px; }
 </style>
 </head>
 <body>
-
-<!-- Offers / Ads Carousel -->
-<div class="container mb-4">
-  <h4 class="text-center fw-bold mb-3">🔥 Our Latest Services, Jobs & Offers 🔥</h4>
-  <div id="adsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
-    <div class="carousel-inner">
-      <div class="carousel-item active text-center bg-light rounded">
-        <h5>💼 Post Jobs & Hire Workers</h5>
-        <p>Find skilled freelancers for any task instantly.</p>
-        <a href="/post_job_form.php" class="btn btn-primary btn-sm">Post Jobs</a>
-      </div>
-      <div class="carousel-item text-center bg-light rounded">
-        <h5>🛠 Freelance Work Marketplace</h5>
-        <p>Earn money by completing daily tasks.</p>
-        <a href="/job_work.php" class="btn btn-success btn-sm">Start Working</a>
-      </div>
-      <div class="carousel-item text-center bg-light rounded">
-        <h5>🌐 ShopnoLTD Services</h5>
-        <p>Website development, SEO, graphics design & more.</p>
-        <a href="/service_platform.php" class="btn btn-info btn-sm">View Services</a>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#adsCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#adsCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
-  </div>
-</div>
-
-<!-- Login Form -->
 <div class="container">
-<div class="registration--logo">
-    <a href="<?= htmlspecialchars($baseUrl) ?>">
-        <img src="/static/kobologo.svg" alt="Shopnoltd Toolbox Logo">
-    </a>
+    <div class="registration--logo">
+        <a href="<?=htmlspecialchars(BASE_URL)?>"><img src="/static/kobologo.svg" alt="Shopnoltd Toolbox Logo"></a>
+    </div>
+
+    <!-- ✅ Corrected form action to absolute path -->
+    <form action="https://shopnoltd.kesug.com/login_process.php" method="post" class="registration-form" autocomplete="off">
+
+        <input type="hidden" name="csrfmiddlewaretoken" value="<?= $csrf_token ?>">
+
+        <label>Username *</label>
+        <input type="text" name="username" required>
+
+        <label>Email *</label>
+        <input type="email" name="email" required>
+
+        <label>Country Code *</label>
+        <select name="phone_code" id="countrySelect" required>
+            <?php foreach($countryCodeMapping as $code => $display): 
+                $numericCode = explode(' ', $display)[0];
+                $selected = ($numericCode === $selectedCode) ? 'selected' : '';
+            ?>
+            <option value="<?= $numericCode ?>" <?= $selected ?>><?= $display ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <label>Phone Number *</label>
+        <input type="tel" name="phone" id="phoneInput" placeholder="Enter number" required>
+
+        <label>Password *</label>
+        <div class="pw-wrap">
+            <input type="password" name="password" required>
+            <button type="button" id="togglePassword">👁</button>
+        </div>
+
+        <div class="actions">
+            <button type="submit">Get OTP via Browser</button>
+        </div>
+
+      <!-- Forgot links -->
+      <div class="small-link"><a href="/forgot/username/index.php">Forgot Username?</a></div>
+      <div class="small-link"><a href="/forgot/email/index.php">Forgot Email?</a></div>
+      <div class="small-link"><a href="/forgot/phone_code/index.php">Forgot Country Code?</a></div>
+      <div class="small-link"><a href="/forgot/phone/index.php">Forgot Phone Number?</a></div>
+      <div class="small-link"><a href="/forgot/password/index.php">Forgot Password?</a></div>
+
+      <!-- Account links -->
+      <div class="small-link"><a href="/accounts/register/index.php">If You Are New Please Register Your Account First?</a></div>
+    </form>
 </div>
 
-<form action="/login_process.php" method="post" class="registration-form" autocomplete="off">
-    <!-- CSRF TOKEN -->
-    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
-
-    <!-- Hidden Device Info -->
-    <input type="hidden" name="device_name" value="<?= htmlspecialchars($deviceType) ?>">
-    <input type="hidden" name="device_model" value="<?= htmlspecialchars($deviceModel) ?>">
-    <input type="hidden" name="device_os" value="<?= htmlspecialchars($os) ?>">
-    <input type="hidden" name="browser_name" value="<?= htmlspecialchars($browser) ?>">
-    <input type="hidden" name="user_agent" value="<?= htmlspecialchars($userAgent) ?>">
-    <input type="hidden" name="ip_address" value="<?= htmlspecialchars($ip) ?>">
-    <input type="hidden" name="ip_port" value="<?= htmlspecialchars($ip_port) ?>">
-    <input type="hidden" name="login_country" value="<?= htmlspecialchars($countryName) ?>">
-    <input type="hidden" name="country_code" value="<?= htmlspecialchars($countryCode) ?>">
-    <input type="hidden" name="login_time" value="<?= htmlspecialchars($login_time) ?>">
-
-    <!-- Username / Email / Phone -->
-    <label>Username / Email / Phone *</label>
-    <input type="text" name="login_id" id="login_id" placeholder="Enter username, email, or phone" required autofocus>
-
-    <!-- Password -->
-    <label>Password *</label>
-    <div class="pw-wrap">
-        <input type="password" name="password" required>
-        <button type="button" id="togglePassword">👁</button>
-    </div>
-
-    <!-- Submit -->
-    <div class="actions">
-        <button type="submit">Login</button>
-    </div>
-
-    <!-- Forgot links -->
-    <div class="small-link"><a href="/forgot/username/index.php">Forgot Username?</a></div>
-    <div class="small-link"><a href="/forgot/email/index.php">Forgot Email?</a></div>
-    <div class="small-link"><a href="/forgot/phone_code/index.php">Forgot Country Code?</a></div>
-    <div class="small-link"><a href="/forgot/phone/index.php">Forgot Phone Number?</a></div>
-    <div class="small-link"><a href="/forgot/password/index.php">Forgot Password?</a></div>
-
-    <div class="small-link register-link">
-        <a href="/accounts/register/index.php">If You Are New Please Register Your Account First?</a>
-    </div>
-</form>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Toggle password visibility
-document.getElementById('togglePassword').addEventListener('click', function(e) {
-    e.preventDefault();
-    const pass = this.previousElementSibling;
-    if (pass.type === "password") {
-        pass.type = "text";
-        this.textContent = "🙈";
-    } else {
-        pass.type = "password";
-        this.textContent = "👁";
-    }
-});
-</script>
+const form = document.querySelector('.registration-form');
+const phoneInput = document.getElementById('phoneInput');
+const countrySelect = document.getElementById('countrySelect');
+const toggleBtn = document.getElementById('togglePassword');
 
+function updatePhoneValidation() {
+  const code = countrySelect.value;
+  let placeholder = 'Enter phone number';
+  let maxLen = 15, pattern = '\\d{5,15}';
+  if (code === '+880' || code === '+91' || code === '+1') {
+    maxLen = 10; pattern = '\\d{10}';
+    placeholder = (code === '+880') ? 'e.g. 1912345678 (BD)' :
+                 (code === '+91') ? 'e.g. 9812345678 (IN)' :
+                 'e.g. 5551234567 (US/CA)';
+  }
+  phoneInput.maxLength = maxLen;
+  phoneInput.pattern = pattern;
+  phoneInput.placeholder = placeholder;
+}
+countrySelect.addEventListener('change', updatePhoneValidation);
+updatePhoneValidation();
+
+form.addEventListener('submit', e => {
+  const code = countrySelect.value;
+  const phone = phoneInput.value.trim();
+  if(!phone.match(new RegExp(phoneInput.pattern))){
+    e.preventDefault();
+    alert('Invalid phone number format for selected country.');
+    phoneInput.focus();
+    return;
+  }
+  const existing = form.querySelector('input[name="fullphone"]');
+  if(existing) existing.remove();
+  form.insertAdjacentHTML('beforeend', `<input type="hidden" name="fullphone" value="${code}${phone}">`);
+});
+
+function togglePassword(e) {
+  e.preventDefault();
+  const pass = toggleBtn.previousElementSibling;
+  if(pass.type === "password"){ pass.type="text"; toggleBtn.textContent="🙈"; }
+  else{ pass.type="password"; toggleBtn.textContent="👁"; }
+}
+toggleBtn.addEventListener('click', togglePassword);
+toggleBtn.addEventListener('touchstart', togglePassword);
+</script>
 </body>
 </html>

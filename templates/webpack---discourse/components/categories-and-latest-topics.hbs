@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"column categories\">\n  <CategoriesOnly @categories={{this.categories}} />\n</div>\n\n<div class=\"column\">\n  <CategoriesTopicList\n    @topics={{this.topics}}\n    @filter=\"latest\"\n    class=\"latest-topic-list\"\n  />\n</div>\n\n<PluginOutlet @name=\"extra-categories-column\" @connectorTagName=\"div\" />",{ moduleName: "discourse/components/categories-and-latest-topics.hbs" })

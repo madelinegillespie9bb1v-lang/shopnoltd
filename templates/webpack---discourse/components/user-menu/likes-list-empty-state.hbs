@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"empty-state\">\n  <span class=\"empty-state-title\">\n    {{i18n \"user.no_likes_title\"}}\n  </span>\n  <div class=\"empty-state-body\">\n    <p>\n      {{html-safe\n        (i18n\n          \"user.no_likes_body\"\n          preferencesUrl=(get-url \"/my/preferences/notifications\")\n        )\n      }}\n    </p>\n  </div>\n</div>",{ moduleName: "discourse/components/user-menu/likes-list-empty-state.hbs" })

@@ -1,0 +1,254 @@
+<?php
+// _common_rates.php
+// ---------------------------------------------------------
+// Centralized rate configuration file with instructions
+// ---------------------------------------------------------
+
+$TASK_RATES = [
+
+    // 🔹 Facebook
+    'Facebook' => [
+        'Follow' => 0.0050,
+        'Add Friend' => 0.0050,
+        'Comment' => 0.0060,
+        'Post Like' => 0.0040,
+        'Share Post' => 0.0060,
+        'Upload Post' => 0.0070,
+        'Watch Video 1 min' => 0.0070,
+        'Watch Video 2 min' => 0.0140,
+        'Watch Video 3 min' => 0.0210,
+    ],
+
+    // 🔹 YouTube
+    'YouTube' => [
+        'Subscribe Channel' => 0.0050,
+        'Like Video' => 0.0050,
+        'Comment Video' => 0.0060,
+        'Share Video' => 0.0060,
+        'Watch Video 1 min' => 0.0070,
+        'Watch Video 2 min' => 0.0140,
+        'Watch Video 3 min' => 0.0210,
+        'Watch Video 4 min' => 0.0280,
+        'Watch Video 5 min' => 0.0350,
+        'Upload Shorts' => 0.0100,
+    ],
+
+    // 🔹 Instagram
+    'Instagram' => [
+        'Follow Account' => 0.0050,
+        'Like Post' => 0.0040,
+        'Comment Post' => 0.0050,
+        'Share Story' => 0.0060,
+        'Upload Reel' => 0.0080,
+        'Watch Reel' => 0.0060,
+    ],
+
+    // 🔹 TikTok
+    'TikTok' => [
+        'Follow Account' => 0.0050,
+        'Like Video' => 0.0050,
+        'Comment Video' => 0.0060,
+        'Share Video' => 0.0060,
+        'Watch Video 1 min' => 0.0070,
+        'Watch Video 3 min' => 0.0210,
+        'Watch Video 5 min' => 0.0350,
+    ],
+
+    // 🔹 X (Twitter)
+    'X' => [
+        'Follow Account' => 0.0050,
+        'Like Tweet' => 0.0050,
+        'Retweet' => 0.0060,
+        'Comment Tweet' => 0.0060,
+        'Quote Tweet' => 0.0070,
+    ],
+
+    // 🔹 Gmail
+    'Gmail' => [
+        'Create Gmail Account' => 0.0200,
+        'Verify Email' => 0.0100,
+        'Login Test' => 0.0070,
+        'Send Email' => 0.0050,
+    ],
+
+    // 🔹 Payoneer
+    'Payoneer' => [
+        'Create Account' => 0.0500,
+        'Verify Account' => 0.0300,
+        'Link Bank Account' => 0.0400,
+    ],
+
+    // 🔹 PayPal
+    'Paypal' => [
+        'Create Account' => 0.0300,
+        'Verify Account' => 0.0200,
+        'Send Test Payment' => 0.0250,
+        'Receive Payment' => 0.0250,
+    ],
+
+    // 🔹 WhatsApp
+    'WhatsApp' => [
+        'Join Group' => 0.0050,
+        'Send Message' => 0.0040,
+        'Add Contact' => 0.0040,
+        'Share Broadcast' => 0.0060,
+    ],
+
+    // 🔹 Telegram
+    'Telegram' => [
+        'Join Channel' => 0.0050,
+        'Join Group' => 0.0050,
+        'React Message' => 0.0060,
+        'Share Link' => 0.0060,
+    ],
+
+    // 🔹 Other
+    'Other' => [
+        'Data Entry Task' => 0.0200,
+        'Website Visit' => 0.0080,
+        'App Install' => 0.0150,
+        'Survey Fill' => 0.0200,
+        'Feedback Task' => 0.0100,
+    ]
+];
+
+// 🧮 Fixed Commission Split
+define('WORKER_PERCENT', 55);
+define('ADMIN_PERCENT', 35);
+define('REFERRAL_PERCENT', 10);
+
+// ✅ Default Instructions per platform + task
+$TASK_INSTRUCTIONS = [
+
+    'Facebook' => [
+        'Follow' => 'Follow the specified Facebook page or account and capture a screenshot.',
+        'Add Friend' => 'Send a friend request to the specified profile and take a screenshot.',
+        'Comment' => 'Comment on the specified post as instructed and screenshot.',
+        'Post Like' => 'Like the post and take a screenshot.',
+        'Share Post' => 'Share the post publicly and screenshot.',
+        'Upload Post' => 'Upload a post as instructed and capture a screenshot.',
+        'Watch Video 1 min' => 'Watch the video for at least 1 minute and capture a screenshot.',
+        'Watch Video 2 min' => 'Watch the video for at least 2 minutes and capture a screenshot.',
+        'Watch Video 3 min' => 'Watch the video for at least 3 minutes and capture a screenshot.',
+    ],
+
+    'YouTube' => [
+        'Subscribe Channel' => 'Subscribe to the channel and take a screenshot.',
+        'Like Video' => 'Like the video and take a screenshot.',
+        'Comment Video' => 'Comment as instructed and screenshot.',
+        'Share Video' => 'Share the video publicly and screenshot.',
+        'Watch Video 1 min' => 'Watch at least 1 minute of the video and screenshot.',
+        'Watch Video 2 min' => 'Watch at least 2 minutes of the video and screenshot.',
+        'Watch Video 3 min' => 'Watch at least 3 minutes of the video and screenshot.',
+        'Watch Video 4 min' => 'Watch at least 4 minutes of the video and screenshot.',
+        'Watch Video 5 min' => 'Watch at least 5 minutes of the video and screenshot.',
+        'Upload Shorts' => 'Upload a Shorts video as instructed and screenshot.',
+    ],
+
+    'Instagram' => [
+        'Follow Account' => 'Follow the account and screenshot confirmation.',
+        'Like Post' => 'Like the specified post and screenshot.',
+        'Comment Post' => 'Comment on the post and screenshot.',
+        'Share Story' => 'Share the story as instructed and screenshot.',
+        'Upload Reel' => 'Upload the reel and screenshot.',
+        'Watch Reel' => 'Watch the reel fully and screenshot.',
+    ],
+
+    'TikTok' => [
+        'Follow Account' => 'Follow the account and screenshot.',
+        'Like Video' => 'Like the video and screenshot.',
+        'Comment Video' => 'Comment on the video and screenshot.',
+        'Share Video' => 'Share the video as instructed and screenshot.',
+        'Watch Video 1 min' => 'Watch the video for 1 minute and screenshot.',
+        'Watch Video 3 min' => 'Watch the video for 3 minutes and screenshot.',
+        'Watch Video 5 min' => 'Watch the video for 5 minutes and screenshot.',
+    ],
+
+    'X' => [
+        'Follow Account' => 'Follow the account and screenshot.',
+        'Like Tweet' => 'Like the tweet and screenshot.',
+        'Retweet' => 'Retweet the tweet and screenshot.',
+        'Comment Tweet' => 'Comment on the tweet and screenshot.',
+        'Quote Tweet' => 'Quote the tweet and screenshot.',
+    ],
+
+    'Gmail' => [
+        'Create Gmail Account' => 'Create a new Gmail account as instructed and screenshot.',
+        'Verify Email' => 'Verify the Gmail account and screenshot.',
+        'Login Test' => 'Login into the Gmail account and screenshot.',
+        'Send Email' => 'Send an email as instructed and screenshot.',
+    ],
+
+    'Payoneer' => [
+        'Create Account' => 'Create a Payoneer account and screenshot confirmation.',
+        'Verify Account' => 'Verify Payoneer account and screenshot.',
+        'Link Bank Account' => 'Link a bank account and screenshot.',
+    ],
+
+    'Paypal' => [
+        'Create Account' => 'Create a PayPal account and screenshot confirmation.',
+        'Verify Account' => 'Verify the PayPal account and screenshot.',
+        'Send Test Payment' => 'Send a test payment and screenshot.',
+        'Receive Payment' => 'Receive a test payment and screenshot.',
+    ],
+
+    'WhatsApp' => [
+        'Join Group' => 'Join the specified WhatsApp group and screenshot.',
+        'Send Message' => 'Send message as instructed and screenshot.',
+        'Add Contact' => 'Add contact and screenshot.',
+        'Share Broadcast' => 'Share a broadcast message and screenshot.',
+    ],
+
+    'Telegram' => [
+        'Join Channel' => 'Join the Telegram channel and screenshot.',
+        'Join Group' => 'Join the Telegram group and screenshot.',
+        'React Message' => 'React to the message as instructed and screenshot.',
+        'Share Link' => 'Share the link and screenshot.',
+    ],
+
+    'Other' => [
+        'Data Entry Task' => 'Complete the data entry task as instructed and screenshot.',
+        'Website Visit' => 'Visit the website as instructed and screenshot.',
+        'App Install' => 'Install the app and screenshot confirmation.',
+        'Survey Fill' => 'Fill out the survey as instructed and screenshot.',
+        'Feedback Task' => 'Provide feedback as instructed and screenshot.',
+    ],
+];
+
+// ✅ Function to fetch base rate by platform + task
+function getTaskRate($platform, $taskType) {
+    global $TASK_RATES;
+    foreach ($TASK_RATES as $plat => $tasks) {
+        if (strcasecmp($plat, $platform) === 0) {
+            foreach ($tasks as $type => $rate) {
+                if (strcasecmp($type, $taskType) === 0) return $rate;
+            }
+        }
+    }
+    return 0;
+}
+
+// ✅ Helper function to calculate commission distribution
+function calculateSplit($baseRate) {
+    return [
+        'worker' => round($baseRate * (WORKER_PERCENT / 100), 4),
+        'admin' => round($baseRate * (ADMIN_PERCENT / 100), 4),
+        'referral' => round($baseRate * (REFERRAL_PERCENT / 100), 4),
+    ];
+}
+
+// ✅ Optional: get all task types for a platform
+function getTasksByPlatform($platform) {
+    global $TASK_RATES;
+    foreach ($TASK_RATES as $plat => $tasks) {
+        if (strcasecmp($plat, $platform) === 0) return $tasks;
+    }
+    return [];
+}
+
+// ✅ Optional: get default instruction
+function getTaskInstruction($platform, $taskType) {
+    global $TASK_INSTRUCTIONS;
+    return $TASK_INSTRUCTIONS[$platform][$taskType] ?? 'Follow the task instructions and submit screenshots.';
+}
+?>

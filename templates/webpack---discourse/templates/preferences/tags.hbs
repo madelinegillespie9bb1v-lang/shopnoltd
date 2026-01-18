@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<UserPreferences::Tags\n  @model={{this.model}}\n  @selectedTags={{this.selectedTags}}\n  @save={{action \"save\"}}\n  @siteSettings={{this.siteSettings}}\n/>\n\n<SaveControls\n  @model={{this.model}}\n  @action={{action \"save\"}}\n  @saved={{this.saved}}\n/>",{ moduleName: "discourse/templates/preferences/tags.hbs" })

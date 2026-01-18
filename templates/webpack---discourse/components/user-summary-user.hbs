@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<UserInfo @user={{@user}}>\n  {{d-icon @icon}}\n  <span class={{@countClass}}>{{number @user.count}}</span>\n</UserInfo>",{ moduleName: "discourse/components/user-summary-user.hbs" })

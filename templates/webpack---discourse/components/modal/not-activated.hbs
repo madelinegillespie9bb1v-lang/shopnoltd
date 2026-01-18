@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal\n  @closeModal={{@closeModal}}\n  @title={{i18n \"log_in\"}}\n  class=\"not-activated-modal\"\n>\n  <:body>\n    {{html-safe (i18n \"login.not_activated\" sentTo=@model.sentTo)}}\n  </:body>\n  <:footer>\n    <ActivationControls\n      @sendActivationEmail={{this.sendActivationEmail}}\n      @editActivationEmail={{this.editActivationEmail}}\n    />\n  </:footer>\n</DModal>",{ moduleName: "discourse/components/modal/not-activated.hbs" })

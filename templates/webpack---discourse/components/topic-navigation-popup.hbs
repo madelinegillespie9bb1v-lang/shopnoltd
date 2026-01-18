@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#unless this.hidden}}\n  <div class=\"topic-navigation-popup\">\n    <DButton @action={{this.close}} @icon=\"xmark\" class=\"close btn-flat\" />\n    {{yield}}\n  </div>\n{{/unless}}",{ moduleName: "discourse/components/topic-navigation-popup.hbs" })

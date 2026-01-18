@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{raw \"topic-status\" topic=this.topic}}\n<a href={{this.topic.lastUnreadUrl}} class=\"title\">{{html-safe\n    this.topic.fancyTitle\n  }}</a>\n<TopicPostBadges\n  @unreadPosts={{this.topic.unread_posts}}\n  @unseen={{this.topic.unseen}}\n  @url={{this.topic.lastUnreadUrl}}\n/>\n\n<a href={{this.topic.lastPostUrl}} class=\"last-posted-at\">{{format-age\n    this.topic.last_posted_at\n  }}</a>",{ moduleName: "discourse/components/featured-topic.hbs" })

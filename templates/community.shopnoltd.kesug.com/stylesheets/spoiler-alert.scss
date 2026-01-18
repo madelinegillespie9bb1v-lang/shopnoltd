@@ -1,0 +1,54 @@
+$primary: #3f3e3e !default; $secondary: #ffffff !default; $tertiary: #2095f3 !default; $quaternary: #2095f3 !default; $header_background: #414453 !default; $header_primary: #ffffff !default; $highlight: #2196f3 !default; $danger: #bf3c3c !default; $success: #97de86 !default; $love: #fc94cb !default; $hover: #f4f3f3 !default; $selected: #ececec !default;  $public_image_path: "https://community.kobotoolbox.org/images";  @import "common/foundation/variables"; @import "common/foundation/mixins"; .spoiled {
+  cursor: auto;
+  -webkit-transform: translateZ(0); // Safari jitter fix
+
+  .lightbox .meta {
+    display: none;
+  }
+
+  svg {
+    vertical-align: middle;
+  }
+}
+
+.spoiler-blurred {
+  @include unselectable;
+  cursor: pointer;
+  filter: blur(0.5em);
+
+  a,
+  area,
+  audio,
+  button,
+  details,
+  embed,
+  iframe,
+  img.animated,
+  input,
+  map,
+  object,
+  option,
+  portal,
+  select,
+  textarea,
+  track,
+  video,
+  .lightbox {
+    pointer-events: none;
+  }
+
+  img {
+    filter: blur(1em);
+  }
+
+  .discourse-no-touch & {
+    &:hover,
+    &:focus {
+      filter: blur(0.18em);
+
+      img {
+        filter: blur(0.5em);
+      }
+    }
+  }
+}

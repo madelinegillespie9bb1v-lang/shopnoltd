@@ -1,0 +1,152 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_common_rates_worker.php';
+
+// ✅ Login check
+$current_user = $_SESSION['user'] ?? null;
+if (!$current_user) {
+    header('Location: /login.php');
+    exit;
+}
+
+$user_id   = $current_user['id'];
+$user_role = $current_user['user_role'] ?? 'user';
+
+// ✅ Get platform & task_type from query string for filtering and back button
+$platform   = $_GET['platform'] ?? '';
+$task_type  = $_GET['task_type'] ?? '';
+$back_url   = $platform ? "/select_open_jobs.php?platform=" . urlencode($platform) : '/dashboard.php';
+
+// ✅ Fetch all open jobs except user's own if not admin
+try {
+    if ($user_role === 'admin') {
+        $stmt = $pdo->prepare("
+            SELECT j.*, u.username AS poster_username
+            FROM jobs j
+            JOIN users u ON j.poster_id = u.id
+            WHERE j.status='open' AND j.platform=? AND j.task_type=?
+            ORDER BY j.id DESC
+        ");
+        $stmt->execute([$platform, $task_type]);
+    } else {
+        $stmt = $pdo->prepare("
+            SELECT j.*, u.username AS poster_username
+            FROM jobs j
+            JOIN users u ON j.poster_id = u.id
+            WHERE j.status='open' AND j.platform=? AND j.task_type=? AND j.poster_id!=?
+            ORDER BY j.id DESC
+        ");
+        $stmt->execute([$platform, $task_type, $user_id]);
+    }
+    $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die('Database error: ' . htmlspecialchars($e->getMessage()));
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Open Job List – <?= htmlspecialchars($platform) ?> / <?= htmlspecialchars($task_type) ?></title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body { background:#f8f9fa; }
+.table thead { background:#0d6efd; color:white; }
+.instructions-box { background:#fffbea; border-left:5px solid #f0ad4e; padding:8px 12px; border-radius:6px; }
+.back-btn { margin-bottom:15px; }
+.do-btn { font-size:0.9em; padding:4px 8px; }
+</style>
+</head>
+<body>
+<div class="container-fluid py-4">
+
+    <!-- Back button -->
+    <div class="mb-3">
+        <a href="<?= htmlspecialchars($back_url) ?>" class="btn btn-outline-secondary">&larr; Back</a>
+    </div>
+
+    <h3 class="mb-3">🧰 Open Job List – <?= htmlspecialchars($platform) ?> / <?= htmlspecialchars($task_type) ?></h3>
+
+    <?php if (empty($jobs)): ?>
+        <div class="alert alert-info">No jobs available right now. Please check again later.</div>
+    <?php else: ?>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Poster</th>
+                    <th>Platform</th>
+                    <th>Task Type</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                    <th>Rate ($)</th>
+                    <th>Total Tasks</th>
+                    <th>Approved</th>
+                    <th>Pending</th>
+                    <th>Remaining</th>
+                    <th>Status</th>
+                    <th>Instructions</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($jobs as $job): 
+                $platform    = $job['platform'];
+                $task_type   = $job['task_type'];
+                $instructions = $job['instruction'] ?: getTaskInstruction($platform, $task_type);
+                // Use job worker_rate if available, fallback to _common_rates_worker
+                $rate = isset($job['worker_rate']) ? $job['worker_rate'] : getTaskRate($platform, $task_type);
+            ?>
+                <tr>
+                    <td><?= $job['id'] ?></td>
+                    <td><?= htmlspecialchars($job['poster_username']) ?></td>
+                    <td><?= htmlspecialchars($platform) ?></td>
+                    <td><?= htmlspecialchars($task_type) ?></td>
+                    <td><?= htmlspecialchars($job['title'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($job['description'] ?? '-') ?></td>
+                    <td>
+                        <a href="<?= htmlspecialchars($job['link']) ?>" target="_blank">Visit</a>
+                        <button class="btn btn-sm btn-outline-secondary ms-1" onclick="copyLink('<?= htmlspecialchars($job['link']) ?>')">Copy</button>
+                    </td>
+                    <td><?= number_format($rate, 4) ?></td>
+                    <td><?= intval($job['total_tasks']) ?></td>
+                    <td><?= intval($job['approved_tasks']) ?></td>
+                    <td><?= intval($job['pending_tasks']) ?></td>
+                    <td><?= intval($job['remaining_tasks']) ?></td>
+                    <td>
+                        <?php if($job['status']=='open'): ?>
+                            <span class="badge bg-success">Open</span>
+                        <?php else: ?>
+                            <span class="badge bg-secondary"><?= htmlspecialchars($job['status']) ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div class="instructions-box">
+                            <?= nl2br(htmlspecialchars($instructions)) ?>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="/do_job.php?job_id=<?= $job['id'] ?>&platform=<?= urlencode($platform) ?>" class="btn btn-primary btn-sm do-btn">Do this Job</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php endif; ?>
+</div>
+
+<script>
+function copyLink(link){
+    navigator.clipboard.writeText(link).then(()=>{
+        alert('✅ Link copied to clipboard!');
+    }).catch(()=>{
+        alert('❌ Failed to copy link.');
+    });
+}
+</script>
+</body>
+</html>

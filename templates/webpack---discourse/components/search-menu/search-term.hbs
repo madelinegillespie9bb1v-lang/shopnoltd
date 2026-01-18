@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<input\n  id={{this.inputId}}\n  type=\"search\"\n  autocomplete=\"off\"\n  value={{this.search.activeGlobalSearchTerm}}\n  placeholder={{i18n \"search.title\"}}\n  aria-label={{i18n \"search.title\"}}\n  {{on \"keyup\" this.onKeyup}}\n  {{on \"keydown\" this.onKeydown}}\n  {{on \"input\" this.updateSearchTerm}}\n  {{on \"focus\" @openSearchMenu}}\n  {{did-insert this.focus}}\n/>",{ moduleName: "discourse/components/search-menu/search-term.hbs" })

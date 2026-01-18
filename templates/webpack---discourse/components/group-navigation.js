@@ -1,0 +1,8 @@
+/* import __COLOCATED_TEMPLATE__ from './group-navigation.hbs'; */
+import Component from "@ember/component";
+import {
+    tagName
+} from "@ember-decorators/component";
+
+@tagName("")
+export default class GroupNavigation extends Component {}

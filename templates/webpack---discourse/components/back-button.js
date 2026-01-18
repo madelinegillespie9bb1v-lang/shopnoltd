@@ -1,0 +1,21 @@
+import {
+    template
+} from "@ember/template-compiler";
+import {
+    LinkTo
+} from "@ember/routing";
+import {
+    or
+} from "truth-helpers";
+import dIcon from "discourse-common/helpers/d-icon";
+import i18n from "discourse-common/helpers/i18n";
+export default template(`
+  <LinkTo class="btn btn-flat back-button" @route={{@route}}>
+    {{dIcon "chevron-left"}}
+    {{i18n (or @label "back_button")}}
+  </LinkTo>
+`, {
+    eval() {
+        return eval(arguments[0]);
+    }
+});

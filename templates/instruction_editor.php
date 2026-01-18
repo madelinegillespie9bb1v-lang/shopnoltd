@@ -1,0 +1,143 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+
+// ==========================
+//  ACCESS CONTROL
+// ==========================
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    die("<h3 style='color:red;text-align:center;'>Access Denied</h3>");
+}
+
+// ==========================
+//  DATABASE TABLE STRUCTURE
+// ==========================
+// Table: platform_instructions
+// Columns: id (INT AI PK), platform VARCHAR(50), category VARCHAR(50), instruction TEXT
+
+// ==========================
+//  FETCH PLATFORMS & CATEGORIES
+// ==========================
+$platforms = [];
+$categories = [];
+$platform_query = $pdo->query("SELECT DISTINCT platform FROM job_rates ORDER BY platform");
+while ($row = $platform_query->fetch(PDO::FETCH_ASSOC)) {
+    $platforms[] = $row['platform'];
+}
+$category_query = $pdo->query("SELECT DISTINCT task_type AS category FROM job_rates ORDER BY task_type");
+while ($row = $category_query->fetch(PDO::FETCH_ASSOC)) {
+    $categories[] = $row['category'];
+}
+
+// ==========================
+//  LOAD EXISTING INSTRUCTION
+// ==========================
+$selected_platform = $_GET['platform'] ?? '';
+$selected_category = $_GET['category'] ?? '';
+$instruction = '';
+
+if ($selected_platform && $selected_category) {
+    $stmt = $pdo->prepare("SELECT instruction FROM platform_instructions WHERE platform=? AND category=? LIMIT 1");
+    $stmt->execute([$selected_platform, $selected_category]);
+    $instruction = $stmt->fetchColumn() ?: '';
+}
+
+// ==========================
+//  SAVE / UPDATE INSTRUCTION
+// ==========================
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $selected_platform = trim($_POST['platform']);
+    $selected_category = trim($_POST['category']);
+    $instruction = trim($_POST['instruction']);
+
+    if ($selected_platform && $selected_category) {
+        $check = $pdo->prepare("SELECT COUNT(*) FROM platform_instructions WHERE platform=? AND category=?");
+        $check->execute([$selected_platform, $selected_category]);
+        $exists = $check->fetchColumn();
+
+        if ($exists) {
+            $stmt = $pdo->prepare("UPDATE platform_instructions SET instruction=? WHERE platform=? AND category=?");
+            $stmt->execute([$instruction, $selected_platform, $selected_category]);
+            $message = "✅ Instruction updated successfully!";
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO platform_instructions (platform, category, instruction) VALUES (?, ?, ?)");
+            $stmt->execute([$selected_platform, $selected_category, $instruction]);
+            $message = "✅ Instruction added successfully!";
+        }
+    } else {
+        $message = "⚠️ Please select both Platform and Category.";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Instruction Editor</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<style>
+body { background:#f8f9fa; }
+textarea { min-height: 220px; resize: vertical; }
+.preview-box { background:#fff; border:1px solid #ddd; padding:15px; border-radius:8px; }
+</style>
+</head>
+<body>
+<div class="container py-4">
+<h2 class="mb-4">📝 Instruction Editor</h2>
+
+<?php if (!empty($message)): ?>
+<div class="alert alert-info"><?= htmlspecialchars($message) ?></div>
+<?php endif; ?>
+
+<form method="get" class="row g-3 mb-4">
+<div class="col-md-4">
+<label class="form-label">Select Platform</label>
+<select name="platform" class="form-select" required>
+<option value="">-- Select Platform --</option>
+<?php foreach ($platforms as $p): ?>
+<option value="<?= htmlspecialchars($p) ?>" <?= $p == $selected_platform ? 'selected' : '' ?>><?= htmlspecialchars($p) ?></option>
+<?php endforeach; ?>
+</select>
+</div>
+
+<div class="col-md-4">
+<label class="form-label">Select Category</label>
+<select name="category" class="form-select" required>
+<option value="">-- Select Category --</option>
+<?php foreach ($categories as $c): ?>
+<option value="<?= htmlspecialchars($c) ?>" <?= $c == $selected_category ? 'selected' : '' ?>><?= htmlspecialchars($c) ?></option>
+<?php endforeach; ?>
+</select>
+</div>
+
+<div class="col-md-4 d-flex align-items-end">
+<button type="submit" class="btn btn-primary w-100">Load Instruction</button>
+</div>
+</form>
+
+<?php if ($selected_platform && $selected_category): ?>
+<form method="post">
+<input type="hidden" name="platform" value="<?= htmlspecialchars($selected_platform) ?>">
+<input type="hidden" name="category" value="<?= htmlspecialchars($selected_category) ?>">
+
+<div class="mb-3">
+<label class="form-label">Instruction for <strong><?= htmlspecialchars($selected_platform) ?> / <?= htmlspecialchars($selected_category) ?></strong></label>
+<textarea name="instruction" class="form-control" placeholder="Enter detailed instructions here..."><?= htmlspecialchars($instruction) ?></textarea>
+</div>
+
+<div class="mb-3 text-end">
+<button type="submit" class="btn btn-success">💾 Save Instruction</button>
+<a href="instruction_editor.php" class="btn btn-secondary">Clear</a>
+</div>
+</form>
+
+<h5>📋 Preview:</h5>
+<div class="preview-box">
+<?= nl2br(htmlspecialchars($instruction)) ?: '<i>No instruction found for this category.</i>' ?>
+</div>
+<?php endif; ?>
+
+</div>
+</body>
+</html>

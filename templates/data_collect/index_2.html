@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera with GPS Overlay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #camera-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border: 2px solid #000;
+        }
+        #gps-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Camera with GPS Overlay</h1>
+
+    <div id="camera-container">
+        <video id="camera" autoplay playsinline></video>
+        <div id="gps-overlay">Fetching GPS...</div>
+    </div>
+
+    <button id="capture-btn">Start Camera with GPS</button>
+
+    <script>
+        const video = document.getElementById("camera");
+        const gpsOverlay = document.getElementById("gps-overlay");
+        const captureBtn = document.getElementById("capture-btn");
+
+        // Start Camera
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+
+                // Start fetching GPS data
+                getGPSLocation();
+            } catch (error) {
+                alert("Error accessing camera: " + error.message);
+            }
+        }
+
+        // Get GPS Location
+        function getGPSLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(
+                    (position) => {
+                        const { latitude, longitude, accuracy } = position.coords;
+                        gpsOverlay.innerText = `Lat: ${latitude.toFixed(6)}, Lon: ${longitude.toFixed(6)}, Accuracy: ${accuracy.toFixed(2)}m`;
+                    },
+                    (error) => {
+                        gpsOverlay.innerText = "Unable to fetch GPS location.";
+                        console.error("GPS Error:", error);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 0,
+                        timeout: 5000,
+                    }
+                );
+            } else {
+                gpsOverlay.innerText = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        // Button Click to Start Camera
+        captureBtn.addEventListener("click", () => {
+            startCamera();
+            captureBtn.style.display = "none"; // Hide button after starting
+        });
+    </script>
+</body>
+</html>

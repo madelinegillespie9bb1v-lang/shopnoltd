@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<li\n  aria-current={{this.ariaCurrent}}\n  title={{@title}}\n  class={{@class}}\n  ...attributes\n>\n  {{#if this.models}}\n    <LinkTo @route={{@route}} @models={{this.models}}>\n      {{yield}}\n    </LinkTo>\n  {{else}}\n    <LinkTo @route={{@route}}>\n      {{yield}}\n    </LinkTo>\n  {{/if}}\n</li>",{ moduleName: "discourse/components/d-navigation-item.hbs" })

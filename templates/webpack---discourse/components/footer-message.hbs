@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<h3>\n  {{this.message}}\n  {{yield}}\n</h3>\n{{#if this.education}}\n  <div class=\"education\">\n    {{html-safe this.education}}\n  </div>\n{{/if}}",{ moduleName: "discourse/components/footer-message.hbs" })

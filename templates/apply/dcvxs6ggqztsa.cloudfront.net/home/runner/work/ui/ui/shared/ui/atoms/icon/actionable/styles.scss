@@ -1,0 +1,9 @@
+.actionable-icon {
+  pointer-events: auto !important;
+  cursor: pointer;
+
+  &[aria-disabled='true'] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.canLoadMore}}\n  {{hide-application-footer}}\n{{/if}}\n\n<LoadMore @selector=\".user-stream-item\" @action={{action \"loadMore\"}}>\n  <div class=\"user-stream\">\n    {{#each this.model as |post|}}\n      <GroupPost @post={{post}} />\n    {{else}}\n      <div>{{i18n this.emptyText}}</div>\n    {{/each}}\n  </div>\n  <ConditionalLoadingSpinner @condition={{this.loading}} />\n</LoadMore>",{ moduleName: "discourse/templates/group-activity-posts.hbs" })

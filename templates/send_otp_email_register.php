@@ -1,0 +1,72 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
+// Admin check
+$admin = $_SESSION['user'] ?? null;
+if (!$admin || ($admin['user_role'] ?? '') !== 'admin') {
+    header('Location: /login.php');
+    exit;
+}
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../../phpmailer/src/Exception.php';
+require '../../phpmailer/src/PHPMailer.php';
+require '../../phpmailer/src/SMTP.php';
+
+if (!isset($_SESSION['email'])) {
+    echo "<script>alert('Please register first.'); window.location.href='register.php';</script>";
+    exit;
+}
+
+$email = $_SESSION['email'];
+
+// Rate limit (5 per session)
+if (!isset($_SESSION['otp_email_requests'])) $_SESSION['otp_email_requests'] = 0;
+if ($_SESSION['otp_email_requests'] >= 5) {
+    echo "<script>alert('OTP request limit reached. Try later.'); window.location.href='register.php';</script>";
+    exit;
+}
+
+// Fetch user
+$stmt = $pdo->prepare("SELECT id, username FROM users WHERE email = ? AND status='pending' LIMIT 1");
+$stmt->execute([$email]);
+$user = $stmt->fetch();
+if (!$user) {
+    echo "<script>alert('User not found or already active.'); window.location.href='register.php';</script>";
+    exit;
+}
+
+// Generate OTP
+$otp = random_int(100000, 999999);
+$otp_time = date('Y-m-d H:i:s');
+$pdo->prepare("UPDATE users SET otp=?, otp_time=? WHERE id=?")->execute([$otp, $otp_time, $user['id']]);
+
+// PHPMailer
+$mail = new PHPMailer(true);
+try {
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'asaduzzaman.bheramara@gmail.com'; // your Gmail
+    $mail->Password = 'qcty jiqw yjul akcz';               // app password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    $mail->setFrom('no-reply@shopnoltd.kesug.com', 'Shopnoltd');
+    $mail->addAddress($email, $user['username']);
+
+    $mail->isHTML(true);
+    $mail->Subject = 'Your OTP Code - Shopnoltd';
+    $mail->Body = "<h2>Shopnoltd Account Verification</h2>
+                   <p>Your OTP is: <b>$otp</b></p>
+                   <p>Valid for 5 minutes.</p>";
+
+    $mail->send();
+
+    $_SESSION['otp_email_requests']++;
+    echo "<script>alert('OTP sent to your email.'); window.location.href='verify_otp.php';</script>";
+} catch (Exception $e) {
+    echo "<script>alert('Failed to send OTP. Try again later.'); window.location.href='register.php';</script>";
+}

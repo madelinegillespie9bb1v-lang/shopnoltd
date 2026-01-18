@@ -1,0 +1,158 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_common_rates.php';
+
+// ✅ Check login
+$user = $_SESSION['user'] ?? null;
+if (!$user) {
+    header('Location: /login.php');
+    exit;
+}
+
+$user_id   = $user['id'];
+$user_role = $user['user_role'] ?? 'user';
+$username  = $user['username'] ?? '';
+
+// ✅ Determine back button URL
+$back_url = ($user_role === 'admin') ? '/admindashboard.php' : '/dashboard.php';
+
+// ✅ Fetch jobs list
+if ($user_role === 'admin') {
+    // Admin sees all jobs they posted, any status
+    $stmt = $pdo->prepare("
+        SELECT j.*, u.username AS poster_username 
+        FROM jobs j 
+        JOIN users u ON j.poster_id = u.id 
+        WHERE j.poster_id = ?
+        ORDER BY j.id DESC
+    ");
+    $stmt->execute([$user_id]);
+} else {
+    // Normal user sees only their jobs excluding completed/closed/rejected
+    $stmt = $pdo->prepare("
+        SELECT j.*, u.username AS poster_username 
+        FROM jobs j 
+        JOIN users u ON j.poster_id = u.id 
+        WHERE j.poster_id = ?
+        AND j.status NOT IN ('completed','closed','rejected')
+        ORDER BY j.id DESC
+    ");
+    $stmt->execute([$user_id]);
+}
+
+$jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// ✅ Calculate summary counts
+$total_jobs = count($jobs);
+$approved_tasks = array_sum(array_column($jobs, 'approved_tasks'));
+$pending_tasks  = array_sum(array_column($jobs, 'pending_tasks'));
+$remaining_tasks = array_sum(array_column($jobs, 'remaining_tasks'));
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tasks List</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body { background:#f8f9fa; }
+.table thead { background:#0d6efd; color:white; }
+.instructions-box { background:#fffbea; border-left:5px solid #f0ad4e; padding:8px 12px; border-radius:6px; }
+.summary-box { background:#e9ecef; padding:12px 16px; border-radius:8px; margin-bottom:15px; }
+</style>
+</head>
+<body>
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>📋 <?= ($user_role === 'admin') ? 'All My Posted Tasks' : 'My Posted Tasks' ?></h3>
+        <a href="<?= $back_url ?>" class="btn btn-secondary">⬅ Back</a>
+    </div>
+
+    <!-- ✅ Summary -->
+    <div class="summary-box">
+        <strong>Total Jobs:</strong> <?= $total_jobs ?> &nbsp;|&nbsp;
+        <strong>Approved:</strong> <?= $approved_tasks ?> &nbsp;|&nbsp;
+        <strong>Pending:</strong> <?= $pending_tasks ?> &nbsp;|&nbsp;
+        <strong>Remaining:</strong> <?= $remaining_tasks ?>
+    </div>
+
+    <?php if (empty($jobs)): ?>
+        <div class="alert alert-info">No tasks found.</div>
+    <?php else: ?>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Poster</th>
+                    <th>Platform</th>
+                    <th>Task Type</th>
+                    <th>Instructions</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                    <th>Rate ($)</th>
+                    <th>Total Tasks</th>
+                    <th>Approved</th>
+                    <th>Pending</th>
+                    <th>Remaining</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($jobs as $job): 
+                $instructions = $job['instruction'] ?: getTaskInstruction($job['platform'], $job['task_type']);
+                $link = htmlspecialchars($job['link']);
+            ?>
+                <tr>
+                    <td><?= $job['id'] ?></td>
+                    <td><?= htmlspecialchars($job['poster_username']) ?></td>
+                    <td><?= htmlspecialchars($job['platform']) ?></td>
+                    <td><?= htmlspecialchars($job['task_type']) ?></td>
+                    <td><div class="instructions-box"><?= nl2br(htmlspecialchars($instructions)) ?></div></td>
+                    <td><?= htmlspecialchars($job['title'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($job['description'] ?? '-') ?></td>
+                    <td>
+                        <a href="<?= $link ?>" target="_blank" class="btn btn-sm btn-outline-primary">Open</a>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="copyLink('<?= $link ?>')">Copy</button>
+                    </td>
+                    <td><?= number_format($job['per_task_rate'], 4) ?></td>
+                    <td><?= intval($job['total_tasks']) ?></td>
+                    <td><?= intval($job['approved_tasks']) ?></td>
+                    <td><?= intval($job['pending_tasks']) ?></td>
+                    <td><?= intval($job['remaining_tasks']) ?></td>
+                    <td>
+                        <?php
+                            $status = strtolower($job['status']);
+                            if ($status === 'open') echo '<span class="badge bg-success">Open</span>';
+                            elseif ($status === 'pending_approval') echo '<span class="badge bg-warning text-dark">Pending Approval</span>';
+                            elseif ($status === 'completed') echo '<span class="badge bg-secondary">Completed</span>';
+                            elseif ($status === 'closed') echo '<span class="badge bg-secondary">Closed</span>';
+                            elseif ($status === 'rejected') echo '<span class="badge bg-danger">Rejected</span>';
+                            else echo '<span class="badge bg-info">'.htmlspecialchars($job['status']).'</span>';
+                        ?>
+                    </td>
+                    <td><?= htmlspecialchars($job['created_at']) ?></td>
+                    <td><?= htmlspecialchars($job['updated_at']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php endif; ?>
+</div>
+
+<script>
+function copyLink(link){
+    navigator.clipboard.writeText(link).then(()=>{
+        alert('✅ Link copied to clipboard!');
+    }).catch(()=>{
+        alert('❌ Failed to copy link.');
+    });
+}
+</script>
+</body>
+</html>

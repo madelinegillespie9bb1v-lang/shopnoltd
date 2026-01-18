@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<SignupProgressBar @step=\"activate\" />\n<WelcomeHeader @header={{this.welcomeTitle}} />\n<div class=\"success-info\">\n  {{html-safe this.accountCreated.message}}\n</div>\n{{#if this.accountCreated.show_controls}}\n  <ActivationControls\n    @sendActivationEmail={{action \"sendActivationEmail\"}}\n    @editActivationEmail={{action \"editActivationEmail\"}}\n  />\n{{/if}}",{ moduleName: "discourse/templates/account-created/index.hbs" })

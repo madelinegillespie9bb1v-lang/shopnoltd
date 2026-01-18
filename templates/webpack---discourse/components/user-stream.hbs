@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#each @stream.content as |item|}}\n  <UserStreamItem\n    @item={{item}}\n    @removeBookmark={{action \"removeBookmark\"}}\n    @resumeDraft={{action \"resumeDraft\"}}\n    @removeDraft={{action \"removeDraft\"}}\n  />\n{{/each}}",{ moduleName: "discourse/components/user-stream.hbs" })

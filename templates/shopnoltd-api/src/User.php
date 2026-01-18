@@ -1,0 +1,72 @@
+<?php
+require_once '../config/database.php';
+require_once 'ApiResponse.php';
+
+class User {
+    private $conn;
+
+    public function __construct() {
+        $database = new Database();
+        $this->conn = $database->connect();
+    }
+
+    public function getAllUsers() {
+        $query = 'SELECT * FROM users';
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return ApiResponse::success('Users retrieved successfully', $users);
+    }
+
+    public function getUserById($id) {
+        $query = 'SELECT * FROM users WHERE id = :id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            return ApiResponse::success('User retrieved successfully', $user);
+        }
+        return ApiResponse::error('User not found', 404);
+    }
+
+    public function createUser($data) {
+        $query = 'INSERT INTO users (name, email, phone) VALUES (:name, :email, :phone)';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $data['name']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':phone', $data['phone']);
+
+        if ($stmt->execute()) {
+            return ApiResponse::success('User created successfully');
+        }
+        return ApiResponse::error('Failed to create user');
+    }
+
+    public function updateUser($id, $data) {
+        $query = 'UPDATE users SET name = :name, email = :email, phone = :phone WHERE id = :id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $data['name']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':phone', $data['phone']);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return ApiResponse::success('User updated successfully');
+        }
+        return ApiResponse::error('Failed to update user');
+    }
+
+    public function deleteUser($id) {
+        $query = 'DELETE FROM users WHERE id = :id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return ApiResponse::success('User deleted successfully');
+        }
+        return ApiResponse::error('Failed to delete user');
+    }
+}

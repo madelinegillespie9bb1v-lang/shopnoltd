@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.canRender}}\n  {{yield this.info}}\n{{/if}}",{ moduleName: "discourse/components/topic-navigation.hbs" })

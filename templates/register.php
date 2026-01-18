@@ -1,0 +1,49 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_common_rates.php';
+// Admin check
+$admin = $_SESSION['user'] ?? null;
+if (!$admin || ($admin['user_role'] ?? '') !== 'admin') {
+    header('Location: /login.php');
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
+    $phone_code = trim($_POST['phone_code'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    // Simple validation
+    if (!$username || !$email || !$phone || !$password || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Please fill all fields correctly.'); history.back();</script>";
+        exit;
+    }
+
+    // Check if user already exists
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ? LIMIT 1");
+    $stmt->execute([$email, $username]);
+    if ($stmt->fetch()) {
+        echo "<script>alert('User with this email or username already exists.'); history.back();</script>";
+        exit;
+    }
+
+    // Hash password
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
+
+    // Insert new user with status 'pending'
+    $stmt = $pdo->prepare("INSERT INTO users 
+        (username, email, phone_code, phone, password, status, created_at) 
+        VALUES (?, ?, ?, ?, ?, 'pending', NOW())");
+    $stmt->execute([$username, $email, $phone_code, $phone, $password_hash]);
+
+    // Store email in session to use in OTP
+    $_SESSION['email'] = $email;
+
+    // Redirect to send OTP
+    echo "<script>window.location.href='send_otp_email_register.php';</script>";
+    exit;
+}
+?>

@@ -1,0 +1,49 @@
+$primary: #3f3e3e !default; $secondary: #ffffff !default; $tertiary: #2095f3 !default; $quaternary: #2095f3 !default; $header_background: #414453 !default; $header_primary: #ffffff !default; $highlight: #2196f3 !default; $danger: #bf3c3c !default; $success: #97de86 !default; $love: #fc94cb !default; $hover: #f4f3f3 !default; $selected: #ececec !default;  $public_image_path: "https://community.kobotoolbox.org/images";  @import "common/foundation/variables"; @import "common/foundation/mixins"; .discourse-local-date {
+  svg,
+  span {
+    pointer-events: none;
+  }
+
+  &.cooked-date {
+    color: var(--primary);
+    cursor: pointer;
+    border-bottom: 1px dashed var(--primary-medium);
+
+    .d-icon {
+      color: var(--primary);
+    }
+
+    &.past {
+      border-bottom-color: var(--primary-low-mid);
+    }
+
+    &.past[data-countdown] {
+      color: var(--primary-medium);
+    }
+  }
+}
+
+.locale-dates-previews {
+  max-width: 250px;
+
+  .preview {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 0;
+
+    .timezone {
+      font-weight: 700;
+    }
+
+    &.current {
+      background: var(--tertiary-low);
+    }
+  }
+}
+
+.download-calendar {
+  text-align: right;
+  cursor: pointer;
+  margin-top: 0.5em;
+}

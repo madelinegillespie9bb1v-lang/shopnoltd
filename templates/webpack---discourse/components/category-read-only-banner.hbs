@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.shouldShow}}\n  <div class=\"row\">\n    <div class=\"alert alert-info category-read-only-banner\">\n      {{html-safe this.category.read_only_banner}}\n    </div>\n  </div>\n{{/if}}",{ moduleName: "discourse/components/category-read-only-banner.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<EmailGroupUserChooser\n  @id=\"private-message-users\"\n  @value={{this.splitRecipients}}\n  @onChange={{action \"updateRecipients\"}}\n  @options={{hash\n    topicId=this.topicId\n    none=\"composer.users_placeholder\"\n    includeMessageableGroups=true\n    allowEmails=this.currentUser.can_send_private_email_messages\n    autoWrap=true\n  }}\n/>",{ moduleName: "discourse/components/composer-user-selector.hbs" })

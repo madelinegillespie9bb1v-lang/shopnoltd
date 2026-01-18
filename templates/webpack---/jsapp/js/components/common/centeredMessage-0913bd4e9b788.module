@@ -1,0 +1,12 @@
+// Imports
+import ___CSS_LOADER_API_SOURCEMAP_IMPORT___ from "../../../../node_modules/css-loader/dist/runtime/sourceMaps.js";
+import ___CSS_LOADER_API_IMPORT___ from "../../../../node_modules/css-loader/dist/runtime/api.js";
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_SOURCEMAP_IMPORT___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".centeredMessage-module__centeredMessage--hkcAf{display:table;vertical-align:middle;height:100%;width:100%;font-size:18px;margin:0}.centeredMessage-module__centeredMessageInner--PBUvK{display:table-cell;vertical-align:middle;text-align:center;padding-left:20px;padding-right:20px}", "",{"version":3,"sources":["webpack://./jsapp/js/components/common/centeredMessage.module.scss"],"names":[],"mappings":"AAAA,gDACE,aAAA,CACA,qBAAA,CACA,WAAA,CACA,UAAA,CACA,cAAA,CACA,QAAA,CAGF,qDACE,kBAAA,CACA,qBAAA,CACA,iBAAA,CACA,iBAAA,CACA,kBAAA","sourcesContent":[".centeredMessage {\n  display: table;\n  vertical-align: middle;\n  height: 100%;\n  width: 100%;\n  font-size: 18px;\n  margin: 0;\n}\n\n.centeredMessageInner {\n  display: table-cell;\n  vertical-align: middle;\n  text-align: center;\n  padding-left: 20px;\n  padding-right: 20px;\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"centeredMessage": "centeredMessage-module__centeredMessage--hkcAf",
+	"centeredMessageInner": "centeredMessage-module__centeredMessageInner--PBUvK"
+};
+export default ___CSS_LOADER_EXPORT___;
