@@ -24,7 +24,7 @@ import com.kesug.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val startUrl = "https://shopnoltd-dashboard.onrender.com/login.php"
+    private val startUrl = "https://shopnoltd-dashboard.onrender.com/login.html"
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
     private var webView: WebView? = null
 
