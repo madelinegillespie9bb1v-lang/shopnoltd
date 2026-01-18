@@ -19,8 +19,9 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL is missing")
 
-# Replace old postgres:// prefix if necessary
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace("postgres://", "postgresql://")
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace(
+    "postgres://", "postgresql://"
+)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -54,7 +55,7 @@ HEADERS = {"Authorization": f"Token {API_TOKEN}"}
 KOBO_API_URL = f"https://kf.kobotoolbox.org/api/v2/assets/{ASSET_UID}/data/"
 
 CACHE = {"data": [], "timestamp": 0}
-CACHE_DURATION = 300  # 5 minutes
+CACHE_DURATION = 300
 
 # ==============================
 # LOGIN REQUIRED DECORATOR
@@ -71,7 +72,7 @@ def login_required(f):
 # ROUTES
 # ==============================
 
-# Home page
+# ---------- HOME ----------
 @app.route("/")
 def index_page():
     return render_template("index.html")
@@ -80,32 +81,37 @@ def index_page():
 @app.route("/login", methods=["GET", "POST"])
 def login_page():
     if request.method == "POST":
-        user = User.query.filter_by(username=request.form["username"]).first()
-        if user and user.check_password(request.form["password"]):
+        user = User.query.filter_by(
+            username=request.form.get("username")
+        ).first()
+
+        if user and user.check_password(request.form.get("password")):
             session["user_id"] = user.id
             session["is_admin"] = user.is_admin
             return redirect(url_for("dashboard_page"))
+
         return render_template("login.html", error="Invalid username or password")
+
     return render_template("login.html")
 
-# ---------- SIGN-UP PAGE ----------
+# ---------- SIGN UP (PAGE) ----------
 @app.route("/sign-up")
 def sign_up_page():
-    return render_template("sign-up/index.html")
+    return render_template("sign-up/sign-up_1.html")
 
-# ---------- SIGN-UP SUBMISSION ----------
-@app.route("/accounts/signup/index", methods=["GET", "POST"])
-def signup_page():
-    if request.method == "POST":
-        user = User(
-            username=request.form["username"],
-            email=request.form["email"]
-        )
-        user.set_password(request.form["password"])
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("login_page"))
-    return render_template("accounts/signup/index.html")
+# ---------- SIGN UP (FORM SUBMIT) ----------
+@app.route("/accounts/signup", methods=["POST"])
+def signup_submit():
+    user = User(
+        username=request.form["username"],
+        email=request.form["email"],
+    )
+    user.set_password(request.form["password"])
+
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect(url_for("login_page"))
 
 # ---------- LOGOUT ----------
 @app.route("/logout")
@@ -117,15 +123,16 @@ def logout_page():
 @app.route("/dashboard")
 @login_required
 def dashboard_page():
-    current_time = time.time()
-    if current_time - CACHE["timestamp"] > CACHE_DURATION:
+    now = time.time()
+
+    if now - CACHE["timestamp"] > CACHE_DURATION:
         try:
-            response = requests.get(KOBO_API_URL, headers=HEADERS, timeout=20)
-            response.raise_for_status()
-            CACHE["data"] = response.json().get("results", [])
-            CACHE["timestamp"] = current_time
+            r = requests.get(KOBO_API_URL, headers=HEADERS, timeout=20)
+            r.raise_for_status()
+            CACHE["data"] = r.json().get("results", [])
+            CACHE["timestamp"] = now
         except requests.RequestException as e:
-            return f"<h2>Error fetching Kobo data: {e}</h2>"
+            return f"<h2>Kobo Error: {e}</h2>"
 
     data = CACHE["data"]
     if not data:
@@ -140,7 +147,7 @@ def dashboard_page():
         "dashboard.html",
         data=data[start:end],
         page=page,
-        total_pages=(len(data) - 1) // per_page + 1
+        total_pages=(len(data) - 1) // per_page + 1,
     )
 
 # ---------- PROFILE ----------
@@ -151,13 +158,13 @@ def profile_page():
     return render_template("accounts/profile.html", user=user)
 
 # ==============================
-# CREATE DATABASE TABLES
+# DB INIT
 # ==============================
 with app.app_context():
     db.create_all()
 
 # ==============================
-# RUN APP (RENDER COMPATIBLE)
+# RUN (RENDER)
 # ==============================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
