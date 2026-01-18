@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<ComposerTipCloseButton @action={{fn this.closeMessage this.message}} />\n\n{{#if this.message.title}}\n  <h3>{{this.message.title}}</h3>\n{{/if}}\n\n{{html-safe this.message.body}}",{ moduleName: "discourse/templates/composer/education.hbs" })

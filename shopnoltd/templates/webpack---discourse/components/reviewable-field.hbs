@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.value}}\n  <div class={{this.classes}}>\n    <div class=\"name\">{{this.name}}</div>\n    <div class=\"value\">{{this.value}}</div>\n  </div>\n{{/if}}",{ moduleName: "discourse/components/reviewable-field.hbs" })

@@ -1,0 +1,52 @@
+@import '../../css/mixins/keyframes.scss';
+
+@include keyframes(stroke-line-fill) {
+  0% {
+    stroke-dashoffset: 100%
+  }
+
+  100% {
+    stroke-dashoffset: 0%
+  }
+}
+
+@include keyframes(stroke-circle-fill) {
+  // Assuming a circle fills the width of the parent element so radius (r) is half of its width which is 100% / 2
+  0% {
+    stroke-dashoffset: calc((100% / 2) * 3.14 * 2) // C = 2 * pi * r
+  }
+
+  100% {
+    stroke-dashoffset: calc((100% / 2) * 3.14 * 4) // 2 * C
+  }
+}
+
+@include keyframes(color-fill) {
+  0% {
+    opacity:0
+  }
+
+  100% {
+    opacity:100
+  }
+}
+
+.animated {
+  .line-stroke {
+    animation: stroke-line-fill 0.5s ease-in-out 0.75s backwards;
+  }
+
+  .circle-stroke {
+    animation: stroke-circle-fill 0.5s ease-in-out backwards;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .fill {
+    animation: color-fill 0.5s ease-in-out 0.6s backwards;
+  }
+
+  .delayed-fill {
+    animation: color-fill 0.5s ease-in-out 0.8s backwards;
+  }
+}

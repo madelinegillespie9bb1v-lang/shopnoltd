@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.hasEdits}}\n  <a\n    href\n    {{on \"click\" this.showEditHistory}}\n    class=\"has-edits {{this.historyClass}}\"\n    title={{i18n \"post.last_edited_on\" dateTime=this.editedDate}}\n  >\n    {{d-icon \"pencil\"}}\n  </a>\n{{/if}}",{ moduleName: "discourse/components/reviewable-post-edits.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<a href={{this.member.adminPath}}>\n  {{avatar this.member imageSize=\"small\"}}\n</a>\n<span>{{this.member.username}}</span>\n{{#unless this.automatic}}\n  <a href {{on \"click\" this.remove}} class=\"remove\">\n    {{d-icon \"xmark\"}}\n  </a>\n{{/unless}}",{ moduleName: "discourse/components/group-member.hbs" })

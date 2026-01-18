@@ -1,0 +1,11 @@
+// Imports
+import ___CSS_LOADER_API_SOURCEMAP_IMPORT___ from "../../../../../node_modules/css-loader/dist/runtime/sourceMaps.js";
+import ___CSS_LOADER_API_IMPORT___ from "../../../../../node_modules/css-loader/dist/runtime/api.js";
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_SOURCEMAP_IMPORT___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".analysisContent-module__root--YFdIn{padding:20px 0}", "",{"version":3,"sources":["webpack://./jsapp/js/components/processing/analysis/analysisContent.module.scss"],"names":[],"mappings":"AAEA,qCACE,cAAA","sourcesContent":["@use './analysisVariables';\n\n.root {\n  padding: analysisVariables.$rows-gap 0;\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"root": "analysisContent-module__root--YFdIn"
+};
+export default ___CSS_LOADER_EXPORT___;

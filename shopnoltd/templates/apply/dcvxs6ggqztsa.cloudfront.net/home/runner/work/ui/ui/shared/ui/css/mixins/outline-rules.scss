@@ -1,0 +1,11 @@
+@mixin outline-rules {
+  -webkit-tap-highlight-color: transparent;
+
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: 0 0 0 2px themed(color-outline) !important;
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}

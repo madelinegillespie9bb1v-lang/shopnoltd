@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.site.mobileView}}\n  {{#if this.selectedHtml}}\n    <li>\n      <a href {{on \"click\" this.toggleExpanded}} class=\"expander\">\n        <span class=\"selection\">{{html-safe this.selectedHtml}}</span>\n        {{d-icon \"caret-down\"}}\n      </a>\n    </li>\n  {{/if}}\n  <ul class=\"drop {{if this.expanded \'expanded\'}}\">\n    {{yield}}\n  </ul>\n{{else}}\n  {{yield}}\n{{/if}}",{ moduleName: "discourse/components/mobile-nav.hbs" })

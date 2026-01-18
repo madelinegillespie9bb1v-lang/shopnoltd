@@ -1,0 +1,24 @@
+$primary: #3f3e3e !default; $secondary: #ffffff !default; $tertiary: #2095f3 !default; $quaternary: #2095f3 !default; $header_background: #414453 !default; $header_primary: #ffffff !default; $highlight: #2196f3 !default; $danger: #bf3c3c !default; $success: #97de86 !default; $love: #fc94cb !default; $hover: #f4f3f3 !default; $selected: #ececec !default;  $public_image_path: "https://community.kobotoolbox.org/images";  @import "common/foundation/variables"; @import "common/foundation/mixins"; .poll-ui-builder.modal {
+  .poll-number {
+    margin-right: 10px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+  }
+  .column {
+    display: inline-block;
+    width: calc(50% - 10px);
+  }
+
+  .d-editor-preview {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid var(--primary-low);
+  }
+}

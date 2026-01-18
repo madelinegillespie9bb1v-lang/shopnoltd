@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.tags}}\n  <div class=\"list-tags\">\n    {{#each this.tags as |t|}}{{discourse-tag t}}{{/each}}\n  </div>\n{{/if}}",{ moduleName: "discourse/components/reviewable-tags.hbs" })

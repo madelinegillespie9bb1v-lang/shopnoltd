@@ -1,0 +1,22 @@
+/* Color flavors */
+$color-map: (
+  success: success,
+  caution: caution,
+  danger: danger,
+  primary: 'font-primary',
+  secondary: 'font-secondary'
+);
+
+@mixin flavored-class-properties($properties) {
+  @each $class, $color in $color-map {
+    @include class-themed-properties($properties, $class, $color);
+  }
+}
+
+@mixin class-themed-properties($properties, $class, $color, $theme-prefix: color) {
+  .#{$class} {
+    @each $property in $properties {
+      #{$property}: themed(#{$theme-prefix}-#{$color});
+    }
+  }
+}

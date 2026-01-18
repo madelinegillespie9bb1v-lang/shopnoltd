@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<label\n  class=\"btn btn-small btn-primary admin-backups-upload\"\n  disabled={{this.uploading}}\n  title={{i18n \"admin.backups.upload.title\"}}\n  ...attributes\n>\n  {{this.uploadButtonText}}\n  <input\n    class=\"hidden-upload-field\"\n    disabled={{this.uploading}}\n    type=\"file\"\n    accept=\".gz\"\n  />\n</label>",{ moduleName: "discourse/components/uppy-backup-uploader.hbs" })

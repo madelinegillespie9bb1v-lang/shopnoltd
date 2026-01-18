@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{yield\n  (hash\n    data=this.data\n    uploading=this.uploading\n    uploadProgress=this.uploadProgress\n    uploaded=this.uploaded\n    submitDisabled=this.submitDisabled\n    startUpload=this.startUpload\n  )\n  this.uppyUpload.setup\n}}",{ moduleName: "discourse/components/create-invite-uploader.hbs" })

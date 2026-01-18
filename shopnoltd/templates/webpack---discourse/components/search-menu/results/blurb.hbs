@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<span class=\"blurb\">\n  {{format-age @result.created_at}}\n  <span class=\"blurb__separator\"> - </span>\n  {{#if this.siteSettings.use_pg_headlines_for_excerpt}}\n    <span>{{html-safe @result.blurb}}</span>\n  {{else}}\n    <span class=\"blurb__text\">\n      <SearchMenu::HighlightedSearch @string={{@result.blurb}} />\n    </span>\n  {{/if}}\n</span>",{ moduleName: "discourse/components/search-menu/results/blurb.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<span class=\"topic-info\">\n  {{format-date @createdAt format=\"tiny\" noTitle=\"true\"}}\n  {{#if @likes}}\n    &middot;\n    {{d-icon \"heart\"}}&nbsp;<span class=\"like-count\">{{number @likes}}</span>\n  {{/if}}\n</span>\n<br />\n<a href={{@url}}>{{html-safe @topic.fancyTitle}}</a>",{ moduleName: "discourse/components/user-summary-topic.hbs" })

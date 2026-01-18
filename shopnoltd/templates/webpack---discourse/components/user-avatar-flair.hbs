@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.flair}}\n  <AvatarFlair\n    @flairName={{this.flair.flairName}}\n    @flairUrl={{this.flair.flairUrl}}\n    @flairBgColor={{this.flair.flairBgColor}}\n    @flairColor={{this.flair.flairColor}}\n  />\n{{/if}}",{ moduleName: "discourse/components/user-avatar-flair.hbs" })

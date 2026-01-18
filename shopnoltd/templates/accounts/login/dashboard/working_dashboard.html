@@ -1,0 +1,113 @@
+<?php
+// ===============================
+// ✅ dashboard/index.html
+// ===============================
+
+// Enable error reporting temporarily for debugging (remove in production)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Start session
+session_start();
+
+// ✅ Adjust path to your config.html
+require_once __DIR__ . '/../../../config.html';
+
+// ✅ Check if user is logged in
+if (!isset($_SESSION['user'])) {
+    header('Location: ../../index.html'); // Redirect to login
+    exit;
+}
+
+// Get user session data
+$user = $_SESSION['user'];
+
+// ===============================
+// ✅ Fetch latest balances safely
+// ===============================
+try {
+    $stmt = $pdo->prepare("SELECT balance, balance_frozen, balance_fine FROM users WHERE id = :id LIMIT 1");
+    $stmt->execute([':id' => $user['id']]);
+    $bal = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $user['balance'] = isset($bal['balance']) ? $bal['balance'] : 0.0;
+    $user['balance_frozen'] = isset($bal['balance_frozen']) ? $bal['balance_frozen'] : 0.0;
+    $user['balance_fine'] = isset($bal['balance_fine']) ? $bal['balance_fine'] : 0.0;
+
+} catch (Exception $e) {
+    // If DB fails, just set balances to 0
+    $user['balance'] = $user['balance_frozen'] = $user['balance_fine'] = 0.0;
+}
+
+// Update session
+$_SESSION['user'] = $user;
+
+// ===============================
+// ✅ Fetch latest news safely
+// ===============================
+$news_list = [];
+try {
+    $stmt = $pdo->query("SELECT title, message, created_at FROM news ORDER BY created_at DESC LIMIT 5");
+    $news_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    $news_list = [];
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Shopnoltd Toolbox</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+.container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+h1, h3 { margin-top: 0; }
+ul { list-style: none; padding-left: 0; }
+ul li { margin-bottom: 5px; }
+a { text-decoration: none; color: #007bff; }
+a:hover { text-decoration: underline; }
+.nav-links { margin: 15px 0; }
+.nav-links a { margin-right: 15px; }
+.news li { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Welcome, <?php echo htmlspecialchars($user['username']); ?> 🎉</h1>
+
+<h3>Balances</h3>
+<ul>
+    <li>Total Balance: $<?php echo number_format($user['balance'], 5); ?></li>
+    <li>Frozen: $<?php echo number_format($user['balance_frozen'], 5); ?></li>
+    <li>Fine (deducted): $<?php echo number_format($user['balance_fine'], 5); ?></li>
+</ul>
+
+<div class="nav-links">
+    <a href="add_task.html">Post Job</a>
+    <a href="tasks.html">Job Post List</a>
+    <a href="job_work.html">Do Job (Start Work)</a>
+    <a href="job_work_list.html">My Work List</a>
+    <a href="referrals.html">Referrals</a>
+    <a href="../../logout.html" style="color:red;">Logout</a>
+</div>
+
+<h3>Latest News</h3>
+<ul class="news">
+<?php
+if (!empty($news_list)) {
+    foreach ($news_list as $n) {
+        echo '<li><strong>'.htmlspecialchars($n['title']).'</strong> - '.htmlspecialchars($n['message']).' <em>('.htmlspecialchars($n['created_at']).')</em></li>';
+    }
+} else {
+    echo '<li>No news available at the moment.</li>';
+}
+?>
+</ul>
+
+</div>
+</body>
+</html>

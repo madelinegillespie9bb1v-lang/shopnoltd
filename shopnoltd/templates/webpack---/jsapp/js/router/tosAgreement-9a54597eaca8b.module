@@ -1,0 +1,11 @@
+// Imports
+import ___CSS_LOADER_API_SOURCEMAP_IMPORT___ from "../../../node_modules/css-loader/dist/runtime/sourceMaps.js";
+import ___CSS_LOADER_API_IMPORT___ from "../../../node_modules/css-loader/dist/runtime/api.js";
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_SOURCEMAP_IMPORT___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".tosAgreement-module__root--Md0ZG{padding:60px 20px;width:100%;height:100%;overflow-y:auto}", "",{"version":3,"sources":["webpack://./jsapp/js/router/tosAgreement.module.scss"],"names":[],"mappings":"AAEA,kCACE,iBAAA,CACA,UAAA,CACA,WAAA,CACA,eAAA","sourcesContent":["@use 'scss/sizes';\n\n.root {\n  padding: sizes.$x60 sizes.$x20;\n  width: 100%;\n  height: 100%;\n  overflow-y: auto;\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"root": "tosAgreement-module__root--Md0ZG"
+};
+export default ___CSS_LOADER_EXPORT___;

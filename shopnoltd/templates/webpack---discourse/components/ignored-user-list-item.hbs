@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"ignored-user-list-item\">\n  <span class=\"ignored-user-name\">{{this.item}}</span>\n  <DButton\n    @action={{fn (action \"removeIgnoredUser\") this.item}}\n    @icon=\"xmark\"\n    class=\"remove-ignored-user no-text btn-icon\"\n  />\n</div>",{ moduleName: "discourse/components/ignored-user-list-item.hbs" })

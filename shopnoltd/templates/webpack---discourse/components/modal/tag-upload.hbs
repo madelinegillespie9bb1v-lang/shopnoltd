@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal @title={{i18n \"tagging.upload\"}} @closeModal={{@closeModal}}>\n  <:body>\n    <TagsUploader\n      @refresh={{route-action \"triggerRefresh\"}}\n      @closeModal={{@closeModal}}\n      @id=\"tags-uploader\"\n    />\n  </:body>\n</DModal>",{ moduleName: "discourse/components/modal/tag-upload.hbs" })

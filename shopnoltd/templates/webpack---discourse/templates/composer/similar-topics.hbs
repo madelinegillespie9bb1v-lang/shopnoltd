@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<ComposerTipCloseButton @action={{fn this.closeMessage this.message}} />\n\n<h3>{{i18n \"composer.similar_topics\"}}</h3>\n\n<ul class=\"topics\">\n  {{#each this.message.similarTopics as |topic|}}\n    <div class=\"similar-topic\">\n      <SearchMenu::Results::Type::Topic\n        @result={{topic}}\n        @withTopicUrl={{true}}\n      />\n    </div>\n  {{/each}}\n</ul>",{ moduleName: "discourse/templates/composer/similar-topics.hbs" })

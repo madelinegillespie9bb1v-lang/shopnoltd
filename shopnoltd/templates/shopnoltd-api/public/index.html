@@ -1,0 +1,50 @@
+file_put_contents('debug.log', "Request URI: $requestUri\nResource: $resource\nID: $id\n", FILE_APPEND);
+
+<?php
+require_once '../config/database.html';
+require_once '../src/ApiResponse.html';
+require_once '../src/User.html';
+
+// Set headers
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json; charset=UTF-8');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+// Get the request method
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Get the request URI and trim the base path
+$basePath = '/shopnoltd-api/public/';
+$requestUri = str_replace($basePath, '', $_SERVER['REQUEST_URI']);
+$requestParts = explode('/', trim($requestUri, '/'));
+
+$resource = $requestParts[0] ?? null;
+$id = $requestParts[1] ?? null;
+
+if ($resource === 'user') {
+    $user = new User();
+
+    if ($method === 'GET') {
+        if ($id) {
+            $response = $user->getUserById($id);
+        } else {
+            $response = $user->getAllUsers();
+        }
+    } elseif ($method === 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $response = $user->createUser($data);
+    } elseif ($method === 'PUT' && $id) {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $response = $user->updateUser($id, $data);
+    } elseif ($method === 'DELETE' && $id) {
+        $response = $user->deleteUser($id);
+    } else {
+        $response = ApiResponse::error('Invalid request method', 405);
+    }
+
+    echo json_encode($response);
+    exit;
+}
+
+echo json_encode(ApiResponse::error('Resource not found', 404));

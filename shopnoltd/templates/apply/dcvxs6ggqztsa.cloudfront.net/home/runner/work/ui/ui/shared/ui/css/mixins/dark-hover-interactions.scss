@@ -1,0 +1,32 @@
+@mixin dark-hover-interactions($color-name, $affected-rules, $starting-darken-percentage: 5) {
+  $transition-props: ();
+
+  @each $rule in $affected-rules {
+    $transition-props: append($transition-props, $rule 0.2s ease, comma);
+
+    & {
+      #{$rule}: var(--#{$color-name}, themed($color-name, false));
+    }
+
+    &:focus-visible,
+    &:hover {
+      #{$rule}: darken-themed($color-name, $starting-darken-percentage);
+    }
+
+    &:active {
+      #{$rule}: darken-themed($color-name, $starting-darken-percentage + 5);
+    }
+
+    &a:not([href]),
+    &[aria-disabled*='true'],
+    &:disabled {
+      &:focus-visible,
+      &:hover,
+      &:active {
+        #{$rule}: var(--#{$color-name}, themed($color-name, false));
+      }
+    }
+  }
+
+  transition: $transition-props;
+}

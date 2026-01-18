@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.value}}\n  <DButton\n    @action={{fn this.clearFilter this.type}}\n    @icon=\"circle-xmark\"\n    @translatedLabel={{concat this.label \": \" this.filterText}}\n    class=\"btn-default group-manage-logs-filter\"\n  />\n{{/if}}",{ moduleName: "discourse/components/group-manage-logs-filter.hbs" })

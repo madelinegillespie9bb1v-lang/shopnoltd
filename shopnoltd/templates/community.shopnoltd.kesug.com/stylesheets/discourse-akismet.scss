@@ -1,0 +1,24 @@
+$primary: #3f3e3e !default; $secondary: #ffffff !default; $tertiary: #2095f3 !default; $quaternary: #2095f3 !default; $header_background: #414453 !default; $header_primary: #ffffff !default; $highlight: #2196f3 !default; $danger: #bf3c3c !default; $success: #97de86 !default; $love: #fc94cb !default; $hover: #f4f3f3 !default; $selected: #ececec !default;  $public_image_path: "https://community.kobotoolbox.org/images";  @import "common/foundation/variables"; @import "common/foundation/mixins"; .akismet-icon {
+  display: inline-block;
+}
+
+.reviewable-akismet-post {
+  .created-by {
+    margin-right: 1em;
+  }
+
+  .reviewable-scores {
+    width: 100%;
+  }
+}
+
+.reviewable-item {
+  .reviewable-meta-data {
+    .reviewable-type {
+      &.-akismet-flagged-post,
+      &.-akismet-flagged-user {
+        background-color: var(--danger-medium);
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<form action=\"//google.com/search\" id=\"google-search\" class=\"inline-form\">\n  <input\n    type=\"text\"\n    name=\"q\"\n    aria-label={{i18n \"search.search_google\"}}\n    value={{this.searchTerm}}\n  />\n  <input name=\"as_sitesearch\" value={{this.siteUrl}} type=\"hidden\" />\n  <button class=\"btn btn-primary\" type=\"submit\">{{i18n\n      \"search.search_google_button\"\n    }}</button>\n</form>",{ moduleName: "discourse/components/google-search.hbs" })

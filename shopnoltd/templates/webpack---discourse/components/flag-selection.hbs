@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#each this.flags as |f|}}\n  {{yield f}}\n{{else}}\n  {{i18n \"flagging.cant\"}}\n{{/each}}",{ moduleName: "discourse/components/flag-selection.hbs" })

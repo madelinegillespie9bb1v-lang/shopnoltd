@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal @closeModal={{@closeModal}}>\n  <:body>\n    <p>{{html-safe (i18n \"post.controls.delete_topic_disallowed_modal\")}}</p>\n  </:body>\n  <:footer>\n    <DButton @action={{@closeModal}} class=\"btn-primary\" @label=\"close\" />\n  </:footer>\n</DModal>",{ moduleName: "discourse/components/modal/delete-topic-disallowed.hbs" })

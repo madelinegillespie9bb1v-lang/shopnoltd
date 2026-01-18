@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS, QR Scanner, and Data Collection</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        #map {
+            height: 400px;
+            margin: 20px 0;
+        }
+        .icon-crosshairs {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .container {
+            margin: 20px 0;
+        }
+        #qr-link {
+            display: block;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #007BFF;
+            text-decoration: underline;
+        }
+        #image-preview {
+            margin: 20px 0;
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body onload="getLocation()">
+    <h1>GPS Location and Data Collection</h1>
+    <form action="save_data.html" method="POST" enctype="multipart/form-data">
+        <!-- GPS Section -->
+        <fieldset>
+            <legend><h2>GPS Information</h2></legend>
+            <label for="latitude">Latitude:</label>
+            <input type="text" id="latitude" name="latitude" readonly required><br><br>
+
+            <label for="longitude">Longitude:</label>
+            <input type="text" id="longitude" name="longitude" readonly required><br><br>
+
+            <label for="altitude">Altitude:</label>
+            <input type="text" id="altitude" name="altitude" readonly><br><br>
+
+            <label for="precision">Accuracy (meters):</label>
+            <input type="text" id="precision" name="precision" readonly><br><br>
+
+            <button type="button" onclick="getLocation()">📍 Update Location</button>
+        </fieldset>
+        <div id="map"></div>
+
+        <!-- QR Code Scanner Section -->
+        <fieldset>
+            <legend><h2>QR Code Scanner</h2></legend>
+            <div id="my-qr-reader"></div>
+            <!-- Blank space for QR Code link -->
+            <a id="qr-link" href="#" target="_blank">Scanned QR Code Link</a>
+        </fieldset>
+
+
+    </form>
+
+    <script>
+        let map;
+
+        // Get GPS location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const { latitude, longitude, altitude, accuracy } = position.coords;
+
+            document.getElementById('latitude').value = latitude.toFixed(6) || 'N/A';
+            document.getElementById('longitude').value = longitude.toFixed(6) || 'N/A';
+            document.getElementById('altitude').value = altitude !== null ? altitude.toFixed(2) : 'N/A';
+            document.getElementById('precision').value = accuracy.toFixed(2) || 'N/A';
+
+            if (!map) {
+                map = L.map('map').setView([latitude, longitude], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+            } else {
+                map.setView([latitude, longitude], 13);
+            }
+
+            L.marker([latitude, longitude]).addTo(map).bindPopup('You are here.').openPopup();
+        }
+
+        function showError(error) {
+            const errorMessages = {
+                1: "User denied the request for Geolocation.",
+                2: "Location information is unavailable.",
+                3: "The request to get user location timed out.",
+            };
+            alert(errorMessages[error.code] || "An unknown error occurred.");
+        }
+
+        // QR Code Scanner
+        function startQRScanner() {
+            const qrReader = new Html5Qrcode("my-qr-reader");
+            qrReader.start(
+                { facingMode: "environment" },
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                (decodedText) => {
+                    document.getElementById('qr-link').href = decodedText;
+                    document.getElementById('qr-link').innerText = decodedText;
+                },
+                (errorMessage) => console.warn(`Scanning error: ${errorMessage}`)
+            ).catch((err) => console.error("Error starting QR scanner:", err));
+        }
+
+        document.addEventListener("DOMContentLoaded", startQRScanner);
+
+        // Preview Image Upload
+        document.getElementById('image1').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('image-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+        <!-- Media Capture Section -->
+        <fieldset>
+            <legend>Media Capture</legend>
+
+            <!-- Image 1 -->
+            <div>
+                <div class="gps-info" id="gps-info-image1"></div>
+                <label for="image1">Capture Image 1:</label>
+                <input type="file" id="image1" name="image1" accept="image/*" capture="camera" required>
+                <img id="image-preview-1" alt="Image 1 Preview"><br><br>
+            </div>
+
+            <!-- Image 2 -->
+            <div>
+                <div class="gps-info" id="gps-info-image2"></div>
+                <label for="image2">Capture Image 2:</label>
+                <input type="file" id="image2" name="image2" accept="image/*" capture="camera" required>
+                <img id="image-preview-2" alt="Image 2 Preview"><br><br>
+            </div>
+
+            <!-- Video 1 -->
+            <div>
+                <div class="gps-info" id="gps-info-video1"></div>
+                <label for="video1">Capture Video 1:</label>
+                <input type="file" id="video1" name="video1" accept="video/*" capture="camera" required>
+                <video id="video-preview-1" controls></video><br><br>
+            </div>
+
+            <!-- Video 2 -->
+            <div>
+                <div class="gps-info" id="gps-info-video2"></div>
+                <label for="video2">Capture Video 2:</label>
+                <input type="file" id="video2" name="video2" accept="video/*" capture="camera" required>
+                <video id="video-preview-2" controls></video><br><br>
+            </div>
+        </fieldset>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        let map;
+
+        // Get GPS location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const { latitude, longitude, altitude, accuracy } = position.coords;
+
+            document.getElementById('latitude').value = latitude.toFixed(6) || 'N/A';
+            document.getElementById('longitude').value = longitude.toFixed(6) || 'N/A';
+            document.getElementById('altitude').value = altitude ? `${altitude.toFixed(2)} meters` : 'N/A';
+            document.getElementById('accuracy').value = accuracy ? `${accuracy.toFixed(2)} meters` : 'N/A';
+
+            const gpsInfo = `
+                Latitude: ${latitude.toFixed(6)}<br>
+                Longitude: ${longitude.toFixed(6)}<br>
+                Altitude: ${altitude ? altitude.toFixed(2) + " meters" : "N/A"}<br>
+                Accuracy: ${accuracy ? accuracy.toFixed(2) + " meters" : "N/A"}
+            `;
+
+            document.getElementById('gps-info-image1').innerHTML = gpsInfo;
+            document.getElementById('gps-info-image2').innerHTML = gpsInfo;
+            document.getElementById('gps-info-video1').innerHTML = gpsInfo;
+            document.getElementById('gps-info-video2').innerHTML = gpsInfo;
+
+            if (!map) {
+                map = L.map('map').setView([latitude, longitude], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+                L.marker([latitude, longitude]).addTo(map).bindPopup('You are here.').openPopup();
+            } else {
+                map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) map.removeLayer(layer);
+                });
+                map.setView([latitude, longitude], 13);
+                L.marker([latitude, longitude]).addTo(map).bindPopup('Updated Location').openPopup();
+            }
+        }
+
+        function showError(error) {
+            const errorMessages = {
+                1: "User denied the request for Geolocation.",
+                2: "Location information is unavailable.",
+                3: "The request to get user location timed out.",
+            };
+            alert(errorMessages[error.code] || "An unknown error occurred.");
+        }
+
+        // QR Code Scanner
+        const html5QrCode = new Html5Qrcode("qr-reader");
+        html5QrCode.start(
+            { facingMode: "environment" },
+            {
+                fps: 10, qrbox: 250
+            },
+            (decodedText) => {
+                document.getElementById("qr-link").href = decodedText;
+                document.getElementById("qr-link").textContent = decodedText;
+                html5QrCode.stop();
+            },
+            (error) => {
+                console.warn(`QR Code scan error: ${error}`);
+            }
+        );
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

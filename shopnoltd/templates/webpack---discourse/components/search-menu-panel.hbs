@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<MenuPanel\n  @animationClass={{this.animationClass}}\n  @panelClass=\"search-menu-panel\"\n>\n  <SearchMenu\n    @onClose={{@closeSearchMenu}}\n    @inlineResults={{true}}\n    @autofocusInput={{true}}\n  />\n</MenuPanel>",{ moduleName: "discourse/components/search-menu-panel.hbs" })

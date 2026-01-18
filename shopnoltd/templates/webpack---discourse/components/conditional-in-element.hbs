@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if @inline}}\n  {{yield}}\n{{else if @element}}\n  {{#if @append}}\n    {{#in-element @element insertBefore=null}}{{yield}}{{/in-element}}\n  {{else}}\n    {{#in-element @element}}{{yield}}{{/in-element}}\n  {{/if}}\n{{/if}}",{ moduleName: "discourse/components/conditional-in-element.hbs" })

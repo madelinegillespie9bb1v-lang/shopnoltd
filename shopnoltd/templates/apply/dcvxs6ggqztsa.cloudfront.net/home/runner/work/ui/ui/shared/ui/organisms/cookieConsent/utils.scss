@@ -1,0 +1,115 @@
+$tablet-and-smaller: 800px;
+$banner-z-index: 1000000;
+
+// This mixin allows to ovveride the default button styles
+// with the themeable colors
+@mixin themeableButtons {
+  .primary-button {
+    background-color: var(--color-cookie-consent);
+    border-color: var(--color-cookie-consent);
+    color: color('white');
+
+    &:hover {
+      background-color: var(--color-cookie-consent-darker5);
+      border-color: var(--color-cookie-consent-darker5);
+    }
+
+    &:active {
+      background-color: var(--color-cookie-consent-darker10);
+      border-color: var(--color-cookie-consent-darker10);
+    }
+
+    &:focus {
+      background-color: var(--color-cookie-consent-darker5);
+      border-color: var(--color-cookie-consent-darker5);
+    }
+  }
+
+  .secondary-button {
+    background-color: color('white');
+    color: var(--color-cookie-consent);
+    border-color: var(--color-cookie-consent);
+
+    &:hover {
+      background-color: color('white');
+      color: var(--color-cookie-consent-darker5);
+      border-color: var(--color-cookie-consent-darker5);
+    }
+
+    &:active {
+      background-color: color('white');
+      color: var(--color-cookie-consent-darker10);
+      border-color: var(--color-cookie-consent-darker10);
+    }
+
+    &:focus {
+      background-color: color('white');
+      color: var(--color-cookie-consent-darker5);
+      border-color: var(--color-cookie-consent-darker5);
+    }
+  }
+
+  .tertiary-button {
+    color: var(--color-cookie-consent);
+
+    &:hover {
+      color: var(--color-cookie-consent-darker5);
+    }
+
+    &:active {
+      color: var(--color-cookie-consent-darker10);
+    }
+
+    &:focus {
+      color: var(--color-cookie-consent-darker5);
+    }
+  }
+
+  .link {
+    color: var(--color-cookie-consent);
+
+    &:hover {
+      color: var(--color-cookie-consent-darker5);
+    }
+
+    &:active {
+      color: var(--color-cookie-consent-darker10);
+    }
+
+    &:focus {
+      color: var(--color-cookie-consent-darker5);
+    }
+  }
+}
+
+// This mixin adds hover/active effects to an element to make it look clickable
+@mixin clickable($dark: false) {
+  position: relative;
+  user-select: none;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity $slow-transition ease;
+
+    @if ($dark) {
+      background-color: rgba(255, 255, 255, 0.1);
+    } @else {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &:hover::before {
+    opacity: 0.5;
+  }
+
+  &:active::before {
+    opacity: 1;
+  }
+}

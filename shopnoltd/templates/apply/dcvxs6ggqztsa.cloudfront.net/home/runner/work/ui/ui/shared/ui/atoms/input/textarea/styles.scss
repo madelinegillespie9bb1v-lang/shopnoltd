@@ -1,0 +1,26 @@
+.textarea {
+  resize: none;
+  white-space: pre-wrap;
+
+  &.resizeX {
+    resize: horizontal;
+  }
+
+  &.resizeY {
+    resize: vertical;
+  }
+
+  &.resizeX.resizeY {
+    resize: both;
+  }
+
+  &.resizeAuto {
+    -ms-overflow-style: none; //IE
+    scrollbar-width: none; //FF
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+}

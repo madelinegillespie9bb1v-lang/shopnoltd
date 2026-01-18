@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<p>{{i18n \"topics.bulk.choose_append_tags\"}}</p>\n\n<p><TagChooser @tags={{this.tags}} @categoryId={{@categoryId}} /></p>\n\n<DButton\n  @action={{fn @performAndRefresh (hash type=\"append_tags\" tags=this.tags)}}\n  @disabled={{not this.tags}}\n  @label=\"topics.bulk.append_tags\"\n  class=\"topic-bulk-actions__append-tags\"\n/>",{ moduleName: "discourse/components/bulk-actions/append-tags.hbs" })

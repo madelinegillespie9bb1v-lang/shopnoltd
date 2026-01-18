@@ -1,0 +1,74 @@
+<?php
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+
+
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.html';
+
+
+
+
+// CSRF Token
+$csrf_token = function_exists('random_bytes') ? bin2hex(random_bytes(16)) : md5(uniqid(mt_rand(), true));
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forgot Password - Shopnoltd Toolbox</title>
+<link rel="stylesheet" href="/accounts/register/css/styles.css">
+<style>
+body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+.container { max-width: 400px; margin: auto; background: #fff; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+button { padding: 10px 15px; background: #25D366; border: none; color: white; cursor: pointer; margin-top: 10px; border-radius: 5px; font-size: 16px; width:100%; }
+button:hover { background: #1da851; }
+.small-link { text-align:center; margin-top:8px; font-size:14px; }
+.small-link a { color:#0073e6; text-decoration:none; }
+.small-link a:hover { text-decoration:underline; }
+.registration--logo img { max-height:60px; margin-bottom:20px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="registration--logo">
+        <a href="/"><img src="/static/kobologo.svg" alt="Shopnoltd Toolbox Logo" /></a>
+    </div>
+
+    <form action="forgot_login_process.html" method="post" class="registration-form" novalidate>
+        <input type="hidden" name="csrfmiddlewaretoken" value="<?php echo $csrf_token; ?>">
+      <h2>Forgot password</h2>
+      <p>Please enter your registered email. We’ll send OTP to your Email ID for verification and reset password option.</p>
+        <div class="field email">
+            <label for="email">Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="Enter your registered email">
+        </div>
+
+        <div class="actions">
+            <button type="submit" name="submit_email_otp">Get OTP via Email</button>
+        </div>
+    </form>
+
+    <!-- Forgot links -->
+    <div class="small-link"><a href="/forgot/username/index.html">Forgot Username?</a></div>
+    <div class="small-link"><a href="/forgot/email/index.html">Forgot Email?</a></div>
+    <div class="small-link"><a href="/forgot/phone_code/index.html">Forgot Country Code?</a></div>
+    <div class="small-link"><a href="/forgot/phone/index.html">Forgot Phone Number?</a></div>
+    <div class="small-link"><a href="/forgot/password/index.html">Forgot Password?</a></div>
+    <div class="small-link"><a href="/accounts/register/index.html">If You Are New Please Register Your Account First?</a></div>
+
+    <footer class="registration__footer" style="margin-top:20px; font-size:12px; color:gray;">
+        <p>
+            <a href="https://shopnoltd-dashboard.onrender.com/terms/" target="_blank">Terms of Service</a> ·
+            <a href="https://shopnoltd-dashboard.onrender.com/privacy/" target="_blank">Privacy Policy</a>
+        </p>
+    </footer>
+</div>
+</body>
+</html>

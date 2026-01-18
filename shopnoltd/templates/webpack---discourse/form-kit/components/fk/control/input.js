@@ -1,0 +1,82 @@
+import {
+    template
+} from "@ember/template-compiler";
+import Component from "@glimmer/component";
+import {
+    on
+} from "@ember/modifier";
+import {
+    action
+} from "@ember/object";
+import concatClass from "discourse/helpers/concat-class";
+const SUPPORTED_TYPES = [
+    "color",
+    "date",
+    "datetime-local",
+    "email",
+    "hidden",
+    "month",
+    "number",
+    "password",
+    "range",
+    "search",
+    "tel",
+    "text",
+    "time",
+    "url",
+    "week"
+];
+export default class FKControlInput extends Component {
+    static controlType = "input";
+    constructor(owner1, args1) {
+        super(...arguments);
+        if ([
+                "checkbox",
+                "radio"
+            ].includes(args1.type)) {
+            throw new Error(`input component does not support @type="${args1.type}" as there is a dedicated component for this.`);
+        }
+        if (args1.type && !SUPPORTED_TYPES.includes(args1.type)) {
+            throw new Error(`input component does not support @type="${args1.type}", must be one of ${SUPPORTED_TYPES.join(", ")}!`);
+        }
+    }
+    get type() {
+        return this.args.type ? ? "text";
+    }
+    @action
+    handleInput(event1) {
+        const value1 = event1.target.value === "" ? undefined : this.type === "number" ? parseFloat(event1.target.value) : event1.target.value;
+        this.args.field.set(value1);
+    }
+    static {
+        template(`
+    <div class="form-kit__control-input-wrapper">
+      {{#if @before}}
+        <span class="form-kit__before-input">{{@before}}</span>
+      {{/if}}
+
+      <input
+        type={{this.type}}
+        value={{@value}}
+        class={{concatClass
+          "form-kit__control-input"
+          (if @before "has-prefix")
+          (if @after "has-suffix")
+        }}
+        disabled={{@field.disabled}}
+        ...attributes
+        {{on "input" this.handleInput}}
+      />
+
+      {{#if @after}}
+        <span class="form-kit__after-input">{{@after}}</span>
+      {{/if}}
+    </div>
+  `, {
+            component: this,
+            eval() {
+                return eval(arguments[0]);
+            }
+        });
+    }
+}

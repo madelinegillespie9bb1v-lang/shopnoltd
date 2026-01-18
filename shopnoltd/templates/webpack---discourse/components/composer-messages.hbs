@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#each this.messages as |message|}}\n  <ComposerMessage\n    @message={{message}}\n    @closeMessage={{this.closeMessage}}\n    @shareModal={{fn (mut this.showShareModal) true}}\n    @switchPM={{this.switchPM}}\n  />\n  {{#if this.showShareModal}}\n    <Modal::ShareTopic\n      @closeModal={{fn (mut this.showShareModal) false}}\n      @model={{this.shareModalData}}\n    />\n  {{/if}}\n{{/each}}",{ moduleName: "discourse/components/composer-messages.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<ComposerTipCloseButton @action={{fn this.closeMessage this.message}} />\n\n{{html-safe this.message.body}}\n\n{{#if this.currentUser.can_invite_to_forum}}\n  <DButton\n    @label=\"footer_nav.share\"\n    @icon=\"link\"\n    @action={{this.shareModal}}\n    class=\"btn-primary\"\n  />\n{{/if}}",{ moduleName: "discourse/templates/composer/dominating-topic.hbs" })

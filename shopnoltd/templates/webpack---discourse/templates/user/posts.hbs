@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.model.canLoadMore}}\n  {{hide-application-footer}}\n{{/if}}\n\n<UserStream @stream={{this.model}} />",{ moduleName: "discourse/templates/user/posts.hbs" })

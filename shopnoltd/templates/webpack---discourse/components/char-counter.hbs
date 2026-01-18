@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div\n  class={{concat-class \"char-counter\" (if (gt @value.length @max) \"exceeded\")}}\n  ...attributes\n>\n  {{yield}}\n  <small class=\"char-counter__ratio\">\n    {{@value.length}}/{{@max}}\n  </small>\n  <span aria-live=\"polite\" class=\"sr-only\">\n    {{if (gt @value.length @max) (i18n \"char_counter.exceeded\")}}\n  </span>\n</div>",{ moduleName: "discourse/components/char-counter.hbs" })
