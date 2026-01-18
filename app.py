@@ -92,8 +92,13 @@ def login():
 
     return render_template("login.html")
 
+# ---------- SIGNUP ONGOING PAGE----------
+@app.route("/sign-up")
+def index():
+    return render_template("sign-up/index.html")
+
 # ---------- SIGNUP ----------
-@app.route("/accounts/signup", methods=["GET", "POST"])
+@app.route("/accounts/signup/index", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
         user = User(
@@ -105,7 +110,7 @@ def signup():
         db.session.commit()
         return redirect(url_for("login"))
 
-    return render_template("accounts/signup.html")
+    return render_template("accounts/signup/index.html")
 
 # ---------- LOGOUT ----------
 @app.route("/logout")
