@@ -19,9 +19,8 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL is missing")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace(
-    "postgres://", "postgresql://"
-)
+# Replace old postgres:// prefix if necessary
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace("postgres://", "postgresql://")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -58,48 +57,45 @@ CACHE = {"data": [], "timestamp": 0}
 CACHE_DURATION = 300  # 5 minutes
 
 # ==============================
-# AUTH DECORATOR
+# LOGIN REQUIRED DECORATOR
 # ==============================
 def login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if "user_id" not in session:
-            return redirect(url_for("login"))
+            return redirect(url_for("login_page"))
         return f(*args, **kwargs)
     return decorated
 
 # ==============================
 # ROUTES
 # ==============================
+
+# Home page
 @app.route("/")
-def index():
+def index_page():
     return render_template("index.html")
 
 # ---------- LOGIN ----------
 @app.route("/login", methods=["GET", "POST"])
-def login():
+def login_page():
     if request.method == "POST":
-        user = User.query.filter_by(
-            username=request.form["username"]
-        ).first()
-
+        user = User.query.filter_by(username=request.form["username"]).first()
         if user and user.check_password(request.form["password"]):
             session["user_id"] = user.id
             session["is_admin"] = user.is_admin
-            return redirect(url_for("dashboard"))
-
+            return redirect(url_for("dashboard_page"))
         return render_template("login.html", error="Invalid username or password")
-
     return render_template("login.html")
 
-# ---------- SIGNUP ONGOING PAGE----------
+# ---------- SIGN-UP PAGE ----------
 @app.route("/sign-up")
-def index():
+def sign_up_page():
     return render_template("sign-up/index.html")
 
-# ---------- SIGNUP ----------
+# ---------- SIGN-UP SUBMISSION ----------
 @app.route("/accounts/signup/index", methods=["GET", "POST"])
-def signup():
+def signup_page():
     if request.method == "POST":
         user = User(
             username=request.form["username"],
@@ -108,27 +104,28 @@ def signup():
         user.set_password(request.form["password"])
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for("login"))
-
+        return redirect(url_for("login_page"))
     return render_template("accounts/signup/index.html")
 
 # ---------- LOGOUT ----------
 @app.route("/logout")
-def logout():
+def logout_page():
     session.clear()
-    return redirect(url_for("index"))
+    return redirect(url_for("index_page"))
 
 # ---------- DASHBOARD ----------
 @app.route("/dashboard")
 @login_required
-def dashboard():
+def dashboard_page():
     current_time = time.time()
-
     if current_time - CACHE["timestamp"] > CACHE_DURATION:
-        response = requests.get(KOBO_API_URL, headers=HEADERS, timeout=20)
-        response.raise_for_status()
-        CACHE["data"] = response.json().get("results", [])
-        CACHE["timestamp"] = current_time
+        try:
+            response = requests.get(KOBO_API_URL, headers=HEADERS, timeout=20)
+            response.raise_for_status()
+            CACHE["data"] = response.json().get("results", [])
+            CACHE["timestamp"] = current_time
+        except requests.RequestException as e:
+            return f"<h2>Error fetching Kobo data: {e}</h2>"
 
     data = CACHE["data"]
     if not data:
@@ -149,18 +146,18 @@ def dashboard():
 # ---------- PROFILE ----------
 @app.route("/accounts/profile")
 @login_required
-def profile():
+def profile_page():
     user = User.query.get(session["user_id"])
     return render_template("accounts/profile.html", user=user)
 
 # ==============================
-# CREATE TABLES
+# CREATE DATABASE TABLES
 # ==============================
 with app.app_context():
     db.create_all()
 
 # ==============================
-# RUN (RENDER COMPATIBLE)
+# RUN APP (RENDER COMPATIBLE)
 # ==============================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
