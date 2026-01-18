@@ -1,0 +1,36 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../config.html';
+// config.html must define $pdo and BASE_URL
+?>
+
+<?php
+if (!isset($_SESSION['user'])) { header('Location: ../../accounts/login/index.html'); exit; }
+$user = $_SESSION['user'];
+$err = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = trim($_POST['title'] ?? '');
+    $type = trim($_POST['type'] ?? '');
+    $pay_rate = (float)($_POST['pay_rate'] ?? 0);
+    $quantity = (int)($_POST['quantity'] ?? 0);
+    if ($title === '' || $pay_rate <= 0 || $quantity <= 0) { $err = 'Please fill title, pay rate and quantity.'; }
+    else {
+        $stmt = $pdo->prepare("INSERT INTO tasks (user_id, title, task_type, pay_rate, quantity, remaining, status, created_at) VALUES (:uid, :title, :type, :pay_rate, :qty, :rem, 'pending', NOW())");
+        $stmt->execute([':uid'=>$user['id'], ':title'=>$title, ':type'=>$type, ':pay_rate'=>$pay_rate, ':qty'=>$quantity, ':rem'=>$quantity]);
+        header('Location: tasks.html');
+        exit;
+    }
+}
+?>
+<!doctype html><html><head><meta charset="utf-8"><title>Post Job</title></head><body>
+<h2>Post New Job</h2>
+<?php if($err) echo '<p style="color:red">'.htmlspecialchars($err).'</p>'; ?>
+<form method="post">
+<label>Title: <input name="title"></label><br>
+<label>Type: <input name="type" placeholder="e.g. facebook_follow"></label><br>
+<label>Pay per unit (USD): <input name="pay_rate" type="number" step="0.00001"></label><br>
+<label>Quantity: <input name="quantity" type="number"></label><br>
+<button type="submit">Submit (goes to admin approval)</button>
+</form>
+<p><a href="dashboard.html">Back to Dashboard</a></p>
+</body></html>

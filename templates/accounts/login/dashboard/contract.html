@@ -1,0 +1,5 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../config.html';
+if (!isset($_SESSION['user'])) { header('Location: ../../accounts/login/index.html'); exit; }
+echo "<h2>Contract</h2><p>Feature coming soon.</p>";

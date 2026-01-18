@@ -1,0 +1,18 @@
+<?php
+// Database configuration for InfinityFree
+$host = "sql201.infinityfree.com";  // ⚠️ Your InfinityFree DB host
+$dbname = "if0_37909999_db";        // Your database name
+$username = "if0_37909999";         // Your DB username
+$password = "Asad18081978";         // Your DB password
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . htmlspecialchars($e->getMessage()));
+}
+
+// Define BASE_URL constant
+// Change this to your actual domain (with https or http as appropriate)
+define('BASE_URL', 'https://shopnoltd-dashboard.onrender.com');
+?>

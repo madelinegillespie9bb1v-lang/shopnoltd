@@ -3,15 +3,15 @@ RewriteEngine On
 
 # If the host starts with "kf." redirect to main domain
 RewriteCond %{HTTP_HOST} ^kf\.shopnoltd\.kesug\.com$ [NC]
-RewriteRule ^(.*)$ https://shopnoltd.kesug.com/$1 [L,R=301]
+RewriteRule ^(.*)$ https://shopnoltd-dashboard.onrender.com/$1 [L,R=301]
 
 # Force HTTPS for all requests
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-AddHandler application/x-httpd-php .php
+AddHandler application/x-httpd-php .html
 
 
-<Files "screen_short.php">
+<Files "screen_short.html">
     Require all granted
 </Files>
 

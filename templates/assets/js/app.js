@@ -1,14 +1,14 @@
 let currentReceiver = null;
 
 function loadChat() {
-  $.post("chat_api.php", { action: "fetch", receiver_id: currentReceiver }, function (data) {
+  $.post("chat_api.html", { action: "fetch", receiver_id: currentReceiver }, function (data) {
     let msgs = JSON.parse(data || "[]");
     $("#chatBox").html(msgs.map(m => `<div><b>${m.username || ''}</b>: ${m.message}</div>`).join(''));
   });
 }
 
 function loadFeed() {
-  $.post("feed_api.php", { action: "fetch" }, function (data) {
+  $.post("feed_api.html", { action: "fetch" }, function (data) {
     let posts = JSON.parse(data || "[]");
     $("#feedBox").html(posts.map(p => `
       <div class='mb-2 border-bottom pb-2'>
@@ -27,7 +27,7 @@ $(document).on("click", ".user-item", function(){
 $("#sendMsg").click(function(){
   let msg = $("#message").val().trim();
   if(!msg) return;
-  $.post("chat_api.php", { action:"send", message:msg, receiver_id:currentReceiver }, function(){
+  $.post("chat_api.html", { action:"send", message:msg, receiver_id:currentReceiver }, function(){
     $("#message").val("");
     loadChat();
   });
@@ -36,7 +36,7 @@ $("#sendMsg").click(function(){
 $("#postBtn").click(function(){
   let content = $("#postContent").val().trim();
   if(!content) return;
-  $.post("feed_api.php", { action:"post", content }, function(){
+  $.post("feed_api.html", { action:"post", content }, function(){
     $("#postContent").val("");
     loadFeed();
   });
@@ -44,7 +44,7 @@ $("#postBtn").click(function(){
 
 $(document).on("click", ".likeBtn", function(){
   let id = $(this).data("id");
-  $.post("feed_api.php", { action:"like", post_id:id }, loadFeed);
+  $.post("feed_api.html", { action:"like", post_id:id }, loadFeed);
 });
 
 // auto-refresh every 5s

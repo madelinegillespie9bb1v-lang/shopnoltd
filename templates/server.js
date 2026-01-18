@@ -58,8 +58,8 @@ app.get('/', (req, res) => {
 
 // Serve static folders for assets, community, and support
 app.use('/assets', express.static(path.join(BASE_DIR, 'assets')));
-app.use('/community', express.static(path.join(BASE_DIR, 'community.shopnoltd.kesug.com')));
-app.use('/support', express.static(path.join(BASE_DIR, 'support.shopnoltd.kesug.com')));
+app.use('/community', express.static(path.join(BASE_DIR, 'community.shopnoltd-dashboard.onrender.com')));
+app.use('/support', express.static(path.join(BASE_DIR, 'support.shopnoltd-dashboard.onrender.com')));
 
 // Route for downloading files
 app.get('/download/:filename', (req, res) => {
@@ -188,7 +188,7 @@ app.post('/reset-password/:id', (req, res) => {
             }
 
             // Redirect the user to the login page after updating the password
-            res.redirect('https://shopnoltd.kesug.com//accounts/login');
+            res.redirect('https://shopnoltd-dashboard.onrender.com//accounts/login');
         });
     });
 });
@@ -258,8 +258,8 @@ app.get('/sign-up', (req, res) => {
     
     <title>Sign up | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -270,7 +270,7 @@ app.get('/sign-up', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Sign up"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/sign-up/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/sign-up/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -280,12 +280,12 @@ app.get('/sign-up', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -692,7 +692,7 @@ app.get('/sign-up', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -1309,12 +1309,12 @@ app.get('/accounts/login', (req, res) => {
     <div class="registration__footer">
       <div class="registration__legal">
         
-          <a href="https://shopnoltd.kesug.com/terms/" target="_blank">
+          <a href="https://shopnoltd-dashboard.onrender.com/terms/" target="_blank">
             Terms of Service
           </a>
         
         
-          <a href="https://shopnoltd.kesug.com/privacy/" target="_blank">
+          <a href="https://shopnoltd-dashboard.onrender.com/privacy/" target="_blank">
             Privacy Policy
           </a>
         
@@ -1661,12 +1661,12 @@ app.get('/password/reset', (req, res) => {
     <div class="registration__footer">
       <div class="registration__legal">
         
-          <a href="https://shopnoltd.kesug.com/terms/" target="_blank">
+          <a href="https://shopnoltd-dashboard.onrender.com/terms/" target="_blank">
             Terms of Service
           </a>
         
         
-          <a href="https://shopnoltd.kesug.com/privacy/" target="_blank">
+          <a href="https://shopnoltd-dashboard.onrender.com/privacy/" target="_blank">
             Privacy Policy
           </a>
         
@@ -1733,8 +1733,8 @@ app.get('/terms', (req, res) => {
     
     <title>Terms of Service | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -1745,7 +1745,7 @@ app.get('/terms', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Terms of Service"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/terms/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/terms/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -1755,13 +1755,13 @@ app.get('/terms', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -2533,7 +2533,7 @@ app.get('/terms', (req, res) => {
       <p>
         In accordance with applicable Data Privacy Laws (as defined in Section
         9), Kobo will notify individual Users of its publicly posted Privacy
-        Notice available at https://shopnoltd.kesug.com/privacy/ and, as a data
+        Notice available at https://shopnoltd-dashboard.onrender.com/privacy/ and, as a data
         processor, may process Personal Information collected directly from
         individual Users as described in such Privacy Notice.
       </p>
@@ -3187,7 +3187,7 @@ app.get('/terms', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -3236,8 +3236,8 @@ app.get('/privacy', (req, res) => {
     
     <title>Privacy Notice | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -3248,7 +3248,7 @@ app.get('/privacy', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Privacy Notice"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/privacy/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/privacy/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -3258,13 +3258,13 @@ app.get('/privacy', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -4044,7 +4044,7 @@ app.get('/privacy', (req, res) => {
         Kobo implements and maintains robust security measures to protect the
         Personal Information that we collect and retain, as described on
         <a
-          href="https://shopnoltd.kesug.com/features/data-security/"
+          href="https://shopnoltd-dashboard.onrender.com/features/data-security/"
           target="_blank"
           >this page</a
         >
@@ -4263,7 +4263,7 @@ app.get('/privacy', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -4312,8 +4312,8 @@ app.get('/contact', (req, res) => {
     
     <title>Contact | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -4324,7 +4324,7 @@ app.get('/contact', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Contact"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/contact/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/contact/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -4334,13 +4334,13 @@ app.get('/contact', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -4656,7 +4656,7 @@ app.get('/contact', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -4710,8 +4710,8 @@ app.get('/donate', (req, res) => {
     
     <title>Donate | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -4722,7 +4722,7 @@ app.get('/donate', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Donate"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/donate/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/donate/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -4732,13 +4732,13 @@ app.get('/donate', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -5510,7 +5510,7 @@ style="background-image: url('/assets/images/donate/kobo-donate-banner.jpg');"
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -5560,8 +5560,8 @@ app.get('/about-us', (req, res) => {
     
     <title>About us | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -5572,7 +5572,7 @@ app.get('/about-us', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="About us"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/about-us/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/about-us/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -5582,13 +5582,13 @@ app.get('/about-us', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -6474,7 +6474,7 @@ href="/join-our-team/">
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -6523,8 +6523,8 @@ app.get('/impact', (req, res) => {
     
     <title>Impact | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -6535,7 +6535,7 @@ app.get('/impact', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Impact"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/about-us/impact/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/about-us/impact/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -6545,13 +6545,13 @@ app.get('/impact', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -6950,7 +6950,7 @@ app.get('/impact', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -7001,8 +7001,8 @@ app.get('/about-us/impact', (req, res) => {
     
     <title>Impact | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -7013,7 +7013,7 @@ app.get('/about-us/impact', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Impact"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/about-us/impact/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/about-us/impact/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -7023,13 +7023,13 @@ app.get('/about-us/impact', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -7428,7 +7428,7 @@ app.get('/about-us/impact', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -7477,8 +7477,8 @@ app.get('/about-us/financials', (req, res) => {
     
     <title>Financials | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -7489,7 +7489,7 @@ app.get('/about-us/financials', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Financials"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/about-us/financials/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/about-us/financials/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -7499,13 +7499,13 @@ app.get('/about-us/financials', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -7936,7 +7936,7 @@ For more financial information, see our 2022 Audited Financial Report and Form 9
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -7986,8 +7986,8 @@ app.get('/features/data-security', (req, res) => {
     
     <title>Data security measures | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -7998,7 +7998,7 @@ app.get('/features/data-security', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Data security measures"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/features/data-security/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/features/data-security/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -8008,13 +8008,13 @@ app.get('/features/data-security', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -8411,7 +8411,7 @@ app.get('/features/data-security', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -8462,8 +8462,8 @@ app.get('/features', (req, res) => {
     
     <title>Features | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -8474,7 +8474,7 @@ app.get('/features', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Features"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/features/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/features/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -8484,13 +8484,13 @@ app.get('/features', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -9179,7 +9179,7 @@ app.get('/features', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -9228,8 +9228,8 @@ app.get('/services', (req, res) => {
     
     <title>Services | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -9240,7 +9240,7 @@ app.get('/services', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Services"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/services/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/services/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -9250,13 +9250,13 @@ app.get('/services', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -9867,7 +9867,7 @@ feature development.</p>
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -9917,8 +9917,8 @@ app.get('/services/private-servers', (req, res) => {
     
     <title>Private Servers | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -9929,7 +9929,7 @@ app.get('/services/private-servers', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Private Servers"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/services/private-servers/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/services/private-servers/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -9939,13 +9939,13 @@ app.get('/services/private-servers', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -10914,7 +10914,7 @@ app.get('/services/private-servers', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -10965,8 +10965,8 @@ app.get('/services/training', (req, res) => {
     
     <title>shopnotoolbox training | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -10977,7 +10977,7 @@ app.get('/services/training', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="shopnotoolbox training"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/services/training/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/services/training/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -10987,13 +10987,13 @@ app.get('/services/training', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -11761,7 +11761,7 @@ app.get('/services/training', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -11812,8 +11812,8 @@ app.get('/services/private-servers', (req, res) => {
     
     <title>Private Servers | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -11824,7 +11824,7 @@ app.get('/services/private-servers', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Private Servers"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/services/private-servers/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/services/private-servers/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -11834,13 +11834,13 @@ app.get('/services/private-servers', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -12809,7 +12809,7 @@ app.get('/services/private-servers', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -12859,8 +12859,8 @@ app.get('/services/dashboard-development', (req, res) => {
     
     <title>Private Servers | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -12871,7 +12871,7 @@ app.get('/services/dashboard-development', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Private Servers"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/services/dashboard-development/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/services/dashboard-development/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -12881,13 +12881,13 @@ app.get('/services/dashboard-development', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -13638,7 +13638,7 @@ app.get('/services/dashboard-development', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -13688,8 +13688,8 @@ app.get('/services/project-rollout-support', (req, res) => {
     
     <title>Project support | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -13700,7 +13700,7 @@ app.get('/services/project-rollout-support', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Project support"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/services/project-rollout-support/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/services/project-rollout-support/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -13710,13 +13710,13 @@ app.get('/services/project-rollout-support', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -14491,7 +14491,7 @@ app.get('/services/project-rollout-support', (req, res) => {
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>
@@ -14541,8 +14541,8 @@ app.get('/pricing', (req, res) => {
     
     <title>Pricing | shopnotoolbox</title>
     <meta name="description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -14553,7 +14553,7 @@ app.get('/pricing', (req, res) => {
     <meta property="og:site_name" content="shopnotoolbox"/>
     <meta property="og:title" content="Pricing"/>
     <meta property="og:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/pricing/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/pricing/"/>
     <meta name="twitter:site" content="@shopnotoolbox"/>
     <meta name="twitter:description" content="shopnotoolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -14563,13 +14563,13 @@ app.get('/pricing', (req, res) => {
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="shopnotoolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -20672,7 +20672,7 @@ tailor-made solutions.</p>
     <p>
       For users who do not qualify for our nonprofit plans, we offer a range of 
       <a onclick="scrollBetweenQuestions(event, 'other-orgs')" href="/pricing/#other-orgs">other paid plans</a>. As a nonprofit organization, 
-      <a href="https://shopnoltd.kesug.com/about-us/the-organization/">Kobo</a> cannot provide the
+      <a href="https://shopnoltd-dashboard.onrender.com/about-us/the-organization/">Kobo</a> cannot provide the
       use of shopnotoolbox for free to any for-profit organizations, private companies,
       or for personal use.
     </p>
@@ -20804,11 +20804,11 @@ tailor-made solutions.</p>
     <p>
       You can enroll in a new plan directly from the Plans page within
       your account. To upgrade now, go to either the
-      <a href="https://shopnoltd.kesug.com/#/account/plan"
+      <a href="https://shopnoltd-dashboard.onrender.com/#/account/plan"
         >plans page on the Global Server</a
       >
       or the
-      <a href="https://shopnoltd.kesug.com/#/account/plan"
+      <a href="https://shopnoltd-dashboard.onrender.com/#/account/plan"
         >plans page on the European Union Server</a
       >
     , depending on which server you used to create your account. You
@@ -21123,8 +21123,8 @@ tailor-made solutions.</p>
       
     <p>
       You can easily keep track of your usage on the Usage page in your account. To check your usage, you can also go
-      directly to the <a href="https://shopnoltd.kesug.com/#/account/usage">Usage page on the Global Server</a> or the
-      <a href="https://shopnoltd.kesug.com/#/account/usage">Usage page on the European Union Server</a>,
+      directly to the <a href="https://shopnoltd-dashboard.onrender.com/#/account/usage">Usage page on the Global Server</a> or the
+      <a href="https://shopnoltd-dashboard.onrender.com/#/account/usage">Usage page on the European Union Server</a>,
       depending on which server you used to create your account.
     </p>
     <p>
@@ -21667,7 +21667,7 @@ tailor-made solutions.</p>
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>

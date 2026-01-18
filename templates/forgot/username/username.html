@@ -1,0 +1,64 @@
+<?php
+session_start();
+
+
+
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.html';
+
+
+// ✅ Only show if OTP verified
+if (!isset($_SESSION['verified_user'])) {
+    echo "<script>
+        alert('Access denied! Please verify OTP first.');
+        window.location.href='index.html';
+    </script>";
+    exit;
+}
+
+$user = $_SESSION['verified_user'];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Your Username - Shopnoltd Toolbox</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+.container { max-width: 400px; margin: auto; background: #fff; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+.username-box { background: #e7f7ec; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 18px; color: #333; font-weight: bold; display: inline-block; }
+button.copy-btn { margin-left: 8px; padding: 5px 10px; font-size: 12px; border: none; background: #007bff; color: #fff; border-radius: 5px; cursor: pointer; }
+button.copy-btn:hover { background:#0056b3; }
+a.btn-login { display: inline-block; margin-top: 20px; padding: 10px 15px; background: #25D366; color: #fff; text-decoration: none; border-radius: 5px; }
+a.btn-login:hover { background: #1da851; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Username Recovery Successful 🎉</h2>
+    <p>Your username linked to <strong><?php echo htmlspecialchars($user['email']); ?></strong> is:</p>
+
+    <div class="username-box">
+        <span id="usernameValue"><?php echo htmlspecialchars($user['username']); ?></span>
+        <button class="copy-btn" id="copyUsernameBtn">Copy</button>
+    </div>
+
+    <a href="/login.html" class="btn-login">Go to Login</a>
+</div>
+
+<script>
+document.getElementById('copyUsernameBtn').addEventListener('click', function() {
+    const username = document.getElementById('usernameValue').innerText;
+    navigator.clipboard.writeText(username)
+        .then(() => alert('✅ Username copied!'))
+        .catch(() => alert('❌ Failed to copy username.'));
+});
+</script>
+</body>
+</html>
+
+<?php
+// ✅ Clear verified session after showing username
+unset($_SESSION['verified_user']);
+?>

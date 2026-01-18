@@ -2147,11 +2147,11 @@
                                 },
                                 cookie_table: [{
                                     col1: "fundraiseup_cid",
-                                    col2: "shopnoltd.kesug.com",
+                                    col2: "shopnoltd-dashboard.onrender.com",
                                     col3: "Fundraise Up powers our donation options"
                                 }, {
                                     col1: "fundraiseup_session",
-                                    col2: "shopnoltd.kesug.com",
+                                    col2: "shopnoltd-dashboard.onrender.com",
                                     col3: "Fundraise Up powers our donation options"
                                 }]
                             }, {

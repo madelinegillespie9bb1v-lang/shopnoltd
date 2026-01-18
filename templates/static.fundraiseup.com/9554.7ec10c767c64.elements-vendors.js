@@ -1548,7 +1548,7 @@
                         return m = i.stringify({
                             u: c(e, u),
                             quote: n
-                        }), `https://www.facebook.com/sharer.php?${m}`;
+                        }), `https://www.facebook.com/sharer.html?${m}`;
                     case l:
                         return m = i.stringify({
                             body: (0, a.V)([n, e], "\n"),

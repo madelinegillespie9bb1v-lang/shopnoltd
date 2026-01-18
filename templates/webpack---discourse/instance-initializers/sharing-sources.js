@@ -28,7 +28,7 @@ export default {
                     `https://www.facebook.com/dialog/share?app_id=${
               siteSettings.facebook_app_id
             }&quote=${encodeURIComponent(quote)}&href=` :
-                    "https://www.facebook.com/sharer.php?u=";
+                    "https://www.facebook.com/sharer.html?u=";
 
                 return `${fb_url}${encodeURIComponent(link)}`;
             },

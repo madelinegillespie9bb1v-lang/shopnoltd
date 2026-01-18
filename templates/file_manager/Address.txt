@@ -402,10 +402,10 @@ Account: No-IP.com: asaduzzaman.kushtia1@yahoo.comKey: 6ZC6D2Y7HKUU24NQKey Type:
 http://192.168.1.1:8080/
 User:admin
 Password:admin
-http://192.168.1.101/phpmyadmin/index.php?route=/&route=%2F
+http://192.168.1.101/phpmyadmin/index.html?route=/&route=%2F
 User:root
 Password:
-http://192.168.1.102/phpmyadmin/index.php?route=/&route=%2F
+http://192.168.1.102/phpmyadmin/index.html?route=/&route=%2F
 User:root
 Password:
 
@@ -613,7 +613,7 @@ Auto Fill option
 
 https://www.youtube.com/watch?v=LA1GX-fJ-e4
 
-http://www.dghs.gov.bd/index.php/en/home/121-bengali/menu-articles/1117-ces-coverage-evaluation-survey-report
+http://www.dghs.gov.bd/index.html/en/home/121-bengali/menu-articles/1117-ces-coverage-evaluation-survey-report
 
 
 
@@ -655,7 +655,7 @@ HRIDOY
 ps-6767
 
 
-http://www.dpp.gov.bd/bgpress/index.php/document/
+http://www.dpp.gov.bd/bgpress/index.html/document/
 
 http://www.arcadecabin.com/play/the_milk_quest.html
 
@@ -746,7 +746,7 @@ https://technet.microsoft.com/en-us/library/hh831515.aspx
 
 WIN-CF3NRNUO0U5
 https://www.youtube.com/watch?v=nK0wsS9xF4E
-http://www.cdrb.org/org.php
+http://www.cdrb.org/org.html
 http://www.pri-bd.org/main/directors
 
 
@@ -762,8 +762,8 @@ http://amarbangladesh-online.com/%E0%A6%8F%E0%A6%B8%E0%A6%8F%E0%A6%AE%E0%A6%8F%E
 http://www.huz.com/monst.html
 
 http://www.bubblegame.org/
-http://www.balloongame.org/bloons/evenmorebloons.php
-http://www.balloongame.org/bloons/bloonsplayerpack1.php
+http://www.balloongame.org/bloons/evenmorebloons.html
+http://www.balloongame.org/bloons/bloonsplayerpack1.html
 https://www.youtube.com/watch?v=U3QlVhtwDu4
 
 	Market Researcher at Market researcher
@@ -774,9 +774,9 @@ Researcher/Writer at Team Engine - a campaign and communications hub for social 
 Operation Management at World Marketing Summit
 Director Sales & Marketing at I-Station Limited (An Event Management Company in Bangladesh)
 	Works at FeedBack Market Research
-http://exam.bou.edu.bd/std_resultsheet.php
+http://exam.bou.edu.bd/std_resultsheet.html
 http://www.youtube.com/watch?v=Tbcoh5hre74&feature=player_embedded
-https://www.facebook.com/photo.php?v=728456573839016
+https://www.facebook.com/photo.html?v=728456573839016
 http://tazakhobor.org/bangla/weird-news/20195-2014-01-06-15-51?q=fc6f90d64113ac4c45145ce2a839b4cc235523123
 http://whttps://www.youtube.com/watch?v=PCkBLI8ywg4#t=125
 ww.newsbreakbd.com/164333.htm
@@ -802,7 +802,7 @@ Zj96FK1Kr2
 
 
 For Sharing
-http://www.gyre.co.uk/help/broadband/connection_sharing.php
+http://www.gyre.co.uk/help/broadband/connection_sharing.html
 
 Team Viwer
 user name
@@ -1685,7 +1685,7 @@ Unfortunately, I have encountered an issue where I have lost access to the admin
 I understand the importance of verifying ownership to maintain the security of Facebook accounts and pages. To facilitate the recovery process, I am providing the following details associated with the Facebook pages:
 
 Pages Name: Shopno Database Firm, Shopno Interior Design & Decoration, Masters in Statistics 
-URL of the Facebook Pages: https://www.facebook.com/ShopnoDatabaseFirm, https://www.facebook.com/Your.Shopno, https://www.facebook.com/profile.php?id=100063547481799
+URL of the Facebook Pages: https://www.facebook.com/ShopnoDatabaseFirm, https://www.facebook.com/Your.Shopno, https://www.facebook.com/profile.html?id=100063547481799
 The email address associated with the Facebook account: asaduzzaman.kushtia1@yahoo.com
 Facebook account username: Md. Asaduzzaman
 A brief description of the issue: Some one hacked my page account and I cann't accessing my page.
@@ -1979,7 +1979,7 @@ atwar@crowncement.com
 address- Anowar Bhai (CSMR)
 hoque91@yahoo.com
 
-http://www.dghs.gov.bd/index.php/en/home/121-bengali/menu-articles/1117-ces-coverage-evaluation-survey-report
+http://www.dghs.gov.bd/index.html/en/home/121-bengali/menu-articles/1117-ces-coverage-evaluation-survey-report
 
 Akram Uddin
 Head of corporate sales

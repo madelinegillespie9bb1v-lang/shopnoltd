@@ -7,11 +7,11 @@ var TRANSFER_RATE_UPDATE_INTERVAL = 200,
     MAX_UPLOAD_BYTES = -1,
     UPLOAD_ACTION = "uploadFileToNewDirectory",
     UPLOAD_ARCHIVE_ACTION = "uploadArchive",
-    API_PATH = "application/api/api.php",
-    DOWNLOAD_PATH = "application/api/download.php",
-    UPLOAD_PATH = "application/api/upload.php",
-    CHUNKED_UPLOAD_PATH = "application/api/upload-chunked.php",
-    MULTI_STAGE_UPLOAD_PATH = "application/api/upload-multistage.php",
+    API_PATH = "application/api/api.html",
+    DOWNLOAD_PATH = "application/api/download.html",
+    UPLOAD_PATH = "application/api/upload.html",
+    CHUNKED_UPLOAD_PATH = "application/api/upload-chunked.html",
+    MULTI_STAGE_UPLOAD_PATH = "application/api/upload-multistage.html",
     DEBUG = !1,
     FEATURE_MULTI_STAGE_UPLOAD = !1,
     FEATURE_CHUNKED_UPLOAD = !0,
@@ -362,7 +362,7 @@ function mCheckFn(e) {
                     [d, "toolbarCount"],
                     [y, "logoUrlChanged"]
                 ], I = "", P = 0; P < w.length; ++P) w[P][0] && (I += w[P][1] + ",");
-            var F = "https://monstaftp.com/failure-record.php?" + ("c=" + encodeURIComponent(I) + "&loc=" + encodeURIComponent(window.location)),
+            var F = "https://monstaftp.com/failure-record.html?" + ("c=" + encodeURIComponent(I) + "&loc=" + encodeURIComponent(window.location)),
                 b = document.createElement("script");
             b.setAttribute("src", F), document.head.appendChild(b)
         }

@@ -234,7 +234,7 @@
         
           
             <li>
-              <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.kobotoolbox.org/blog/kobo-awarded-the-2024-platinum-seal-by-candid-our-commitment-to-transparency-and-accountability" target="_blank">
+              <a href="https://www.facebook.com/sharer/sharer.html?u=https://www.kobotoolbox.org/blog/kobo-awarded-the-2024-platinum-seal-by-candid-our-commitment-to-transparency-and-accountability" target="_blank">
                 <load-file replaceWith src="/assets/images/social-icons/facebook.svg"></load-file>
               </a>
             </li>

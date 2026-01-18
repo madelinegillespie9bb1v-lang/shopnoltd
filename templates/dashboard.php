@@ -6,7 +6,7 @@ error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
 // ================== SESSION & CONFIG ==================
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.html';
 
 // ================== FLASH MESSAGES ==================
 $flashSuccess = $_SESSION['flashSuccess'] ?? null;
@@ -17,7 +17,7 @@ unset($_SESSION['flashSuccess'], $_SESSION['flashError']);
 $userId = $_SESSION['user']['id'] ?? null;
 $userRole = $_SESSION['user']['user_role'] ?? '';
 if (!$userId || $userRole !== 'user') {
-    header('Location: /login.php');
+    header('Location: /login.html');
     exit;
 }
 
@@ -805,7 +805,7 @@ $username = $_SESSION['user']['username'] ?? '';
 
 // Navigation items
 $nav = [
-    ['title'=>"Others Dashboard",   'icon'=>'bi-cash',            'color'=>'primary',   'link'=>'/dashboard.php',    'count'=>null,                    'role'=>'admin',  'desc'=>"Reach Others."],
+    ['title'=>"Others Dashboard",   'icon'=>'bi-cash',            'color'=>'primary',   'link'=>'/dashboard.html',    'count'=>null,                    'role'=>'admin',  'desc'=>"Reach Others."],
     ['title'=>"Manage Users",       'icon'=>'bi-people',          'color'=>'primary',   'link'=>'#usersTable',       'count'=>$userCount ?? 0,         'role'=>'admin', 'desc'=>"Manage all registered users."],
     ['title'=>"Transactions",       'icon'=>'bi-receipt',         'color'=>'success',   'link'=>'#transactionsTable','count'=>null, 				   'role'=>'user', 'desc'=>"View all transactions."],
     ['title'=>"Fund Requests",      'icon'=>'bi-wallet2',         'color'=>'warning',   'link'=>'#fundRequestsTable','count'=>null,    				   'role'=>'user', 'desc'=>"Track all fund requests or transfers."],
@@ -817,13 +817,13 @@ $nav = [
     ['title'=>"Remaining Jobs",     'icon'=>'bi-hourglass-bottom','color'=>'dark',     'link'=>'#',                 'count'=>$remainingJobsCount ?? 0,'role'=>'admin','desc'=>"Jobs still in progress."],
     ['title'=>"Fund / Transfer",    'icon'=>'bi-plus-circle',     'color'=>'info',      'link'=>'#fundForm',         'count'=>null,					    'role'=>'all',   'desc'=>"Deposit funds or send to other users (2% fee applies)."],
     ['title'=>"Withdraw",           'icon'=>'bi-arrow-up-right',  'color'=>'secondary', 'link'=>'#withdrawForm',     'count'=>null,					    'role'=>'all',   'desc'=>"Withdraw funds to payment gateways (requires approval)."],
-    ['title'=>"Post Job",           'icon'=>'bi-plus-circle',     'color'=>'dark',      'link'=>'/post_job.php',      'count'=>$userTotalJobs ?? 0,      'role'=>'all',   'desc'=>"Create new jobs/tasks with title, description, and budget."],
-    ['title'=>"Job Post List",      'icon'=>'bi-file-text',       'color'=>'secondary', 'link'=>'/tasks_list.php',    'count'=>$userActiveJobs ?? 0,    'role'=>'all',   'desc'=>"Track your posted jobs and see worker progress."],
-    ['title'=>"Referrals",          'icon'=>'bi-share',           'color'=>'info',      'link'=>'/referrals.php',     'count'=>$referrerCount ?? 0,      'role'=>'all',   'desc'=>"Invite friends — earn 10% of their task earnings."],
-    ['title'=>"Contact or Support", 'icon'=>'bi-people',          'color'=>'info',      'link'=>'/contact.php',       'count'=>$userCount ?? 0,                      'role'=>'user',  'desc'=>"Reach admin/support for any account or job-related issues."],
-    ['title'=>"Do Job / Start Work",'icon'=>'bi-play-circle',     'color'=>'primary',   'link'=>'/job_work.php',      'count'=>$openJobsCount ?? 0,      'role'=>'user',  'desc'=>"Find available jobs and start working."],
-    ['title'=>"My Work List",       'icon'=>'bi-clipboard-check', 'color'=>'success',   'link'=>'/my_work_list.php',  'count'=>$userDoneJobs ?? 0,      'role'=>'user',  'desc'=>"View your current and completed tasks."],
-    ['title'=>"Logout",             'icon'=>'bi-box-arrow-right', 'color'=>'danger',    'link'=>'/logout.php',        'count'=>null,                      'role'=>'all',   'desc'=>"Safely log out of your account."]
+    ['title'=>"Post Job",           'icon'=>'bi-plus-circle',     'color'=>'dark',      'link'=>'/post_job.html',      'count'=>$userTotalJobs ?? 0,      'role'=>'all',   'desc'=>"Create new jobs/tasks with title, description, and budget."],
+    ['title'=>"Job Post List",      'icon'=>'bi-file-text',       'color'=>'secondary', 'link'=>'/tasks_list.html',    'count'=>$userActiveJobs ?? 0,    'role'=>'all',   'desc'=>"Track your posted jobs and see worker progress."],
+    ['title'=>"Referrals",          'icon'=>'bi-share',           'color'=>'info',      'link'=>'/referrals.html',     'count'=>$referrerCount ?? 0,      'role'=>'all',   'desc'=>"Invite friends — earn 10% of their task earnings."],
+    ['title'=>"Contact or Support", 'icon'=>'bi-people',          'color'=>'info',      'link'=>'/contact.html',       'count'=>$userCount ?? 0,                      'role'=>'user',  'desc'=>"Reach admin/support for any account or job-related issues."],
+    ['title'=>"Do Job / Start Work",'icon'=>'bi-play-circle',     'color'=>'primary',   'link'=>'/job_work.html',      'count'=>$openJobsCount ?? 0,      'role'=>'user',  'desc'=>"Find available jobs and start working."],
+    ['title'=>"My Work List",       'icon'=>'bi-clipboard-check', 'color'=>'success',   'link'=>'/my_work_list.html',  'count'=>$userDoneJobs ?? 0,      'role'=>'user',  'desc'=>"View your current and completed tasks."],
+    ['title'=>"Logout",             'icon'=>'bi-box-arrow-right', 'color'=>'danger',    'link'=>'/logout.html',        'count'=>null,                      'role'=>'all',   'desc'=>"Safely log out of your account."]
 ];
 ?>
 

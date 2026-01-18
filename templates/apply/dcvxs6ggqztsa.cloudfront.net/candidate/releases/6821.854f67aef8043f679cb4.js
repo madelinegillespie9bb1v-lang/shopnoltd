@@ -360,7 +360,7 @@
                         n = void 0 === t ? window : t,
                         r = e.url,
                         i = (0, a.useCallback)((function() {
-                            n.open(U.A.withBaseURL("https://www.facebook.com").withPath("share.php").withParameters({
+                            n.open(U.A.withBaseURL("https://www.facebook.com").withPath("share.html").withParameters({
                                 u: r
                             }).build(), "_blank", ie), re("facebook")
                         }), [n, r]),

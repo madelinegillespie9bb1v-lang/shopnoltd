@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopno Toolbox</title>
+    <style>
+        /* সাধারণ স্টাইল */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #f4f4f4;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header img {
+            height: 40px;
+        }
+        .menu {
+            display: flex;
+            align-items: center;
+        }
+        .menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+        .menu a:hover {
+            background-color: #ddd;
+        }
+        .menu .dropdown {
+            position: relative;
+        }
+        .menu .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%; /* মেনুর নিচে অবস্থান */
+            left: auto;
+            right: 0; /* ড্রপডাউন সীমাবদ্ধ */
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 1000;
+            min-width: 200px; /* ড্রপডাউন দৈর্ঘ্য */
+        }
+        .menu .dropdown-content a {
+            display: block;
+            padding: 12px 16px;
+            color: #333;
+            text-decoration: none;
+        }
+        .menu .dropdown-content a:hover {
+            background-color: #f4f4f4;
+        }
+        .menu .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .content {
+            margin-top: 70px;
+            padding: 25px;
+        }
+
+        /* রেসপন্সিভ ডিজাইন */
+        @media (max-width: 768px) {
+            .menu {
+                display: none; /* ছোট স্ক্রীনে মেনু লুকানো */
+                flex-direction: column;
+                background-color: #f4f4f4;
+                position: fixed;
+                top: 50px;
+                left: 0; /* মেনুকে বামে স্থাপন */
+                width: 250px; /* মেনুর প্রস্থ ঠিক করা */
+                height: calc(100vh - 50px); /* পুরো স্ক্রিন জুড়ে মেনু দেখান */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                overflow-y: auto; /* অতিরিক্ত কন্টেন্ট স্ক্রল হবে */
+            }
+            .menu.active {
+                display: flex; /* হ্যামবার্গার মেনু চালু হলে মেনু দেখান */
+            }
+            .menu a {
+                margin: 0;
+                padding: 10px 20px;
+                text-align: left;
+            }
+            .hamburger {
+                display: block;
+                cursor: pointer;
+                font-size: 30px;
+            }
+        }
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none; /* বড় স্ক্রীনে হ্যামবার্গার লুকানো */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- লোগো -->
+        <a href="https://shopnoltd-dashboard.onrender.com">
+            <img src="https://shopnoltd-dashboard.onrender.com/assets/images/common/shopnotoolbox_logo_default_for-light-bg.svg" alt="Shopno Toolbox Logo">
+        </a>
+        
+        <!-- হ্যামবার্গার মেনু -->
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        
+        <!-- মেনু -->
+        <div class="menu">
+            <a href="#">Sign Up</a>
+            <a href="#">Donate</a>
+            <div class="dropdown">
+                <a href="#">Menu</a>
+                <div class="dropdown-content">
+                    <a href="#about-us">About Us</a>
+                    <a href="#features">Features</a>
+                    <a href="#services">Services</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#blog">Blog</a>
+                    <a href="#help">Help</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <h1>Welcome to Shopno Toolbox</h1>
+        <p>Here is some content below the header.</p>
+    </div>
+
+    <script>
+        // হ্যামবার্গার মেনু টগল
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -4,8 +4,8 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config.html';
+require_once $_SERVER['DOCUMENT_ROOT'].'/functions.html';
 
 // ---------------------------
 // CSRF token
@@ -109,7 +109,7 @@ body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0; }
         <a href="<?=BASE_URL?>"><img src="/static/kobologo.svg" alt="Shopnoltd Toolbox Logo"></a>
     </div>
 
-    <form action="register.php" method="post" class="registration-form" autocomplete="off">
+    <form action="register.html" method="post" class="registration-form" autocomplete="off">
         <input type="hidden" name="csrfmiddlewaretoken" value="<?= $csrf_token ?>">
 
         <?php if(!empty($referral)): ?>
@@ -157,7 +157,7 @@ body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0; }
             <button type="submit">Register & Get OTP</button>
         </div>
 
-        <div class="small-link"><a href="/login.php">Already have an account? Login</a></div>
+        <div class="small-link"><a href="/login.html">Already have an account? Login</a></div>
     </form>
 </div>
 

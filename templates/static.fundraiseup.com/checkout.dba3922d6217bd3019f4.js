@@ -31118,7 +31118,7 @@
                             return a = ci.stringify({
                                 u: Mb(t, s),
                                 quote: n
-                            }), `https://www.facebook.com/sharer.php?${a}`;
+                            }), `https://www.facebook.com/sharer.html?${a}`;
                         case Lb:
                             return a = ci.stringify({
                                 body: AC([n, t], "\n"),

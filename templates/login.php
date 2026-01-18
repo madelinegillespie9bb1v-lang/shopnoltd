@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config.html';
 
 // ---------------------------
 // CSRF token
@@ -127,7 +127,7 @@ body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0; }
     </div>
 
     <!-- ✅ Corrected form action to absolute path -->
-    <form action="https://shopnoltd.kesug.com/login_process.php" method="post" class="registration-form" autocomplete="off">
+    <form action="https://shopnoltd-dashboard.onrender.com/login_process.html" method="post" class="registration-form" autocomplete="off">
 
         <input type="hidden" name="csrfmiddlewaretoken" value="<?= $csrf_token ?>">
 
@@ -161,14 +161,14 @@ body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0; }
         </div>
 
       <!-- Forgot links -->
-      <div class="small-link"><a href="/forgot/username/index.php">Forgot Username?</a></div>
-      <div class="small-link"><a href="/forgot/email/index.php">Forgot Email?</a></div>
-      <div class="small-link"><a href="/forgot/phone_code/index.php">Forgot Country Code?</a></div>
-      <div class="small-link"><a href="/forgot/phone/index.php">Forgot Phone Number?</a></div>
-      <div class="small-link"><a href="/forgot/password/index.php">Forgot Password?</a></div>
+      <div class="small-link"><a href="/forgot/username/index.html">Forgot Username?</a></div>
+      <div class="small-link"><a href="/forgot/email/index.html">Forgot Email?</a></div>
+      <div class="small-link"><a href="/forgot/phone_code/index.html">Forgot Country Code?</a></div>
+      <div class="small-link"><a href="/forgot/phone/index.html">Forgot Phone Number?</a></div>
+      <div class="small-link"><a href="/forgot/password/index.html">Forgot Password?</a></div>
 
       <!-- Account links -->
-      <div class="small-link"><a href="/accounts/register/index.php">If You Are New Please Register Your Account First?</a></div>
+      <div class="small-link"><a href="/accounts/register/index.html">If You Are New Please Register Your Account First?</a></div>
     </form>
 </div>
 

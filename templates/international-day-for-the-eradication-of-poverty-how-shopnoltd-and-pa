@@ -234,7 +234,7 @@
         
           
             <li>
-              <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.kobotoolbox.org/blog/international-day-for-the-eradication-of-poverty-how-kobo-and-partners-are-collaborating-for-sustainable-data-driven-change" target="_blank">
+              <a href="https://www.facebook.com/sharer/sharer.html?u=https://www.kobotoolbox.org/blog/international-day-for-the-eradication-of-poverty-how-kobo-and-partners-are-collaborating-for-sustainable-data-driven-change" target="_blank">
                 <load-file replaceWith src="/assets/images/social-icons/facebook.svg"></load-file>
               </a>
             </li>

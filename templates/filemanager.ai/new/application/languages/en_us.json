@@ -241,7 +241,7 @@
   "GET_SYSTEM_TYPE_BEFORE_CONNECTION_ERROR": "Attempting to get system type before connection.",
   "GET_SYSTEM_TYPE_FAILED_ERROR": "Failed to retrieve system type",
   "GET_WORKING_DIRECTORY_BEFORE_CONNECTION_ERROR": "Attempting to get working directory before connection.",
-  "DEBIAN_PRIVATE_KEY_BUG_ERROR": "Due to a PHP bug private keys with passwords may not work on Ubuntu/Debian. See https://bugs.php.net/bug.php?id=58573",
+  "DEBIAN_PRIVATE_KEY_BUG_ERROR": "Due to a PHP bug private keys with passwords may not work on Ubuntu/Debian. See https://bugs.html.net/bug.html?id=58573",
   "COULD_NOT_LOAD_PROFILE_DATA_ERROR": "Could not load valid data from profile at {path}.",
   "PROFILE_NOT_READABLE_ERROR": "Profile exists at {path} but it is not readable with the given password.",
   "PROFILE_SIZE_READ_ERROR": "Profile exists at {path} but couldn't get its size.",

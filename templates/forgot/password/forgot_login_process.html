@@ -1,0 +1,100 @@
+<?php
+session_start();
+
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Include configuration
+
+
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.html';
+
+
+
+// Collect and validate email
+$email = trim($_POST['email'] ?? '');
+$language = 'English'; // fallback
+
+if (empty($email)) {
+    echo "<script>alert('Please provide your registered email address!'); window.history.back();</script>";
+    exit;
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "<script>alert('Invalid email format!'); window.history.back();</script>";
+    exit;
+}
+
+try {
+    // Check if user exists
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+    $stmt->execute([':email' => $email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        echo "<script>alert('No account found with this email!'); window.history.back();</script>";
+        exit;
+    }
+
+    $current_time = time();
+
+    // Prevent multiple OTP requests within active OTP period
+    if (!empty($user['generated_otp_end_time']) && $current_time < (int)$user['generated_otp_end_time']) {
+        $seconds_left = (int)$user['generated_otp_end_time'] - $current_time;
+        echo "<script>
+            alert('You already requested an OTP. Please wait {$seconds_left} seconds before trying again.');
+            window.history.back();
+        </script>";
+        exit;
+    }
+
+    // Generate secure OTP
+    $otp = random_int(100000, 999999);
+    $otp_lifetime = 600; // 10 minutes
+    $otp_end_time = $current_time + $otp_lifetime;
+
+    // Update OTP in database
+    $update = $pdo->prepare("
+        UPDATE users 
+        SET 
+            generated_otp_number = :otp,
+            generated_otp_time = :otp_time,
+            generated_otp_end_time = :otp_end_time,
+            generated_otp_count_time = :count_time
+        WHERE id = :id
+    ");
+    $update->execute([
+        ':otp' => $otp,
+        ':otp_time' => $current_time,
+        ':otp_end_time' => $otp_end_time,
+        ':count_time' => $otp_lifetime,
+        ':id' => $user['id']
+    ]);
+
+    // ✅ Store minimal session for OTP verification and email sending
+    $_SESSION['pending_user'] = [
+        'id'         => $user['id'],
+        'username'   => $user['username'] ?? '',
+        'email'      => $user['email'],
+        'phone_code' => $user['phone_code'] ?? '',
+        'phone'      => $user['phone'] ?? '',
+        'language'   => $user['language'] ?? $language,
+        'user_role'  => $user['user_role'] ?? '',
+        'otp_method' => 'email' // verification will be done using DB
+    ];
+
+    // Redirect to email sending script
+    header("Location: send_otp_email_login.html");
+    exit;
+
+} catch (PDOException $e) {
+    echo "<script>alert('Database error: " . htmlspecialchars($e->getMessage()) . "'); window.history.back();</script>";
+    exit;
+} catch (Exception $e) {
+    echo "<script>alert('Unexpected error: " . htmlspecialchars($e->getMessage()) . "'); window.history.back();</script>";
+    exit;
+}
+?>

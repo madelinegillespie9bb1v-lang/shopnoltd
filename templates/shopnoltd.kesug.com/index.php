@@ -24,8 +24,8 @@
     
     <title>ShopnoltdToolbox</title>
     <meta name="description" content="KoboToolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <base href="https://shopnoltd.kesug.com"/>
-    <link rel="home" href="https://shopnoltd.kesug.com"/>
+    <base href="https://shopnoltd-dashboard.onrender.com"/>
+    <link rel="home" href="https://shopnoltd-dashboard.onrender.com"/>
 
     
     <meta name="robots" content="index,follow,noodp"/>
@@ -36,7 +36,7 @@
     <meta property="og:site_name" content="KoboToolbox"/>
     <meta property="og:title" content=""/>
     <meta property="og:description" content="KoboToolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
-    <meta property="og:url" content="https://shopnoltd.kesug.com/"/>
+    <meta property="og:url" content="https://shopnoltd-dashboard.onrender.com/"/>
     <meta name="twitter:site" content="@kobotoolbox"/>
     <meta name="twitter:description" content="KoboToolbox is an intuitive, powerful, and reliable software used to collect, analyze, and manage data for surveys, monitoring, evaluation, and research."/>
 
@@ -46,13 +46,13 @@
         <meta property="og:type" content="website"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="KoboToolbox"/>
-        <meta name="twitter:image" content="https://shopnoltd.kesug.com/assets/images/common/kobotoolbox_opengraph_image.png"/>
-        <meta property="og:image" content="https://shopnoltd.kesug.com/assets/images/common/kobotoolbox_opengraph_image.png"/>
+        <meta name="twitter:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/kobotoolbox_opengraph_image.png"/>
+        <meta property="og:image" content="https://shopnoltd-dashboard.onrender.com/assets/images/common/kobotoolbox_opengraph_image.png"/>
     
 
     
-    <link href="https://shopnoltd.kesug.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
-    <link rel="icon" href="https://shopnoltd.kesug.com/favicon.png?2024-12-05_18-51-37"/>
+    <link href="https://shopnoltd-dashboard.onrender.com/assets/styles/kobo.css?2024-12-05_18-51-37" rel="stylesheet" media="all"/>
+    <link rel="icon" href="https://shopnoltd-dashboard.onrender.com/favicon.png?2024-12-05_18-51-37"/>
 
 
 
@@ -1364,7 +1364,7 @@ accounts/signup">Sign up now</a>
           Chat with thousands of other ShopnoltdToolbox users on our forum or or check out our online learning course.
         </div>
         <div class="home-cta__link-list">
-          <a class="home-cta__link arrow-link__trigger" href="/community.shopnoltd.kesug.com/" target="_blank">
+          <a class="home-cta__link arrow-link__trigger" href="/community.shopnoltd-dashboard.onrender.com/" target="_blank">
             <figure class="home-cta__link-image" style="background-image: url('/assets/images/sections/home-community-forum.jpg')"></figure>
             <div class="home-cta__link-text">
               <h3>
@@ -1385,7 +1385,7 @@ accounts/signup">Sign up now</a>
 
             </div>
           </a>
-          <a class="home-cta__link arrow-link__trigger" href="https://academy.shopnoltd.kesug.com/courses/essentials" target="_blank">
+          <a class="home-cta__link arrow-link__trigger" href="https://academy.shopnoltd-dashboard.onrender.com/courses/essentials" target="_blank">
             <figure class="home-cta__link-image" style="background-image: url('/assets/images/sections/partner-kobo-2748.jpg')"></figure>
             <div class="home-cta__link-text">
               <h3>
@@ -1659,7 +1659,7 @@ accounts/signup">Sign up now</a>
 
         
           <li>
-            <a href="https://academy.shopnoltd.kesug.com/collections">Online learning</a>
+            <a href="https://academy.shopnoltd-dashboard.onrender.com/collections">Online learning</a>
           </li>
         
           <li>
@@ -1689,11 +1689,11 @@ accounts/signup">Sign up now</a>
 
         
           <li>
-            <a href="/community.shopnoltd.kesug.com/">Forum</a>
+            <a href="/community.shopnoltd-dashboard.onrender.com/">Forum</a>
           </li>
         
           <li>
-            <a href="/support.shopnoltd.kesug.com/">Documentation</a>
+            <a href="/support.shopnoltd-dashboard.onrender.com/">Documentation</a>
           </li>
         
           <li>
@@ -1774,7 +1774,7 @@ accounts/signup">Sign up now</a>
 </footer>
 
 
-    <script async src="https://shopnoltd.kesug.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
+    <script async src="https://shopnoltd-dashboard.onrender.com/assets/scripts/kobo.js?2024-12-05_18-51-37"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26003863-1"></script>

@@ -5,4 +5,4 @@
 </IfModule>
 
 # Make sure that the index file is correctly specified.
-DirectoryIndex index.php
+DirectoryIndex index.html
