@@ -88,7 +88,7 @@ def login_required(f):
 def index_page():
     return render_template("index.html")
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def login_page():
     if request.method == "POST":
         user = User.query.filter_by(
