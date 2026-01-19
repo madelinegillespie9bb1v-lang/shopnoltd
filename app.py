@@ -9,12 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # ==============================
 # APP CONFIG
 # ==============================
-app = Flask(
-    __name__,
-    static_folder="static",
-    static_url_path="/static"
-)
-
+app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "shopnoltd-secret-key")
 
 # ==============================
