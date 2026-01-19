@@ -13,15 +13,27 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "shopnoltd-secret-key")
 
 # ==============================
+# PING (KEEP ALIVE)
+# ==============================
+@app.route("/ping")
+def ping():
+    return "", 204   # Fast, silent, perfect for UptimeRobot
+
+# ==============================
 # DATABASE CONFIG (POSTGRESQL)
 # ==============================
 DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL is missing")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace(
-    "postgres://", "postgresql://"
-)
+if not DATABASE_URL:
+    raise RuntimeError(
+        "DATABASE_URL is missing. Set it in Render → Environment Variables"
+    )
+
+# Render uses postgres:// but SQLAlchemy needs postgresql://
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -43,16 +55,16 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 # ==============================
-# KOBO CONFIG
+# KOBO CONFIG (SAFE)
 # ==============================
 API_TOKEN = os.getenv("KOBO_API_TOKEN")
 ASSET_UID = os.getenv("KOBO_ASSET_UID")
 
-if not API_TOKEN or not ASSET_UID:
-    raise RuntimeError("KOBO_API_TOKEN or KOBO_ASSET_UID is missing")
-
-HEADERS = {"Authorization": f"Token {API_TOKEN}"}
-KOBO_API_URL = f"https://kf.kobotoolbox.org/api/v2/assets/{ASSET_UID}/data/"
+HEADERS = {"Authorization": f"Token {API_TOKEN}"} if API_TOKEN else {}
+KOBO_API_URL = (
+    f"https://kf.kobotoolbox.org/api/v2/assets/{ASSET_UID}/data/"
+    if ASSET_UID else None
+)
 
 CACHE = {"data": [], "timestamp": 0}
 CACHE_DURATION = 300
@@ -72,12 +84,10 @@ def login_required(f):
 # ROUTES
 # ==============================
 
-# ---------- HOME ----------
 @app.route("/")
 def index_page():
     return render_template("index.html")
 
-# ---------- LOGIN ----------
 @app.route("/login", methods=["GET", "POST"])
 def login_page():
     if request.method == "POST":
@@ -94,12 +104,10 @@ def login_page():
 
     return render_template("login.html")
 
-# ---------- SIGN UP (PAGE) ----------
 @app.route("/sign-up")
 def sign_up_page():
     return render_template("sign-up/sign-up_1.html")
 
-# ---------- SIGN UP (FORM SUBMIT) ----------
 @app.route("/accounts/signup", methods=["POST"])
 def signup_submit():
     user = User(
@@ -113,16 +121,17 @@ def signup_submit():
 
     return redirect(url_for("login_page"))
 
-# ---------- LOGOUT ----------
 @app.route("/logout")
 def logout_page():
     session.clear()
     return redirect(url_for("index_page"))
 
-# ---------- DASHBOARD ----------
 @app.route("/dashboard")
 @login_required
 def dashboard_page():
+    if not KOBO_API_URL or not API_TOKEN:
+        return "<h2>Kobo configuration missing.</h2>"
+
     now = time.time()
 
     if now - CACHE["timestamp"] > CACHE_DURATION:
@@ -150,7 +159,6 @@ def dashboard_page():
         total_pages=(len(data) - 1) // per_page + 1,
     )
 
-# ---------- PROFILE ----------
 @app.route("/accounts/profile")
 @login_required
 def profile_page():
@@ -164,7 +172,7 @@ with app.app_context():
     db.create_all()
 
 # ==============================
-# RUN (RENDER)
+# RUN (RENDER / LOCAL)
 # ==============================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
