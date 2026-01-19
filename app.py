@@ -109,6 +109,10 @@ def login_page():
 
     return render_template("login.html")
 
+@app.route("/about-us")
+def sign_up_page():
+    return render_template("about-us/index.html")
+    
 @app.route("/sign-up")
 def sign_up_page():
     return render_template("sign-up/index.html")
