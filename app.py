@@ -106,7 +106,7 @@ def login_page():
 
 @app.route("/sign-up")
 def sign_up_page():
-    return render_template("sign-up/sign-up_1.html")
+    return render_template("sign-up/index.html")
 
 @app.route("/accounts/signup", methods=["POST"])
 def signup_submit():
