@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div\n  class=\"composer-fullscreen-prompt\"\n  {{on \"animationend\" @removeFullScreenExitPrompt}}\n>\n  {{html-safe (i18n \"composer.exit_fullscreen_prompt\")}}\n</div>",{ moduleName: "discourse/components/composer-fullscreen-prompt.hbs" })

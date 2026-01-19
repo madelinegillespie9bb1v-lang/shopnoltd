@@ -1,0 +1,8 @@
+// Imports
+import ___CSS_LOADER_API_SOURCEMAP_IMPORT___ from "../../../node_modules/css-loader/dist/runtime/sourceMaps.js";
+import ___CSS_LOADER_API_IMPORT___ from "../../../node_modules/css-loader/dist/runtime/api.js";
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_SOURCEMAP_IMPORT___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".access-denied{display:flex;justify-content:center;align-items:center;width:100%;height:100%}.access-denied__body{max-width:600px}.access-denied__header{font-size:24px;text-align:center}.access-denied__header .k-icon{margin-right:5px;vertical-align:-5px;font-size:28px;display:inline-block}.access-denied__text{margin-top:20px}.access-denied__text code{margin-left:5px}", "",{"version":3,"sources":["webpack://./jsapp/js/router/accessDenied.scss"],"names":[],"mappings":"AAAA,eACE,YAAA,CACA,sBAAA,CACA,kBAAA,CACA,UAAA,CACA,WAAA,CAGF,qBACE,eAAA,CAGF,uBACE,cAAA,CACA,iBAAA,CAEA,+BACE,gBAAA,CACA,mBAAA,CACA,cAAA,CACA,oBAAA,CAIJ,qBACE,eAAA,CAEA,0BACE,eAAA","sourcesContent":[".access-denied {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n\n.access-denied__body {\n  max-width: 600px;\n}\n\n.access-denied__header {\n  font-size: 24px;\n  text-align: center;\n\n  .k-icon {\n    margin-right: 5px;\n    vertical-align: -5px;\n    font-size: 28px;\n    display: inline-block;\n  }\n}\n\n.access-denied__text {\n  margin-top: 20px;\n\n  code {\n    margin-left: 5px;\n  }\n}\n"],"sourceRoot":""}]);
+// Exports
+export default ___CSS_LOADER_EXPORT___;

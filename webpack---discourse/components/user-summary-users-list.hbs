@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.users}}\n  <ul>\n    {{#each this.users as |user|}}\n      {{yield user}}\n    {{/each}}\n  </ul>\n{{else}}\n  <p>{{i18n (concat \"user.summary.\" this.none)}}</p>\n{{/if}}",{ moduleName: "discourse/components/user-summary-users-list.hbs" })

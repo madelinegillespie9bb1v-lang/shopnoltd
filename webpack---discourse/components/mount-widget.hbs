@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#each this._childComponents as |info|}}\n  {{#in-element info.element insertBefore=null}}\n    <info.component\n      @data={{info.data}}\n      @setWrapperElementAttrs={{info.setWrapperElementAttrs}}\n    />\n  {{/in-element}}\n{{/each}}",{ moduleName: "discourse/components/mount-widget.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal\n  @title={{i18n \"copy_codeblock.view_code\"}}\n  @closeModal={{this.closeModal}}\n  {{did-insert this.applyCodeblockButtons}}\n  class=\"fullscreen-code-modal -max\"\n>\n  <:body>\n    <pre>\n      <code class={{@model.codeClasses}}>{{@model.code}}</code>\n    </pre>\n  </:body>\n</DModal>",{ moduleName: "discourse/components/modal/fullscreen-code.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<form class=\"groups-form form-vertical\">\n  <GroupsFormProfileFields @model={{this.model}} @disableSave={{this.saving}} />\n  <GroupManageSaveButton @model={{this.model}} @saving={{this.saving}} />\n</form>",{ moduleName: "discourse/templates/group/manage/profile.hbs" })

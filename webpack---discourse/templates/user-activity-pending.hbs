@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<ul class=\"user-stream\">\n  {{#each this.model as |pending_post|}}\n    <PendingPost @post={{pending_post}} />\n  {{/each}}\n</ul>",{ moduleName: "discourse/templates/user-activity-pending.hbs" })

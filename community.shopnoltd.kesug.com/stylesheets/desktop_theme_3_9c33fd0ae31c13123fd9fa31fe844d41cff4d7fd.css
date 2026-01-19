@@ -1,0 +1,56 @@
+@import"https://fonts.googleapis.com/css?family=Open+Sans|Raleway";
+.latest-topic-list .topic-poster {
+    display: none
+}
+
+.featured-topic a {
+    color: gray
+}
+
+.list-vote-count {
+    color: #2095f3
+}
+
+.footer_links a {
+    color: gray
+}
+
+.d-icon-home {
+    color: #c6c7cb;
+    size: "2x"
+}
+
+.footer_links {
+    bottom: 0px;
+    width: 100%;
+    position: fixed;
+    background: #fff;
+    padding: 6px;
+    text-align: center;
+    z-index: 100
+}
+
+.footer_links .support_image {
+    height: 32px;
+    margin: 0 0 0 20px
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Open Sans", sans-serif
+}
+
+body {
+    font-family: "Raleway", sans-serif
+}
+
+strong,
+b {
+    font-weight: 700
+}
+
+/*# sourceMappingURL=desktop_theme_3_9c33fd0ae31c13123fd9fa31fe844d41cff4d7fd.css.map?__ws=community.kobotoolbox.org */

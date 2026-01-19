@@ -1,0 +1,43 @@
+%input-font-color {
+  color: themed(color-font-primary);
+}
+
+%input {
+  border-radius: $border-radius-input;
+  border: solid $border-width themed(color-input-default);
+  transition: border-color $input-transition-duration ease-in;
+  background-color: white;
+  @extend %input-font-color;
+}
+
+%disabled-border {
+  border: solid 1px transparent;
+}
+
+%disabled {
+  color: themed(color-input-muted);
+  background-color: color(grey200);
+  @extend %disabled-border;
+  cursor: not-allowed;
+}
+
+%focus {
+  border: solid 1px themed(color-outline-focus);
+}
+
+%read-only-border {
+  border: dashed 1px themed(color-input-default);
+}
+
+%read-only {
+  color: themed(color-input-muted);
+  @extend %read-only-border;
+}
+
+%error {
+  border: solid $border-width themed(color-danger);
+}
+
+%warning {
+  border: solid $border-width themed(color-warning);
+}

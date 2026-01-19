@@ -1,0 +1,5 @@
+.collapsible-listbox {
+  [aria-expanded='false'] + [role='group'] {
+    display: none;
+  }
+}

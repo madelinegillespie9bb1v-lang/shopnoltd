@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"header\">\n  <h3 class=\"title\">{{html-safe this.shareTitle}}</h3>\n</div>\n\n<div class=\"body\">\n  <DTextarea\n    @value={{this.shareUrl}}\n    @aria-label={{i18n \"share.url\"}}\n    class=\"topic-share-url\"\n  />\n\n  <div class=\"sources\">\n    {{#each this.sources as |source|}}\n      <ShareSource @source={{source}} @action={{this.share}} />\n    {{/each}}\n  </div>\n</div>",{ moduleName: "discourse/components/share-panel.hbs" })

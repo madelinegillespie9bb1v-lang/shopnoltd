@@ -1,0 +1,12 @@
+// Imports
+import ___CSS_LOADER_API_SOURCEMAP_IMPORT___ from "../../../../node_modules/css-loader/dist/runtime/sourceMaps.js";
+import ___CSS_LOADER_API_IMPORT___ from "../../../../node_modules/css-loader/dist/runtime/api.js";
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_SOURCEMAP_IMPORT___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".projectsFieldsSelector-module__root--xRIwv{display:inline-block;vertical-align:top}.projectsFieldsSelector-module__fields--xXgUP{max-height:200px}", "",{"version":3,"sources":["webpack://./jsapp/js/projects/projectViews/projectsFieldsSelector.module.scss","webpack://./jsapp/scss/sizes.scss"],"names":[],"mappings":"AAEA,4CACE,oBAAA,CACA,kBAAA,CAGF,8CACE,gBCkCK","sourcesContent":["@use 'scss/sizes';\n\n.root {\n  display: inline-block;\n  vertical-align: top;\n}\n\n.fields {\n  max-height: sizes.$x200;\n}\n","/*\n * A temporary-ish file for defining all the sizes we use in the app to avoid\n * creating unnecessary new ones. Ultimately we would like to have a small\n * nice palette and start merging similar ones. This will also help us find\n * how many of each of them we use.\n */\n@use 'sass:math';\n\n// absolute sizes\n$x1: 1px;\n$x2: 2px;\n$x3: 3px;\n$x4: 4px;\n$x5: 5px;\n$x6: 6px;\n$x8: 8px;\n$x10: 10px;\n$x12: 12px;\n$x13: 13px;\n$x14: 14px;\n$x15: 15px;\n$x16: 16px;\n$x18: 18px;\n$x20: 20px;\n$x21: 21px;\n$x22: 22px;\n$x24: 24px;\n$x28: 28px;\n$x30: 30px;\n$x32: 32px;\n$x36: 36px;\n$x38: 38px;\n$x40: 40px;\n$x48: 48px;\n$x50: 50px;\n$x60: 60px;\n$x80: 80px;\n$x100: 100px;\n$x120: 120px;\n$x140: 140px;\n$x150: 150px;\n$x180: 180px;\n$x200: 200px;\n$x300: 300px;\n$x350: 350px;\n$x400: 400px;\n$x600: 600px;\n$x800: 800px;\n\n// takes a pixel dimension and returns it in rem\n@function pxToRem($size) {\n  $remSize: math.div($size, 16px);\n  @return #{$remSize}rem;\n}\n\n// relative sizes (rem units - scales with root document font size)\n$r12: pxToRem($x12);\n$r14: pxToRem($x14);\n$r16: pxToRem($x16); // 1em at default font size of 16px\n$r18: pxToRem($x18);\n\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"root": "projectsFieldsSelector-module__root--xRIwv",
+	"fields": "projectsFieldsSelector-module__fields--xXgUP"
+};
+export default ___CSS_LOADER_EXPORT___;

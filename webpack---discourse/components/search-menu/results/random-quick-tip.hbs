@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<li class=\"search-random-quick-tip\">\n  <span\n    class={{concat-class\n      \"tip-label\"\n      (if this.randomTip.clickable \"tip-clickable\")\n    }}\n    role=\"button\"\n    {{on \"click\" this.tipSelected}}\n  >\n    {{this.randomTip.label}}\n  </span>\n\n  <span class=\"tip-description\">\n    {{this.randomTip.description}}\n  </span>\n</li>",{ moduleName: "discourse/components/search-menu/results/random-quick-tip.hbs" })

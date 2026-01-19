@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<SignupProgressBar @step=\"activate\" />\n<div class=\"ac-message\">\n  {{#if this.email}}\n    {{html-safe\n      (i18n \"login.sent_activation_email_again\" currentEmail=this.email)\n    }}\n  {{else}}\n    {{i18n \"login.sent_activation_email_again_generic\"}}\n  {{/if}}\n</div>",{ moduleName: "discourse/templates/account-created/resent.hbs" })

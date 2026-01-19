@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<ComboBox\n  @value={{this.time}}\n  @content={{this.timeOptions}}\n  @onChange={{action \"onChangeTime\"}}\n  @options={{hash\n    translatedNone=\"--:--\"\n    allowAny=true\n    filterable=false\n    autoInsertNoneItem=false\n    translatedFilterPlaceholder=\"--:--\"\n  }}\n/>",{ moduleName: "discourse/components/time-input.hbs" })

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<Input\n  @type={{this.inputType}}\n  class=\"date-picker\"\n  placeholder={{this.placeholder}}\n  @value={{readonly this.value}}\n  id={{this.inputId}}\n  {{on \"input\" (action \"onChangeDate\")}}\n/>\n\n{{#unless this.useGlobalPickerContainer}}\n  <div class=\"picker-container\"></div>\n{{/unless}}",{ moduleName: "discourse/components/date-input.hbs" })

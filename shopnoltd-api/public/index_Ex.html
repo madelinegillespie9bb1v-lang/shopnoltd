@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form with OTP</title>
+</head>
+<body>
+    <h1>Dynamic Form with OTP</h1>
+
+    <form id="myForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+
+        <label for="middleName">Middle Name:</label>
+        <input type="text" id="middleName" name="middleName"><br><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+
+        <label for="countryCode">Country Code:</label>
+        <input type="text" id="countryCode" name="countryCode" readonly><br><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+
+        <button type="button" id="getOtp">Get OTP</button><br><br>
+
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" required><br><br>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required><br><br>
+
+        <label for="currency">Currency:</label>
+        <input type="text" id="currency" name="currency" required><br><br>
+
+        <label for="loginToken">Login Token:</label>
+        <input type="text" id="loginToken" name="loginToken" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Result</h2>
+    <div id="result">
+        <p id="fullName"></p>
+        <p id="fullPhoneNumber"></p>
+        <p id="countryCodeOutput"></p>
+        <p id="phoneNumberOutput"></p>
+        <p id="otpOutput"></p>
+        <p id="amountOutput"></p>
+        <p id="currencyOutput"></p>
+        <p id="loginTokenOutput"></p>
+        <p id="createdAt"></p>
+    </div>
+
+    <script>
+        // Populate country code on page load
+        window.onload = function() {
+            getCountryCodeByIp();
+        };
+
+        // Function to get the user's country code by IP
+        function getCountryCodeByIp() {
+            fetch('https://ipinfo.io/json')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.country) {
+                        const countryCode = data.country;
+                        console.log('Country Code:', countryCode);
+                        document.getElementById('countryCode').value = countryCode;
+                    } else {
+                        console.error('Country code not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching country code:', error);
+                });
+        }
+
+        // Generate OTP
+        document.getElementById('getOtp').addEventListener('click', function() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+
+            if (!phoneNumber) {
+                alert('Please enter a phone number to receive the OTP.');
+                return;
+            }
+
+            // Simulate OTP generation
+            const otp = Math.floor(100000 + Math.random() * 900000); // Generate a random 6-digit OTP
+            alert('Your OTP is: ' + otp); // Replace with actual OTP sending via SMS or email in a real application
+            localStorage.setItem('generatedOtp', otp); // Store OTP locally for verification
+        });
+
+        // Form submission handler
+        document.getElementById('myForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const middleName = document.getElementById('middleName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const amount = document.getElementById('amount').value;
+            const currency = document.getElementById('currency').value;
+            const loginToken = document.getElementById('loginToken').value;
+            const enteredOtp = document.getElementById('otp').value;
+
+            // Verify OTP
+            const generatedOtp = localStorage.getItem('generatedOtp');
+            if (enteredOtp !== generatedOtp) {
+                alert('Invalid OTP. Please try again.');
+                return;
+            }
+
+            // Create Full Name and Full Phone Number
+            const fullName = firstName + ' ' + middleName + ' ' + lastName;
+            const fullPhoneNumber = countryCode + phoneNumber;
+
+            // Set the result output
+            document.getElementById('fullName').textContent = 'Full Name: ' + fullName;
+            document.getElementById('fullPhoneNumber').textContent = 'Full Phone Number: ' + fullPhoneNumber;
+            document.getElementById('countryCodeOutput').textContent = 'Country Code: ' + countryCode;
+            document.getElementById('phoneNumberOutput').textContent = 'Phone Number: ' + phoneNumber;
+            document.getElementById('otpOutput').textContent = 'OTP Verified Successfully';
+            document.getElementById('amountOutput').textContent = 'Amount: ' + amount;
+            document.getElementById('currencyOutput').textContent = 'Currency: ' + currency;
+            document.getElementById('loginTokenOutput').textContent = 'Login Token: ' + loginToken;
+
+            // Display current date/time
+            const createdAt = new Date().toLocaleString();
+            document.getElementById('createdAt').textContent = 'Created At: ' + createdAt;
+        });
+    </script>
+</body>
+</html>

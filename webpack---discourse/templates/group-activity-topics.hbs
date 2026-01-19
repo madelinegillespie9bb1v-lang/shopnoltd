@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<LoadMore\n  @selector=\".paginated-topics-list .topic-list tr\"\n  @action={{action \"loadMore\"}}\n  class=\"paginated-topics-list\"\n>\n  <BasicTopicList @topicList={{this.model}} @showPosters={{true}} />\n  <ConditionalLoadingSpinner @condition={{this.model.loadingMore}} />\n</LoadMore>",{ moduleName: "discourse/templates/group-activity-topics.hbs" })

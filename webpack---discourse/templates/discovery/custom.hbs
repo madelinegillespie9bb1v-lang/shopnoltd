@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<PluginOutlet @name=\"custom-homepage\">\n  {{#if this.currentUser.admin}}\n    <p class=\"alert alert-info\">\n      {{i18n \"custom_homepage.admin_message\"}}\n    </p>\n  {{/if}}\n</PluginOutlet>",{ moduleName: "discourse/templates/discovery/custom.hbs" })

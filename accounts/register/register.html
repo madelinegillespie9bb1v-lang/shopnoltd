@@ -1,0 +1,271 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
+
+/* ----------------------------------------
+   CONFIG & FUNCTIONS
+-----------------------------------------*/
+$configPath = $_SERVER['DOCUMENT_ROOT'] . '/config.html';
+if (!file_exists($configPath)) $configPath = __DIR__ . '/../../config.html';
+require_once $configPath;
+
+$functionsPath = $_SERVER['DOCUMENT_ROOT'] . '/functions.html';
+if (!file_exists($functionsPath)) $functionsPath = __DIR__ . '/../../functions.html';
+require_once $functionsPath;
+
+/* ----------------------------------------
+   CSRF TOKEN GENERATION
+-----------------------------------------*/
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(16));
+}
+$csrf_token = $_SESSION['csrf_token'];
+
+try {
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        // CSRF validation
+        if (empty($_POST['csrf_token']) ||
+            $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
+            throw new Exception("Invalid or missing CSRF token.");
+        }
+
+        /* ----------------------------------------
+           COLLECT INPUTS
+        -----------------------------------------*/
+        $first_name       = trim($_POST['first_name'] ?? '');
+        $last_name        = trim($_POST['last_name'] ?? '');
+        $username         = trim($_POST['username'] ?? '');
+        $email            = trim($_POST['email'] ?? '');
+        $phone_code       = trim($_POST['phone_code'] ?? '');
+        $phone            = trim($_POST['phone'] ?? '');
+        $password         = trim($_POST['password'] ?? '');
+        $confirm_password = trim($_POST['confirm_password'] ?? '');
+        $referrer         = trim($_POST['referrer'] ?? '');
+
+        if ($phone_code && strpos($phone_code, '+') !== 0) {
+            $phone_code = '+' . $phone_code;
+        }
+
+        // Validate required fields
+        if (
+            empty($first_name) || empty($last_name) || empty($username) ||
+            empty($email) || empty($phone_code) || empty($phone) ||
+            empty($password) || empty($confirm_password)
+        ) {
+            throw new Exception("⚠️ All fields are required.");
+        }
+
+        if ($password !== $confirm_password) {
+            throw new Exception("❌ Passwords do not match.");
+        }
+
+        if (!preg_match('/^\d+$/', $phone)) {
+            throw new Exception("Invalid phone number.");
+        }
+
+        // Check duplicates
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ? LIMIT 1");
+        $stmt->execute([$username, $email]);
+        if ($stmt->rowCount() > 0) {
+            throw new Exception("❌ Username or Email already exists.");
+        }
+
+        // Hash password
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+        $fullName      = $first_name . ' ' . $last_name;
+        $fullPhone     = $_POST['fullphone'] ?? ($phone_code . $phone);
+
+        // Referrer
+        $referrer_id = null;
+        if ($referrer !== '') {
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? LIMIT 1");
+            $stmt->execute([$referrer]);
+            $referrer_id = $stmt->fetchColumn();
+        }
+
+        // Security tokens
+        $login_token  = bin2hex(random_bytes(16));
+        $reset_token  = bin2hex(random_bytes(16));
+        $api_key      = bin2hex(random_bytes(16));
+        $secret_key   = bin2hex(random_bytes(32));
+
+        $login_token_expiry_time  = time() + 30 * 24 * 60 * 60;
+        $reset_token_expiry_time  = time() + 60 * 60;
+        $api_key_expiry_time      = time() + 365 * 24 * 60 * 60;
+        $secret_key_expiry_time   = time() + 365 * 24 * 60 * 60;
+
+        // Device info
+        $deviceInfo = get_device_info();
+        $device_name   = $deviceInfo['name'] ?? null;
+        $device_model  = $deviceInfo['model'] ?? null;
+        $device_os     = $deviceInfo['os'] ?? null;
+        $browser_name  = $deviceInfo['browser'] ?? null;
+        $user_agent    = $_SERVER['HTTP_USER_AGENT'] ?? null;
+
+        $ip_address = get_user_ip() ?? $_SERVER['REMOTE_ADDR'] ?? null;
+        $ip_port    = $_SERVER['REMOTE_PORT'] ?? null;
+
+        $device_registered_at = date('Y-m-d H:i:s');
+
+        // Country
+        $userCountry  = get_user_country() ?? [];
+        $country_code = $userCountry['country_code'] ?? 'US';
+
+        // Created timestamp
+        $created_at = date('Y-m-d H:i:s');
+
+        /* ----------------------------------------
+           INSERT NEW USER
+        -----------------------------------------*/
+        $insert = $pdo->prepare("
+            INSERT INTO users
+            (first_name, last_name, fullName, username, email,
+             phone_code, phone, fullPhone, password, user_role,
+             device_name, device_model, device_os, browser_name, user_agent,
+             ip_address, ip_port, ip_username, ip_password,
+             device_registered_at, country_code,
+             login_token, login_token_expiry_time,
+             reset_token, reset_token_expiry_time,
+             api_key, api_key_expiry_time,
+             secret_key, secret_key_expiry_time,
+             referrer, referrer_id, created_at)
+            VALUES
+            (:first_name, :last_name, :fullName, :username, :email,
+             :phone_code, :phone, :fullPhone, :password, 'user',
+             :device_name, :device_model, :device_os, :browser_name, :user_agent,
+             :ip_address, :ip_port, NULL, NULL,
+             :device_registered_at, :country_code,
+             :login_token, :login_token_expiry_time,
+             :reset_token, :reset_token_expiry_time,
+             :api_key, :api_key_expiry_time,
+             :secret_key, :secret_key_expiry_time,
+             :referrer, :referrer_id, :created_at)
+        ");
+
+        $insert->execute([
+            ':first_name' => $first_name,
+            ':last_name'  => $last_name,
+            ':fullName'   => $fullName,
+            ':username'   => $username,
+            ':email'      => $email,
+            ':phone_code' => $phone_code,
+            ':phone'      => $phone,
+            ':fullPhone'  => $fullPhone,
+            ':password'   => $password_hash,
+
+            ':device_name'=> $device_name,
+            ':device_model'=> $device_model,
+            ':device_os'=> $device_os,
+            ':browser_name'=> $browser_name,
+            ':user_agent'=> $user_agent,
+
+            ':ip_address'=> $ip_address,
+            ':ip_port'   => $ip_port,
+
+            ':device_registered_at'=> $device_registered_at,
+            ':country_code'=> $country_code,
+
+            ':login_token'=> $login_token,
+            ':login_token_expiry_time'=> $login_token_expiry_time,
+
+            ':reset_token'=> $reset_token,
+            ':reset_token_expiry_time'=> $reset_token_expiry_time,
+
+            ':api_key'=> $api_key,
+            ':api_key_expiry_time'=> $api_key_expiry_time,
+
+            ':secret_key'=> $secret_key,
+            ':secret_key_expiry_time'=> $secret_key_expiry_time,
+
+            ':referrer'=> $referrer,
+            ':referrer_id'=> $referrer_id,
+
+            ':created_at'=> $created_at
+        ]);
+
+        $user_id = $pdo->lastInsertId();
+
+        /* ----------------------------------------
+           GENERATE OTP
+        -----------------------------------------*/
+        $generated_otp_number   = rand(100000, 999999);
+        $generated_otp_time     = time();
+        $otp_valid_minutes      = 5;
+        $generated_otp_end_time = $generated_otp_time + ($otp_valid_minutes * 60);
+
+        $update = $pdo->prepare("
+            UPDATE users SET
+                generated_otp_number = :otp,
+                generated_otp_time = :time,
+                generated_otp_end_time = :end_time,
+                generated_otp_count_time = :count
+            WHERE id = :id
+        ");
+        $update->execute([
+            ':otp'   => $generated_otp_number,
+            ':time'  => $generated_otp_time,
+            ':end_time' => $generated_otp_end_time,
+            ':count' => $otp_valid_minutes,
+            ':id'    => $user_id
+        ]);
+
+        // Save session
+        $_SESSION['pending_user'] = [
+            'id' => $user_id,
+            'username' => $username,
+            'email' => $email,
+            'fullName' => $fullName,
+            'generated_otp_number' => $generated_otp_number,
+            'generated_otp_end_time' => $generated_otp_end_time
+        ];
+
+        $expiry_time_formatted = date('h:i:s A', $generated_otp_end_time);
+
+        echo "<script>
+                alert('Registration successful! OTP: $generated_otp_number (valid {$otp_valid_minutes} min, expires $expiry_time_formatted)');
+                window.location.href='verify_otp.html';
+            </script>";
+        exit;
+    }
+
+} catch (Exception $e) {
+    echo '<pre style="color:red;">Error: ' . htmlspecialchars($e->getMessage()) . '</pre>';
+}
+?>
+
+<!-- ----------------------------------------
+     DISPLAY FORM
+----------------------------------------- -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Shopnoltd Toolbox</title>
+</head>
+<body>
+<h2>Register</h2>
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+
+    <input type="text" name="first_name" placeholder="First Name" required><br>
+    <input type="text" name="last_name" placeholder="Last Name" required><br>
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="text" name="phone_code" placeholder="Phone Code" required><br>
+    <input type="text" name="phone" placeholder="Phone Number" required><br>
+
+    <input type="password" name="password" placeholder="Password" required><br>
+    <input type="password" name="confirm_password" placeholder="Confirm Password" required><br>
+
+    <input type="text" name="referrer" placeholder="Referrer (optional)"><br>
+
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>

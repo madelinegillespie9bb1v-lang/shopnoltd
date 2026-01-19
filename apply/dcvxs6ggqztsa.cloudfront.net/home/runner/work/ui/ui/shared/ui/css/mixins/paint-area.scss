@@ -1,0 +1,27 @@
+/*
+ * Paints an area with the specified properties.
+ * Adds also border with requested border-width
+ * if border-color is specified
+*/
+
+@mixin paint-area(
+  $background-color: transparent,
+  $border-color: transparent,
+  $font-color: color('white'),
+  $border-radius: $strong-border-radius,
+  $border-width: $border-width
+) {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: $background-color;
+  @if ($border-color != transparent) {
+    border: $border-width solid $border-color;
+  } @else {
+    border: 0 solid $border-color;
+  }
+  border-radius: $border-radius;
+  color: $font-color;
+
+  &:any-link {
+    color: $font-color;
+  }
+}

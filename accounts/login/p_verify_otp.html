@@ -1,0 +1,106 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../config.html';
+
+// ✅ Check pending session
+if (!isset($_SESSION['pending_user'])) {
+    echo "<script>alert('No registration data found. Please register again.');window.location.href='index.html';</script>";
+    exit;
+}
+
+$user = $_SESSION['pending_user'];
+$otp_generated = $user['otp'];
+$otp_time = $user['otp_time'];
+$expiry_limit = 10 * 60; // 10 minutes in seconds
+$time_elapsed = time() - $otp_time;
+
+// ✅ Check expiry
+if ($time_elapsed > $expiry_limit) {
+    unset($_SESSION['pending_user']);
+    echo "<script>alert('❌ OTP expired! Please register again.');window.location.href='index.html';</script>";
+    exit;
+}
+
+// ✅ On OTP submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $entered_otp = trim($_POST['otp'] ?? '');
+
+    if ($entered_otp == $otp_generated) {
+        // ✅ Insert user into database
+        $hashed_password = password_hash($user['password'], PASSWORD_BCRYPT);
+        $created_at = date('Y-m-d H:i:s');
+        $status = 'active';
+
+        $sql = "INSERT INTO users (first_name, last_name, username, email, phone_code, phone, password, created_at, language, status)
+                VALUES (:first_name, :last_name, :username, :email, :phone_code, :phone, :password, :created_at, :language, :status)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':first_name' => $user['first_name'],
+            ':last_name'  => $user['last_name'],
+            ':username'   => $user['username'],
+            ':email'      => $user['email'],
+            ':phone_code' => $user['phone_code'],
+            ':phone'      => $user['phone'],
+            ':password'   => $hashed_password,
+            ':created_at' => $created_at,
+            ':language'   => $user['language'],
+            ':status'     => $status
+        ]);
+
+        unset($_SESSION['pending_user']); // clear session
+        echo "<script>alert('✅ Account created successfully! Redirecting to login...');</script>";
+        echo "<meta http-equiv='refresh' content='2;url=" . BASE_URL . "/accounts/login/index.html'>";
+        exit;
+    } else {
+        echo "<script>alert('❌ Invalid OTP! Please try again.');</script>";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify OTP - Shopnoltd Toolbox</title>
+<style>
+body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+.container { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+input { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+button { padding: 10px 15px; background: #25D366; border: none; color: white; cursor: pointer; margin-top: 10px; border-radius: 5px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Verify OTP</h2>
+    <p>Enter the 6-digit OTP sent to your <?php echo ($user['otp_method'] == 'email') ? 'email' : 'browser'; ?>.</p>
+
+    <form method="POST">
+        <input type="text" name="otp" placeholder="Enter OTP" required maxlength="6">
+        <button type="submit">Verify & Create Account</button>
+    </form>
+
+    <!-- For demo/testing -->
+    <p style="margin-top:10px; color:gray;">
+    (Your OTP is: 
+    <strong id="otpValue"><?php echo htmlspecialchars($otp_generated); ?></strong>
+    <button type="button" id="copyOtpBtn" 
+        style="margin-left:5px; padding:3px 8px; font-size:12px; border:none; background:#007bff; color:#fff; border-radius:4px; cursor:pointer;">
+        Copy
+    </button>
+    )
+</p>
+
+<script>
+document.getElementById('copyOtpBtn').addEventListener('click', function() {
+    const otpText = document.getElementById('otpValue').innerText;
+    navigator.clipboard.writeText(otpText).then(() => {
+        alert('✅ OTP copied to clipboard!');
+    }).catch(err => {
+        alert('❌ Failed to copy OTP.');
+    });
+});
+</script>
+</div>
+</body>
+</html>

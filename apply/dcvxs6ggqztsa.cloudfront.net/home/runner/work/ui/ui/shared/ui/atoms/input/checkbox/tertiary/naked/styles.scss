@@ -1,0 +1,20 @@
+.checkbox {
+  padding: 0;
+  display: inline-flex;
+  position: relative;
+
+  &[aria-disabled*='true'] {
+    opacity: 0.4;
+  }
+
+  input {
+    opacity: 0;
+    position: absolute;
+  }
+
+  input,
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}

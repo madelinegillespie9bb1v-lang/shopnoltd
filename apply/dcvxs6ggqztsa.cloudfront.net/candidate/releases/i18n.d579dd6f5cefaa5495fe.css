@@ -1,0 +1,56 @@
+.styles--2VeYI button:hover {
+    text-decoration: none
+}
+
+.styles--2VeYI .styles--3Ysm_ {
+    display: none
+}
+
+.styles--2VeYI .styles--2F9JO {
+    display: inline-block
+}
+
+.styles--2VeYI .styles--1vKes {
+    font-size: 16px
+}
+
+.styles--2VeYI>div {
+    right: 0;
+    text-align: right
+}
+
+.styles--2VeYI dialog {
+    text-align: initial
+}
+
+.styles--2VeYI li {
+    min-width: 160px
+}
+
+.styles--2VeYI .styles--2TfKY {
+    display: flex
+}
+
+.styles--2VeYI .styles--2TfKY.styles--2GYDF {
+    color: #313b46
+}
+
+.styles--2VeYI .styles--2TfKY .styles--3plgY {
+    min-width: 136px
+}
+
+.styles--2VeYI .styles--2TfKY svg {
+    height: 16px;
+    width: 16px
+}
+
+@media (max-width:420px) {
+    .styles--2VeYI .styles--3Ysm_ {
+        display: inline-block
+    }
+    .styles--2VeYI .styles--2F9JO {
+        display: none
+    }
+}
+
+/*# sourceMappingURL=i18n.d579dd6f5cefaa5495fe.css.map */

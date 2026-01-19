@@ -1,0 +1,103 @@
+$primary: #3f3e3e !default; $secondary: #ffffff !default; $tertiary: #2095f3 !default; $quaternary: #2095f3 !default; $header_background: #414453 !default; $header_primary: #ffffff !default; $highlight: #2196f3 !default; $danger: #bf3c3c !default; $success: #97de86 !default; $love: #fc94cb !default; $hover: #f4f3f3 !default; $selected: #ececec !default;  $public_image_path: "https://community.kobotoolbox.org/images";  @import "common/foundation/variables"; @import "common/foundation/mixins"; .title-voting {
+  padding-right: 0.75em;
+  width: 6em;
+  max-width: 10%;
+  box-sizing: border-box;
+  float: left;
+}
+
+.vote-count-wrapper {
+  border: 3px solid var(--primary-low);
+}
+
+.voting-wrapper.show-pointer .vote-count-wrapper:not(.no-votes) {
+  cursor: pointer;
+  &:hover {
+    background-color: var(--primary-low);
+  }
+}
+
+.vote-count-wrapper {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-voting {
+  margin-top: 0.33em;
+  position: relative;
+}
+
+.vote-button {
+  width: 100%;
+  margin-top: 0.35em;
+}
+
+.vote-options {
+  text-align: left;
+}
+
+.vote-option {
+  cursor: pointer;
+  padding: 0.35em;
+  &:hover {
+    background-color: var(--primary-low);
+  }
+}
+
+.vote-option.remove-vote .d-icon {
+  margin-right: 0.35em;
+  color: var(--danger);
+}
+
+.list-vote-count.voted {
+  font-weight: bold;
+}
+
+.who-voted.popup-menu {
+  a {
+    margin: 0.4em 0.25em;
+    display: inline-block;
+  }
+}
+
+.topic-post.voting-post {
+  button.like-count,
+  button.toggle-like {
+    display: none;
+  }
+}
+
+.voting-popup-menu {
+  position: absolute;
+  left: 90px;
+  top: 0;
+  padding: 0.5em;
+  line-height: var(--line-height-medium);
+  z-index: z("usercard") - 1;
+  cursor: initial;
+  // voter avatars
+  .regular-votes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// TEMP: RTL overrides
+.title-voting {
+  .rtl & {
+    float: right;
+    padding-right: 0;
+    padding-left: 0.75em;
+  }
+}
+
+.voting-popup-menu {
+  .rtl & {
+    left: unset;
+    right: 80px;
+  }
+}

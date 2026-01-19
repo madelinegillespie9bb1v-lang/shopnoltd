@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<UserPreferences::UserApiKeys @model={{@model}} />\n\n<span>\n  <PluginOutlet\n    @name=\"user-preferences-apps\"\n    @connectorTagName=\"div\"\n    @outletArgs={{hash model=this.model}}\n  />\n</span>",{ moduleName: "discourse/templates/preferences/apps.hbs" })

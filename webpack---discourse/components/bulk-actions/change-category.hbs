@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<p>{{i18n \"topics.bulk.choose_new_category\"}}</p>\n\n<p>\n  <CategoryChooser\n    @value={{this.categoryId}}\n    @onChange={{fn (mut this.categoryId)}}\n  />\n</p>\n\n<ConditionalLoadingSpinner @condition={{@loading}}>\n  <DButton\n    @action={{this.changeCategory}}\n    @label=\"topics.bulk.change_category\"\n  />\n</ConditionalLoadingSpinner>",{ moduleName: "discourse/components/bulk-actions/change-category.hbs" })

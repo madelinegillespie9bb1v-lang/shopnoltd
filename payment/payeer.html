@@ -1,0 +1,3 @@
+<?php
+// Payeer API placeholder
+?>

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal\n  @closeModal={{@closeModal}}\n  @title={{i18n \"admin.form_templates.preview_modal.title\"}}\n  class=\"form-template-form-preview-modal\"\n>\n  <:body>\n    <FormTemplateField::Wrapper @content={{@content}} />\n  </:body>\n</DModal>",{ moduleName: "discourse/components/modal/form-template-form-preview.hbs" })

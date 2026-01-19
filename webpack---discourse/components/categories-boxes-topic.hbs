@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{d-icon this.topicStatusIcon}}\n\n<a href={{this.topic.lastUnreadUrl}} class=\"title\">\n  {{html-safe this.topic.fancyTitle}}\n</a>",{ moduleName: "discourse/components/categories-boxes-topic.hbs" })

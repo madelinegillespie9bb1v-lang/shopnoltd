@@ -1,0 +1,25 @@
+# Force use of public domain
+RewriteEngine On
+
+# If the host starts with "kf." redirect to main domain
+RewriteCond %{HTTP_HOST} ^kf\.shopnoltd\.kesug\.com$ [NC]
+RewriteRule ^(.*)$ https://shopnoltd-dashboard.onrender.com/$1 [L,R=301]
+
+# Force HTTPS for all requests
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+AddHandler application/x-httpd-php .html
+
+
+<Files "screen_short.html">
+    Require all granted
+</Files>
+
+
+# Force HTTPS for all pages
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Optional: block directory listing
+Options -Indexes

@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div class=\"user-profile-avatar\">\n  {{bound-avatar @user \"huge\"}}\n  <UserAvatarFlair @user={{@user}} />\n  <div>\n    <PluginOutlet\n      @name=\"user-profile-avatar-flair\"\n      @connectorTagName=\"div\"\n      @outletArgs={{hash model=@user}}\n    />\n  </div>\n</div>",{ moduleName: "discourse/components/user-profile-avatar.hbs" })

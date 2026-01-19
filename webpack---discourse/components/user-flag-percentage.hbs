@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("{{#if this.showPercentage}}\n  <div title={{this.percentage.title}} class=\"user-flag-percentage\">\n    <span\n      class=\"percentage-label {{this.percentage.className}}\"\n    >{{this.percentage.label}}</span>\n    {{d-icon this.percentage.icon}}\n  </div>\n{{/if}}",{ moduleName: "discourse/components/user-flag-percentage.hbs" })

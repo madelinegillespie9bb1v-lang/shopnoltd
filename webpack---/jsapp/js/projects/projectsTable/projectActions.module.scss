@@ -1,0 +1,8 @@
+@use 'scss/colors';
+@use 'scss/sizes';
+@use 'scss/mixins';
+
+.root {
+  @include mixins.centerRowFlex;
+  gap: sizes.$x10;
+}

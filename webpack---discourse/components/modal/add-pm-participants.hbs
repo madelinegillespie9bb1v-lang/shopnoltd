@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal\n  @title={{i18n @model.title}}\n  @closeModal={{@closeModal}}\n  @bodyClass=\"invite modal-panel\"\n  class=\"add-pm-participants\"\n>\n  <:body>\n    <InvitePanel\n      @inviteModel={{@model.inviteModel}}\n      @closeModal={{@closeModal}}\n    />\n  </:body>\n</DModal>",{ moduleName: "discourse/components/modal/add-pm-participants.hbs" })

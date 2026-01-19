@@ -1,0 +1,19 @@
+define("@glimmer/tracking/index", ["exports", "@ember/-internals/metal"], function(_exports, _metal) {
+    "use strict";
+
+    Object.defineProperty(_exports, "__esModule", {
+        value: true
+    });
+    Object.defineProperty(_exports, "cached", {
+        enumerable: true,
+        get: function() {
+            return _metal.cached;
+        }
+    });
+    Object.defineProperty(_exports, "tracked", {
+        enumerable: true,
+        get: function() {
+            return _metal.tracked;
+        }
+    });
+});

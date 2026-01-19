@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<div\n  class={{concat-class \"menu-panel\" @panelClass @animationClass}}\n  data-max-width=\"500\"\n>\n  <div class=\"panel-body\">\n    <div class=\"panel-body-contents\">\n      {{yield}}\n    </div>\n  </div>\n</div>",{ moduleName: "discourse/components/menu-panel.hbs" })

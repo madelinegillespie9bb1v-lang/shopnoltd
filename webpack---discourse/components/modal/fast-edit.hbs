@@ -1,0 +1,2 @@
+import { precompileTemplate } from "@ember/template-compilation";
+export default precompileTemplate("<DModal @title={{i18n \"post.quote_edit\"}} @closeModal={{@closeModal}}>\n  <FastEdit\n    @newValue={{@model.newValue}}\n    @initialValue={{@model.initialValue}}\n    @post={{@model.post}}\n    @close={{@closeModal}}\n  />\n</DModal>",{ moduleName: "discourse/components/modal/fast-edit.hbs" })
