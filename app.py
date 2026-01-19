@@ -112,7 +112,10 @@ def about_us_page():
 def sign_up_page():
     return render_template("sign-up/index.html")
 
-
+@app.route("/download/android")
+def download_page():
+    return render_template("/download/android/app-debug.apk")
+    
 @app.route("/accounts/signup", methods=["POST"])
 def signup_submit():
     user = User(
