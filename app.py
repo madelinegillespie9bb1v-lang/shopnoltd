@@ -112,9 +112,20 @@ def about_us_page():
 def sign_up_page():
     return render_template("sign-up/index.html")
 
+from flask import send_from_directory
+import os
+
 @app.route("/download/android")
 def download_page():
-    return render_template("/download/android/app-debug.apk")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    apk_dir = os.path.join(base_dir, "static", "download", "android")
+
+    return send_from_directory(
+        apk_dir,
+        "app-debug.apk",
+        as_attachment=True
+    )
+
     
 @app.route("/accounts/signup", methods=["POST"])
 def signup_submit():
