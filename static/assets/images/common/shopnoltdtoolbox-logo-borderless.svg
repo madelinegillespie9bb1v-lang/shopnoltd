@@ -1,0 +1,9 @@
+<svg enable-background="new 0 0 160 32" viewBox="0 0 160 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- পুরোনো কোড -->
+  <path d="m44.3 11c-3.6 0-6.4 2.9-6.4 6.4 0 3.6 2.9 6.4 6.4 6.4 3.6 0 6.4-2.9 6.4-6.4.1-3.6-2.8-6.4-6.4-6.4zm0 10.3c-2.1 0-3.8-1.7-3.8-3.8s1.7-3.8 3.8-3.8 3.8 1.7 3.8 3.8c.1 2-1.7 3.8-3.8 3.8z" fill="#565e76"/>
+  
+  <!-- নতুন টেক্সট -->
+  <text x="10" y="20" font-family="Arial, sans-serif" font-size="10" fill="#2095f3">
+    ShopnoToolbox
+  </text>
+</svg>
