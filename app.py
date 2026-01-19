@@ -105,12 +105,13 @@ def login_page():
     return render_template("login.html")
 
 @app.route("/about-us")
-def sign_up_page():
+def about_us_page():
     return render_template("about-us/index.html")
-    
+
 @app.route("/sign-up")
 def sign_up_page():
     return render_template("sign-up/index.html")
+
 
 @app.route("/accounts/signup", methods=["POST"])
 def signup_submit():
