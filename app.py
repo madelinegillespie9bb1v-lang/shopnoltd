@@ -88,6 +88,66 @@ def login_required(f):
 def index_page():
     return render_template("index.html")
 
+@app.route("/about-us")
+def about_us_page():
+    return render_template("about-us/index.html")
+
+@app.route("/features")
+def features_page():
+    return render_template("features/index.html")
+
+@app.route("/services")
+def services_page():
+    return render_template("services/index.html")
+
+@app.route("/pricing")
+def pricing_page():
+    return render_template("pricing/index.html")
+
+@app.route("/blog")
+def blog_page():
+    return render_template("blog/index.html")
+
+@app.route("/help")
+def help_page():
+    return render_template("help/index.html")
+
+@app.route("/join-our-team")
+def join_our_team_page():
+    return render_template("join-our-team/index.html")
+
+
+@app.route("/sign-up")
+def sign_up_page():
+    return render_template("sign-up/index.html")
+ 
+@app.route("/accounts/signup", methods=["POST"])
+def signup_submit():
+    user = User(
+        username=request.form["username"],
+        email=request.form["email"],
+    )
+    user.set_password(request.form["password"])
+
+    db.session.add(user)
+    db.session.commit()
+
+    return render_template("/accounts/signup/index.html")
+
+@app.route("/accounts/register", methods=["POST"])
+def register_submit():
+    user = User(
+        username=request.form["username"],
+        email=request.form["email"],
+    )
+    user.set_password(request.form["password"])
+
+    db.session.add(user)
+    db.session.commit()
+
+    return render_template("/accounts/register/index.html")
+
+
 @app.route("/", methods=["GET", "POST"])
 def login_page():
     if request.method == "POST":
@@ -104,41 +164,7 @@ def login_page():
 
     return render_template("login.html")
 
-@app.route("/about-us")
-def about_us_page():
-    return render_template("about-us/index.html")
 
-@app.route("/sign-up")
-def sign_up_page():
-    return render_template("sign-up/index.html")
-
-from flask import send_from_directory
-import os
-
-@app.route("/download/android")
-def download_page():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    apk_dir = os.path.join(base_dir, "static", "download", "android")
-
-    return send_from_directory(
-        apk_dir,
-        "app-debug.apk",
-        as_attachment=True
-    )
-
-    
-@app.route("/accounts/signup", methods=["POST"])
-def signup_submit():
-    user = User(
-        username=request.form["username"],
-        email=request.form["email"],
-    )
-    user.set_password(request.form["password"])
-
-    db.session.add(user)
-    db.session.commit()
-
-    return redirect(url_for("login_page"))
 
 @app.route("/logout")
 def logout_page():
@@ -183,6 +209,35 @@ def dashboard_page():
 def profile_page():
     user = User.query.get(session["user_id"])
     return render_template("accounts/profile.html", user=user)
+
+
+
+
+
+
+
+
+
+@app.route("/donate")
+def donate_page():
+    return render_template("donate/index.html")
+
+
+from flask import send_from_directory
+import os
+
+@app.route("/download/android")
+def download_page():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    apk_dir = os.path.join(base_dir, "static", "download", "android")
+
+    return send_from_directory(
+        apk_dir,
+        "app-debug.apk",
+        as_attachment=True
+    )
+
+
 
 # ==============================
 # DB INIT
