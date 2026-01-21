@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # ==============================
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "shopnoltd-secret-key")
-
+app.url_map.strict_slashes = False
 # ==============================
 # PING (KEEP ALIVE)
 # ==============================
@@ -103,46 +103,17 @@ def services_page():
 @app.route("/pricing")
 def pricing_page():
     return render_template("pricing/index.html")
+    
+@app.route("/blog/")
+@app.route("/blog/page<int:page>")
+def blog_pages(page=1):
+    if page < 1 or page > 10:
+        abort(404)
 
-@app.route("/blog")
-def blog_page():
-    return render_template("blog/index.html")
+    if page == 1:
+        return render_template("blog/index.html")
 
-@app.route("/blog/page2")
-def blog_page2():
-    return render_template("blog/page2/index.html")
-
-@app.route("/blog/page3")
-def blog_page3():
-    return render_template("blog/page3/index.html")
-
-@app.route("/blog/page4")
-def blog_page4():
-    return render_template("blog/page4/index.html")
-
-@app.route("/blog/page5")
-def blog_page5():
-    return render_template("blog/page5/index.html")
-
-@app.route("/blog/page6")
-def blog_page6():
-    return render_template("blog/page6/index.html")
-
-@app.route("/blog/page7")
-def blog_page7():
-    return render_template("blog/page7/index.html")
-
-@app.route("/blog/page8")
-def blog_page8():
-    return render_template("blog/page8/index.html")
-
-@app.route("/blog/page9")
-def blog_page9():
-    return render_template("blog/page9/index.html")
-
-@app.route("/blog/page10")
-def blog_page10():
-    return render_template("blog/page10/index.html") 
+    return render_template(f"blog/page{page}/index.html")
 
 @app.route("/help")
 def help_page():
@@ -198,10 +169,10 @@ def login_html():
 
 
 
-@app.route("/logout")
-def logout_page():
+@app.route("/logout.html")
+def logout_html():
     session.clear()
-    return redirect(url_for("index_page"))
+    return redirect(url_for("logout.html"))
 
 @app.route("/dashboard")
 @login_required
