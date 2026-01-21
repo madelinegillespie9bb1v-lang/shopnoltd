@@ -3,9 +3,11 @@ import time
 import requests
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, abort, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from werkzeug.security import generate_password_hash, check_password_hash
+
+# Import db and models **after** db init
+from extensions import db
+from models import User, KoboSubmission
 
 # ==============================
 # APP CONFIG
@@ -21,6 +23,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL is missing. Set it in Render → Environment Variables")
 
+# Fix old "postgres://" URLs
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
@@ -30,25 +33,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # ==============================
 # DB + MIGRATE (must be after app creation)
 # ==============================
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)  # <-- This is correct now
-
-# ==============================
-# USER MODEL
-# ==============================
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    phone = db.Column(db.String(20), unique=True, nullable=False)
-    password_hash = db.Column(db.String(200), nullable=False)
-    is_admin = db.Column(db.Boolean, default=False)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+db.init_app(app)
+migrate = Migrate(app, db)
 
 # ==============================
 # KOBO CONFIG
@@ -57,8 +43,9 @@ API_TOKEN = os.getenv("KOBO_API_TOKEN")
 ASSET_UID = os.getenv("KOBO_ASSET_UID")
 HEADERS = {"Authorization": f"Token {API_TOKEN}"} if API_TOKEN else {}
 KOBO_API_URL = f"https://kf.kobotoolbox.org/api/v2/assets/{ASSET_UID}/data/" if ASSET_UID else None
+
 CACHE = {"data": [], "timestamp": 0}
-CACHE_DURATION = 300
+CACHE_DURATION = 300  # seconds
 
 # ==============================
 # LOGIN REQUIRED DECORATOR
@@ -72,7 +59,7 @@ def login_required(f):
     return decorated
 
 # ==============================
-# ROUTES (same as your previous code)
+# ROUTES
 # ==============================
 @app.route("/ping")
 def ping():
@@ -106,6 +93,10 @@ def help_page():
 @app.route("/join-our-team")
 def join_our_team_page():
     return render_template("join-our-team/index.html")
+
+@app.route("/sign-up")
+def sign_up_page():
+    return render_template("sign-up/index.html")
 
 @app.route("/donate")
 def donate_page():
@@ -183,8 +174,21 @@ def dashboard_page():
         try:
             r = requests.get(KOBO_API_URL, headers=HEADERS, timeout=20)
             r.raise_for_status()
-            CACHE["data"] = r.json().get("results", [])
+            submissions = r.json().get("results", [])
+
+            for sub in submissions:
+                # Save only if not already in DB
+                if not KoboSubmission.query.filter_by(submission_id=sub["_id"]).first():
+                    kobo_row = KoboSubmission(
+                        submission_id=sub["_id"],
+                        data=sub
+                    )
+                    db.session.add(kobo_row)
+            db.session.commit()
+
+            CACHE["data"] = submissions
             CACHE["timestamp"] = now
+
         except requests.RequestException as e:
             return f"<h2>Kobo Error: {e}</h2>"
 
@@ -217,12 +221,6 @@ def download_page():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     apk_dir = os.path.join(base_dir, "static", "download", "android")
     return send_from_directory(apk_dir, "app-debug.apk", as_attachment=True)
-
-# ==============================
-# DB INIT (optional, only if no migrate)
-# ==============================
-# with app.app_context():
-#     db.create_all()  # Comment this out if using Flask-Migrate
 
 # ==============================
 # RUN
