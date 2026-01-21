@@ -4,8 +4,9 @@ import requests
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, abort, send_from_directory
 from flask_migrate import Migrate
+from sqlalchemy.exc import IntegrityError
 
-# Import db and models **after** db init
+# ===== IMPORT DB & MODELS =====
 from extensions import db
 from models import User, KoboSubmission
 
@@ -31,7 +32,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # ==============================
-# DB + MIGRATE (must be after app creation)
+# DB + MIGRATE
 # ==============================
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -124,8 +125,12 @@ def register():
             phone=request.form["fullphone"]
         )
         user.set_password(request.form["password"])
-        db.session.add(user)
-        db.session.commit()
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return render_template("accounts/register/index.html", error="Username, email, or phone already exists.")
         return redirect(url_for("login_page"))
     return render_template("accounts/register/index.html")
 
@@ -140,8 +145,12 @@ def signup():
             phone=request.form["fullphone"]
         )
         user.set_password(request.form["password"])
-        db.session.add(user)
-        db.session.commit()
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return render_template("accounts/signup/index.html", error="Username, email, or phone already exists.")
         return redirect(url_for("login_page"))
     return render_template("accounts/signup/index.html")
 

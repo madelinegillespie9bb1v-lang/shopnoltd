@@ -2,6 +2,8 @@ from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
+    __tablename__ = "user"
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -15,9 +17,16 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def __repr__(self):
+        return f"<User {self.username}>"
 
 class KoboSubmission(db.Model):
+    __tablename__ = "kobo_submission"
+
     id = db.Column(db.Integer, primary_key=True)
     submission_id = db.Column(db.String(100), unique=True, nullable=False)
     data = db.Column(db.JSON, nullable=False)  # store full Kobo JSON
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    def __repr__(self):
+        return f"<KoboSubmission {self.submission_id}>"

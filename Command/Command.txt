@@ -25,10 +25,17 @@ git commit -m "Update app and templates"
 git push
 
 
+
+
+
 git add app.py
 git commit -m "Update Flask app for Render deployment with dynamic port"
 git push
 
+
+psql (PostgreSQL CLI)
+password
+7YMRHmFW5WIij5U3BWEJXLvQumUhISJE
 
 
 $host = "dpg-d5mal114tr6s73cgm0g0-a";
