@@ -108,6 +108,42 @@ def pricing_page():
 def blog_page():
     return render_template("blog/index.html")
 
+@app.route("/blog/page2")
+def blog_page2():
+    return render_template("blog/page2/index.html")
+
+@app.route("/blog/page3")
+def blog_page3():
+    return render_template("blog/page3/index.html")
+
+@app.route("/blog/page4")
+def blog_page4():
+    return render_template("blog/page4/index.html")
+
+@app.route("/blog/page5")
+def blog_page5():
+    return render_template("blog/page5/index.html")
+
+@app.route("/blog/page6")
+def blog_page6():
+    return render_template("blog/page6/index.html")
+
+@app.route("/blog/page7")
+def blog_page7():
+    return render_template("blog/page7/index.html")
+
+@app.route("/blog/page8")
+def blog_page8():
+    return render_template("blog/page8/index.html")
+
+@app.route("/blog/page9")
+def blog_page9():
+    return render_template("blog/page9/index.html")
+
+@app.route("/blog/page10")
+def blog_page10():
+    return render_template("blog/page10/index.html") 
+
 @app.route("/help")
 def help_page():
     return render_template("help/index.html")
@@ -121,47 +157,43 @@ def join_our_team_page():
 def sign_up_page():
     return render_template("sign-up/index.html")
  
-@app.route("/accounts/signup", methods=["POST"])
-def signup_submit():
-    user = User(
-        username=request.form["username"],
-        email=request.form["email"],
-    )
-    user.set_password(request.form["password"])
-
-    db.session.add(user)
-    db.session.commit()
-
-    return render_template("/accounts/signup/index.html")
-
-@app.route("/accounts/register", methods=["POST"])
-def register_submit():
-    user = User(
-        username=request.form["username"],
-        email=request.form["email"],
-    )
-    user.set_password(request.form["password"])
-
-    db.session.add(user)
-    db.session.commit()
-
-    return render_template("/accounts/register/index.html")
-
-
-@app.route("/", methods=["GET", "POST"])
-def login_page():
+@app.route("/accounts/register", methods=["GET", "POST"])
+def register():
     if request.method == "POST":
-        user = User.query.filter_by(
-            username=request.form.get("username")
-        ).first()
+        user = User(
+            username=request.form["username"],
+            email=request.form["email"],
+        )
+        user.set_password(request.form["password"])
 
-        if user and user.check_password(request.form.get("password")):
-            session["user_id"] = user.id
-            session["is_admin"] = user.is_admin
-            return redirect(url_for("dashboard_page"))
+        db.session.add(user)
+        db.session.commit()
 
-        return render_template("login.html", error="Invalid username or password")
+        return redirect(url_for("login"))
 
+    return render_template("accounts/register/index.html")
+
+
+@app.route("/accounts/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        user = User(
+            username=request.form["username"],
+            email=request.form["email"],
+        )
+        user.set_password(request.form["password"])
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for("login"))  # or dashboard
+
+    return render_template("accounts/signup/index.html")
+
+
+
+@app.route("/login.html", methods=["GET", "POST"])
+def login_html():
     return render_template("login.html")
 
 
